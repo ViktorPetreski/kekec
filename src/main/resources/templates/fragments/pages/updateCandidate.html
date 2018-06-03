@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+
+
+<form class="container well" style="width: 40%; margin-top: 5em"
+      th:action="@{/updateCandidate/{id}(id=${candidate.id})}"
+      method="POST"
+      xmlns:th="http://www.thymeleaf.org">
+
+    <fieldset class="form-group col-sm-2">
+        <label for="ssn">Матичен број: </label>
+        <input type="text" class="form-control" name="ssn" id="ssn" th:value="${candidate.ssn}"/>
+    </fieldset>
+
+    <fieldset class="form-group">
+        <label for="firstName">Име: </label>
+        <input type="text" class="form-control" name="firstName" id="firstName"
+               th:value="${contactInfo.firstName}"> </input>
+    </fieldset>
+    <div class="form-group">
+        <label for="lastName">Презиме: </label>
+        <input type="text" class="form-control" name="lastName" id="lastName"
+               th:value="${contactInfo.lastName}"> </input>
+    </div>
+    <div class="form-group">
+        <label for="phone">Телефон: </label>
+        <input type="text" class="form-control" name="phone" id="phone" th:value="${contactInfo.phone}"> </input>
+    </div>
+
+
+    <div class="form-group">
+        <label for="drivingCategory">Категорија: </label>
+        <input type="text" class="form-control" name="drivingCategory" id="drivingCategory"
+               th:value="${candidate.drivingCategory}"/>
+    </div>
+
+    <div class="form-group">
+        <label for="numberOfLessons">Број на часови: </label>
+        <input type="text" class="form-control" name="numberOfLessons" id="numberOfLessons"
+               th:value="${candidate.numberOfLessons}"/>
+    </div>
+
+
+    <div class="form-group">
+        <label for="totalSum">Вкупна сума: </label>
+        <input type="text" class="form-control" name="totalSum" id="totalSum"
+               th:value="${paymentInfo.totalSum}"> </input>
+    </div>
+
+    <div class="form-group">
+        <label for="numberOfInstallments">Број на рати:</label>
+        <input type="number" th:min="${paymentInfo.numberOfInstallments}" class="form-control" id="numberOfInstallments"
+               name="numberOfInstallments" th:value="${paymentInfo.numberOfInstallments}"> </input>
+    </div>
+
+    <button name="id" class="btn btn-success btn-lg">Confirm</button>
+
+</form>

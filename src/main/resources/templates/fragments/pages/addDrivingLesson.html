@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<form class="container panel panel-default" style="width: 40%; margin-top: 5em"
+      th:action="@{/candidate/{id}/addDrivingLesson(id=${candidate.id})}"
+      method="POST"
+      xmlns:th="http://www.thymeleaf.org" th:object="${drivingLesson}">
+
+    <div class="panel-heading">Додади час</div>
+
+    <div class="panel-body">
+
+        <fieldset class="form-group">
+            <label for="firstName">Име и презиме : </label>
+            <input type="text" class="form-control" name="firstName" id="firstName"
+                   th:value="${contactInfo.firstName} + ' ' + ${contactInfo.lastName}" disabled/>
+        </fieldset>
+
+
+        <div class="row">
+            <div class='col-sm-6'>
+                <div class="form-group">
+                    <label for="date">Датум: </label>
+                    <div class='input-group date' id='datetimepicker1'>
+                        <input type='text' class="form-control" name="date" id="date" required/>
+                        <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                    </div>
+                </div>
+            </div>
+
+            <script th:inline="javascript">
+                /*<![CDATA[*/
+                $(document).ready(function () {
+                    var options = {
+                        locale: 'mk',
+                        format: 'd.MM.YYYY HH:mm'
+                    };
+                    $('#datetimepicker1').datetimepicker(options);
+                });
+                /*]]>*/
+            </script>
+        </div>
+
+        <div class="form-group">
+            <select class="form-control" id="instructorId" name="instructorId" required>
+                <option selected disabled hidden>Одбери инструктор</option>
+                <option th:each="instructor : ${instructors}"
+                        th:value="${instructor.id}"
+                        th:text="${instructor.contactInfo.firstName}+' '+${instructor.contactInfo.lastName}"></option>
+            </select>
+        </div>
+
+        <!-- TODO: add types of lessons-->
+        <div class="form-group">
+            <select class="form-control" id="lessonType" name="lessonType" required>
+                <option selected disabled hidden>Одбери тип на час</option>
+                <option th:value="1">2 часа</option>
+                <option th:value="2">1 час</option>
+                <option th:value="3">Полага гратска</option>
+                <option th:value="4">Полага полигон</option>
+            </select>
+        </div>
+        <button name="id" class="btn btn-success btn-lg">Потврди</button>
+    </div>
+
+</form>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<div xmlns:th="http://www.thymeleaf.org" class="container-fluid">
+    <div class="row">
+        <div class="row col-sm-4">
+            <h3 th:text="'Инструктор: ' + ${contactInfo.firstName} + ' ' + ${contactInfo.lastName}"></h3>
+            <h4 th:text="'Преглед за месец: ' + ${#temporals.format(date, 'MMMM yyyy')}"></h4>
+        </div>
+        <form class="col-sm-8" method="post"
+              th:action="@{/instructor/{id}/searchByMonth(id=${instructorId})}">
+            <div class="row">
+                <div class='col-sm-3 col-lg-offset-7'>
+                    <div class="form-group">
+                        <label for="date">Пребарај по месец: </label>
+                        <div class='input-group date' id='datetimepicker1'>
+                            <input type='text' class="form-control" name="date" id="date" required/>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-warning" style="margin-top: 1.65em"><i class="fa fa-search"></i>
+                </button>
+            </div>
+            <script th:inline="javascript">
+                /*<![CDATA[*/
+                $(document).ready(function () {
+                    var options = {
+                        locale: 'mk',
+                        viewMode: 'years',
+                        format: 'MM/YYYY'
+                    };
+                    var picker = $('#datetimepicker1');
+                    picker.datetimepicker(options);
+                });
+                /*]]>*/
+            </script>
+        </form>
+    </div>
+
+    <br/>
+
+    <div class="row">
+        <div th:each="sortedLesson : ${sortedLessons}">
+            <h4 th:text="${sortedLesson.key} + ' категорија'"></h4>
+            <div class="row">
+                <div class="col-sm-2" style="padding-right: 1.5em; padding-top: 1.5em"
+                     th:each="lesson, iter : ${sortedLesson.value}">
+                    <div class="panel panel-default text-center">
+                        <div class="panel-heading" th:text="'Час #' + ${iter.index + 1}"></div>
+                        <div class="panel-body">
+                            <h5 th:text="'Кандидат: ' + ${lesson.candidate.contactInfo.firstName} + ' ' + ${lesson.candidate.contactInfo.lastName}"></h5>
+                            <h5 th:text="'Датум: ' + ${#temporals.format(lesson.dateTaken, 'dd/MMM/yyyy HH:mm')}"></h5>
+                            <h5 th:text="'Тип: ' + ${lesson.type}"></h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h5 th:text="'Број на часови во оваа катеогрија: ' + ${#lists.size(sortedLesson.value)}"></h5>
+            <hr/>
+        </div>
+    </div>
+</div>

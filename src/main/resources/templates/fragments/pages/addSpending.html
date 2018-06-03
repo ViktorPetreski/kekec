@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<div xmlns:th="http://www.thymeleaf.org">
+    <form class="container well" method="post" th:action="@{/candidate/{id}/payment/{pId}/addSpending(id=${candidateId}, pId=${paymentInfoId})}" style="width: 40%; margin-left: 45rem">
+        <fieldset class="form-group">
+            <label for="desc">Опис: </label>
+            <textarea name="description" id="desc" class="form-control"> </textarea>
+        </fieldset>
+
+        <fieldset class="form-group" style="width: 22%">
+            <label for="price">Цена: </label>
+            <input type="number" name="price" id="price" class="form-control"> </input>
+        </fieldset>
+        <button id="newSpendingButton" class="btn btn-success" type="submit" > Потврди </button>
+    </form>
+</div>

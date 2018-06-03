@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+
+
+<form class="container" style="width: 40%; margin-top: 5em" th:action="@{/addCandidate}"
+      method="POST"
+      xmlns:th="http://www.thymeleaf.org">
+
+    <div class=" panel panel-info">
+        <div class="panel-heading">Нов кандидат</div>
+        <div class="panel-body">
+            <div class="row">
+                <fieldset class="form-group col-sm-2">
+                    <label for="ssn">Матичен број: </label>
+                    <input type="text" class="form-control" name="ssn" id="ssn"/>
+                </fieldset>
+
+                <fieldset class="form-group col-sm-5">
+                    <label for="firstName">Име: </label>
+                    <input type="text" class="form-control" name="firstName" id="firstName"/>
+                </fieldset>
+                <div class="form-group col-sm-5">
+                    <label for="lastName">Презиме: </label>
+                    <input type="text" class="form-control" name="lastName" id="lastName"/>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="form-group col-sm-4">
+                    <label for="totalSum">Вкупна сума: </label>
+                    <input type="text" class="form-control" name="totalSum" id="totalSum"/>
+                </div>
+
+                <div class="form-group col-sm-4">
+                    <label for="numberOfInstallments">Број на рати:</label>
+                    <input type="number" class="form-control" id="numberOfInstallments" name="numberOfInstallments"
+                           min="1"/>
+                </div>
+
+                <div class="form-group col-sm-4">
+                    <label for="phone">Телефон: </label>
+                    <input type="text" class="form-control" name="phone" id="phone"/>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class='col-sm-4'>
+                    <div class="form-group">
+                        <label for="date">Датум на запишување: </label>
+                        <div class='input-group date' id='datetimepicker1'>
+                            <input type='text' class="form-control" name="date" id="date"/>
+                            <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="drivingCategory">Категорија: </label>
+                        <input type="text" class="form-control" name="drivingCategory" id="drivingCategory"/>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="numberOfLessons">Број на часови: </label>
+                        <input type="text" class="form-control" name="numberOfLessons" id="numberOfLessons"/>
+                    </div>
+                </div>
+
+                <script th:inline="javascript">
+                    /*<![CDATA[*/
+                    $(document).ready(function () {
+                        var options = {
+                            locale: 'mk',
+                            format: 'd.MM.YYYY HH:mm'
+                        };
+                        $('#datetimepicker1').datetimepicker(options);
+                    });
+                    /*]]>*/
+                </script>
+            </div>
+            <!--<input type="text" class="form-control" name="discountInPercent" id="discount"> </input-->
+
+            <button name="id" class="btn btn-success btn-lg center-block">Потврди</button>
+        </div>
+    </div>
+</form>
+
