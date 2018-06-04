@@ -89,7 +89,7 @@
 
                         <table id="aSTable" class="table" style="border: hidden; margin-bottom: 0; background-color: transparent">
                             <tr id="aSRow">
-                                <td th:each="additionalSpending : ${candidate.paymentInfo.additionalSpendings}"
+                                <td id="aSForEach" th:each="additionalSpending : ${candidate.paymentInfo.additionalSpendings}"
                                     style="border-right: 1px solid; width:9em; padding-left: 1em; vertical-align: middle">
                                     <h5 id="aSDescText" th:text="${additionalSpending.description}"></h5>
                                     <h5 id="aSPriceText" th:text="'Сума:' + ${additionalSpending.price + ' ден.'}"></h5>
@@ -102,10 +102,10 @@
                                         </button>
                                     </form>
 
-                                    <h5 th:if="${additionalSpending.datePaid != null}"
+                                    <h5 id="aSdatePaidText" th:if="${additionalSpending.datePaid != null}"
                                         th:text="'Платен на: ' + ${#temporals.format(additionalSpending.datePaid, 'dd/MMM/yyyy')}"></h5>
 
-                                    <h5 th:if="${additionalSpending.isPaid}"
+                                    <h5 id="aSIsPaidText" th:if="${additionalSpending.isPaid}"
                                         class="glyphicon glyphicon-ok text-center"></h5>
                                 </td>
                                 <td id="aSAddButtonCell" style="vertical-align: bottom; background-color: transparent; width: 1em">
@@ -138,12 +138,12 @@
                                 </button>
                             </a>
                             <a th:href="@{/candidate/{id}/addDrivingLesson(id=${candidate.id})}">
-                                <button style="margin-top: 1.5em" class="btn btn-info"><i class="fa fa-car"
+                                <button id="addDrivingLessonButton" style="margin-top: 1.5em" class="btn btn-info"><i class="fa fa-car"
                                                                                           aria-hidden="true"></i>
                                 </button>
                             </a>
                             <a th:href="@{/candidate/{id}/lessonsOverview(id=${candidate.id})}">
-                                <button style="margin-top: 1.5em" class="btn btn-info"><i class="fa fa-list"
+                                <button id="lessonOverviewButton" style="margin-top: 1.5em" class="btn btn-info"><i class="fa fa-list"
                                                                                           aria-hidden="true"></i>
                                 </button>
                             </a>
@@ -291,11 +291,13 @@
 
         <div id="instructors" class="tab-pane fade">
             <div style="font-size: 16px; width: 12%" th:each="instructor : ${instructors}" class="list-group">
-                <a th:href="@{/instructor/{id}/searchByMonth(id=${instructor.id})}">
+                <a id="linkName" th:href="@{/instructor/{id}/searchByMonth(id=${instructor.id})}">
                     <div id="divName" class="list-group-item">
                         <i class="fa fa-taxi" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;
-                        <h4 id="instructorName" th:text="${instructor.contactInfo.firstName} + ' ' + ${instructor.contactInfo.lastName}"
-                            style="display: inline"></h4>
+                        <h4 id="instructorName">
+                            <span id="iFirstName" th:text="${instructor.contactInfo.firstName}"></span>&nbsp;
+                            <span id="iLastName" th:text="${instructor.contactInfo.lastName}"></span>
+                        </h4>
                     </div>
                 </a>
             </div>

@@ -28,11 +28,11 @@ public class JUnitTest {
 
     @Before
     public void setUp() throws Exception {
-//        System.setProperty("webdriver.chrome.driver", "C:\\Users\\Viktor\\Documents\\skit\\selenium\\chromedriver.exe");
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\Lodi\\chromedriver_win32\\chromedriver.exe");
+         System.setProperty("webdriver.chrome.driver", "C:\\Users\\Viktor\\Documents\\skit\\selenium\\chromedriver.exe");
+       // System.setProperty("webdriver.chrome.driver", "C:\\Users\\Lodi\\chromedriver_win32\\chromedriver.exe");
         ChromeOptions chromeOptions = new ChromeOptions();
-//        chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Beta\\Application\\chrome.exe");
-        chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Dev\\Application\\chrome.exe");
+        chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Beta\\Application\\chrome.exe");
+        //chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Dev\\Application\\chrome.exe");
         driver = new ChromeDriver(chromeOptions);
         baseUrl = "http://localhost:8080/allCandidates";
 
@@ -93,44 +93,9 @@ public class JUnitTest {
         assertNotEquals(oldDebt, newDebt);
     }
 
-    @Test
-    public void testNewAdditionalSpending(){
-        driver.get(baseUrl);
-        WebElement candidate = driver.findElement(By.xpath("//div[@id='allUsers']/table/tbody/tr[3]"));
 
-        candidate
-                .findElement(By.id("aSCell"))
-                .findElement(By.id("aSTable"))
-                .findElement(By.id("aSRow"))
-                .findElement(By.id("aSAddButtonCell"))
-                .findElement(By.id("aSAddButton"))
-                .click();
 
-        //descrtption input
-        driver.findElement(By.id("desc")).click();
-        driver.findElement(By.id("desc")).clear();
-        driver.findElement(By.id("desc")).sendKeys("Test description");
 
-        //price input
-        driver.findElement(By.id("price")).click();
-        driver.findElement(By.id("price")).clear();
-        driver.findElement(By.id("price")).sendKeys("1500");
-
-        driver.findElement(By.id("newSpendingButton")).click();
-
-        candidate = driver.findElement(By.xpath("//div[@id='allUsers']/table/tbody/tr[3]"));
-        List<WebElement> elements =
-                candidate
-                .findElement(By.id("aSCell"))
-                .findElement(By.id("aSTable"))
-                .findElement(By.id("aSRow"))
-                .findElements(By.tagName("td"));
-
-        assertTrue(elements.size() > 0);
-        assertEquals(elements.get(0).findElement(By.id("aSDescText")).getText(), "Test description");
-        assertEquals(elements.get(0).findElement(By.id("aSPriceText")).getText(), "Сума:1500.0 ден.");
-
-    }
 
     @Test
     public void testAddInstructor() throws InterruptedException {

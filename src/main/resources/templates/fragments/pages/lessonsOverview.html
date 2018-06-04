@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 
 <div xmlns:th="http://www.thymeleaf.org" class="container-fluid">
-    <h3 th:text="'Кандидат: ' + ${contactInfo.firstName} + ' ' + ${contactInfo.lastName}"></h3>
+    <h3 id="candidateInfoInLessons" th:text="'Кандидат: ' + ${contactInfo.firstName} + ' ' + ${contactInfo.lastName}"></h3>
 
     <br/>
-    <div class="row">
-        <div class="col-sm-2" style="padding-right: 1.5em; padding-top: 1.5em"
+    <div id="mainDiv" class="row">
+        <div id="forEachDiv" class="col-sm-2" style="padding-right: 1.5em; padding-top: 1.5em"
              th:each="lesson, iter : ${drivingLessons}">
-            <div class="panel panel-default text-center">
-                <div class="panel-heading" th:text="'Час #' + ${iter.index + 1}"></div>
-                <div class="panel-body">
+            <div id="panelDiv" class="panel panel-default text-center">
+                <div id="panelHeadingDiv" class="panel-heading" th:text="'Час #' + ${iter.index + 1}"></div>
+                <div id="panelBodyDiv" class="panel-body">
                     <h5 th:text="'Инструктор: ' + ${lesson.instructor.contactInfo.firstName} + ' ' + ${lesson.instructor.contactInfo.lastName}"></h5>
                     <h5 th:text="'Датум: ' + ${#temporals.format(lesson.dateTaken, 'dd/MMM/yyyy HH:mm')}"></h5>
-                    <h5 th:text="'Тип: ' + ${lesson.type}"></h5>
+                    <h5 id="lessonTypeText" th:text="'Тип: ' + ${lesson.type}"></h5>
                 </div>
             </div>
         </div>
