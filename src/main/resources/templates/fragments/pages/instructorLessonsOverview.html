@@ -40,8 +40,8 @@
 
     <br/>
 
-    <div class="row">
-        <div th:each="sortedLesson : ${sortedLessons}">
+    <div class="row" id="tableWithLessons">
+        <div id="sortedLessons" th:each="sortedLesson : ${sortedLessons}">
             <h4 th:text="${sortedLesson.key} + ' категорија'"></h4>
             <div class="row">
                 <div class="col-sm-2" style="padding-right: 1.5em; padding-top: 1.5em"
@@ -50,13 +50,13 @@
                         <div class="panel-heading" th:text="'Час #' + ${iter.index + 1}"></div>
                         <div class="panel-body">
                             <h5 th:text="'Кандидат: ' + ${lesson.candidate.contactInfo.firstName} + ' ' + ${lesson.candidate.contactInfo.lastName}"></h5>
-                            <h5 th:text="'Датум: ' + ${#temporals.format(lesson.dateTaken, 'dd/MMM/yyyy HH:mm')}"></h5>
+                            <h5 id="lessonDate" th:text="'Датум: ' + ${#temporals.format(lesson.dateTaken, 'dd/MMM/yyyy HH:mm')}"></h5>
                             <h5 th:text="'Тип: ' + ${lesson.type}"></h5>
                         </div>
                     </div>
                 </div>
             </div>
-            <h5 th:text="'Број на часови во оваа катеогрија: ' + ${#lists.size(sortedLesson.value)}"></h5>
+            <h5 id="totalLessonsInCategory" th:text="'Број на часови во оваа категoрија: ' + ${#lists.size(sortedLesson.value)}"></h5>
             <hr/>
         </div>
     </div>

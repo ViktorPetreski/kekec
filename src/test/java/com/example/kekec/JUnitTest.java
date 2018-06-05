@@ -24,15 +24,18 @@ public class JUnitTest {
     public static String baseUrl;
     private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
-
+    public static boolean setUpIsDone = false;
 
     @Before
     public void setUp() throws Exception {
-         System.setProperty("webdriver.chrome.driver", "C:\\Users\\Viktor\\Documents\\skit\\selenium\\chromedriver.exe");
-       // System.setProperty("webdriver.chrome.driver", "C:\\Users\\Lodi\\chromedriver_win32\\chromedriver.exe");
+        if(setUpIsDone){
+            return;
+        }
+//         System.setProperty("webdriver.chrome.driver", "C:\\Users\\Viktor\\Documents\\skit\\selenium\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "C:\\Users\\Lodi\\chromedriver_win32\\chromedriver.exe");
         ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Beta\\Application\\chrome.exe");
-        //chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Dev\\Application\\chrome.exe");
+//        chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Beta\\Application\\chrome.exe");
+        chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Dev\\Application\\chrome.exe");
         driver = new ChromeDriver(chromeOptions);
         baseUrl = "http://localhost:8080/allCandidates";
 
@@ -61,6 +64,8 @@ public class JUnitTest {
         driver.findElement(By.id("numberOfLessons")).clear();
         driver.findElement(By.id("numberOfLessons")).sendKeys("36");
         driver.findElement(By.name("id")).click();
+
+        setUpIsDone = true;
     }
 
 
@@ -92,10 +97,6 @@ public class JUnitTest {
 
         assertNotEquals(oldDebt, newDebt);
     }
-
-
-
-
 
     @Test
     public void testAddInstructor() throws InterruptedException {
@@ -189,117 +190,11 @@ public class JUnitTest {
     }
 
     @Test
-    public void testUpdateCandidateFirstName() throws InterruptedException {
+    public void facebookRedirectTest() throws InterruptedException {
         driver.get(baseUrl);
-        WebElement candidate = driver.findElement(By.xpath("//div[@id='allUsers']/table/tbody/tr[3]"));
-
-        candidate.
-                findElement(By.id("updateCell")).
-                findElement(By.id("updateButton")).
-                click();
-
-        driver.findElement(By.id("firstName")).clear();
-        driver.findElement(By.id("firstName")).sendKeys("NewName");
-        driver.findElement(By.name("id")).click();
-
-        WebElement updatedCandidate = driver.findElement(By.xpath("//div[@id='allUsers']/table/tbody/tr[3]"));
-        String newFirstName = updatedCandidate.findElement(By.id("nameCell")).getText().split(" ")[0];
-        assertEquals("NewName", newFirstName);
-    }
-
-    @Test
-    public void testUpdateCandidateLastName() throws InterruptedException {
-        driver.get(baseUrl);
-        WebElement candidate = driver.findElement(By.xpath("//div[@id='allUsers']/table/tbody/tr[3]"));
-
-        candidate.
-                findElement(By.id("updateCell")).
-                findElement(By.id("updateButton")).
-                click();
-
-        driver.findElement(By.id("lastName")).clear();
-        driver.findElement(By.id("lastName")).sendKeys("NewLastName");
-        driver.findElement(By.name("id")).click();
-
-        WebElement updatedCandidate = driver.findElement(By.xpath("//div[@id='allUsers']/table/tbody/tr[3]"));
-        String newLastName = updatedCandidate.findElement(By.id("nameCell")).getText().split(" ")[1];
-        assertEquals("NewLastName", newLastName);
-    }
-
-    @Test
-    public void testUpdateCandidatePhone() throws InterruptedException {
-        driver.get(baseUrl);
-        WebElement candidate = driver.findElement(By.xpath("//div[@id='allUsers']/table/tbody/tr[3]"));
-
-        candidate.
-                findElement(By.id("updateCell")).
-                findElement(By.id("updateButton")).
-                click();
-
-        driver.findElement(By.id("phone")).clear();
-        driver.findElement(By.id("phone")).sendKeys("075987333");
-        driver.findElement(By.name("id")).click();
-
-        WebElement updatedCandidate = driver.findElement(By.xpath("//div[@id='allUsers']/table/tbody/tr[3]"));
-        String newPhone = updatedCandidate.findElement(By.id("phoneCell")).getText();
-        assertEquals("075987333", newPhone);
-    }
-
-    @Test
-    public void testUpdateCandidateInstallments() throws InterruptedException {
-        driver.get(baseUrl);
-        WebElement candidate = driver.findElement(By.xpath("//div[@id='allUsers']/table/tbody/tr[3]"));
-
-        candidate.
-                findElement(By.id("updateCell")).
-                findElement(By.id("updateButton")).
-                click();
-
-        driver.findElement(By.id("numberOfInstallments")).clear();
-        driver.findElement(By.id("numberOfInstallments")).sendKeys("5");
-        driver.findElement(By.name("id")).click();
-
-        WebElement updatedCandidate = driver.findElement(By.xpath("//div[@id='allUsers']/table/tbody/tr[3]"));
-        List<WebElement>  numOfInstallments = updatedCandidate.findElements(By.xpath(".//*[@id='installmentTable']/table/tbody/tr/td"));
-        assertEquals(5,numOfInstallments.size());
-    }
-
-    @Test
-    public void testUpdateCandidateTotalSum() throws InterruptedException {
-        driver.get(baseUrl);
-        WebElement candidate = driver.findElement(By.xpath("//div[@id='allUsers']/table/tbody/tr[3]"));
-
-        candidate.
-                findElement(By.id("updateCell")).
-                findElement(By.id("updateButton")).
-                click();
-
-        driver.findElement(By.id("totalSum")).clear();
-        driver.findElement(By.id("totalSum")).sendKeys("30000");
-        driver.findElement(By.name("id")).click();
-
-        WebElement updatedCandidate = driver.findElement(By.xpath("//div[@id='allUsers']/table/tbody/tr[3]"));
-        String newSum = updatedCandidate.findElement(By.id("sumCell")).getText();
-        assertEquals("30000.0 ден.", newSum);
-    }
-
-    @Test
-    public void testUpdateCandidateLessons() throws InterruptedException {
-        driver.get(baseUrl);
-        WebElement candidate = driver.findElement(By.xpath("//div[@id='allUsers']/table/tbody/tr[3]"));
-
-        candidate.
-                findElement(By.id("updateCell")).
-                findElement(By.id("updateButton")).
-                click();
-
-        driver.findElement(By.id("numberOfLessons")).clear();
-        driver.findElement(By.id("numberOfLessons")).sendKeys("25");
-        driver.findElement(By.name("id")).click();
-
-        WebElement updatedCandidate = driver.findElement(By.xpath("//div[@id='allUsers']/table/tbody/tr[3]"));
-        String newNumOfLessons = updatedCandidate.findElement(By.id("lessonsCell")).getText();
-        assertEquals("25", newNumOfLessons);
+        driver.findElement(By.id("fbLink")).click();
+        Thread.sleep(1000);
+        assertTrue(driver.getCurrentUrl().equals("https://www.facebook.com/avtoskolakekec/"));
     }
 
 
