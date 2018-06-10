@@ -16,47 +16,49 @@
 
             <table id="allUsersTable" class="table table-bordered table-striped">
                 <tr id="labelRow">
-                    <th class="text-center" style="font-size: large; vertical-align: middle">Статус</th>
-                    <th class="text-center" style="font-size: large; vertical-align: middle">Име и презиме</th>
-                    <th class="text-center" style="font-size: large; vertical-align: middle">Преостанати часови</th>
-                    <th class="text-center" style="font-size: large; vertical-align: middle">Телефонски број</th>
-                    <th class="text-center" style="font-size: large; vertical-align: middle">Вкупна сума</th>
-                    <th class="text-center" style="font-size: large; vertical-align: middle">Рати</th>
-                    <th class="text-center" style="font-size: large; vertical-align: middle">Додатни трошоци</th>
-                    <th class="text-center" style="font-size: large; vertical-align: middle">Должи</th>
-                    <th class="text-center" style="font-size: large; vertical-align: middle">Менаџирање со кандидати
+                    <th class="text-center" style="vertical-align: middle">Положен</th>
+                    <th class="text-center" style="vertical-align: middle">Име и презиме</th>
+                    <th class="text-center" style="vertical-align: middle">Преостанати часови</th>
+                    <th class="text-center" style="vertical-align: middle">Телефон</th>
+                    <th class="text-center" style="vertical-align: middle">Вкупна сума</th>
+                    <th class="text-center" style="vertical-align: middle">Рати</th>
+                    <th class="text-center" style="vertical-align: middle">Додатни трошоци</th>
+                    <th class="text-center" style="vertical-align: middle">Должи</th>
+                    <th class="text-center" style="vertical-align: middle">Менаџирање со кандидати
                     </th>
                 </tr>
 
                 <tr id="candidateInfoRow" th:each="candidate, iter : ${candidates}">
 
                     <!--Polozen-->
-                    <td id="statusCell" class="text-center" style="vertical-align: middle; font-size: 30px">
+                    <td id="statusCell" class="text-center"
+                        style="vertical-align: middle; font-size: 30px; width: 3rem">
                         <a name="status" th:href="@{/candidate/{id}/gotLicence(id=${candidate.id})}">
                             <i th:if="${candidate.isPassed}" class="fa fa-check" style="color: #5cb85c"></i>
                             <i th:if="${!candidate.isPassed}" class="fa fa-times" style="color: red"></i>
                         </a>
                         <!--<a name="status" th:href="@{/candidate/{id}/gotLicence(id=${candidate.id})}">-->
-                            <!---->
+                        <!---->
                         <!--</a>-->
                     </td>
 
-                    <td id="nameCell" class="text-center" style="vertical-align: middle; font-size: medium"
-                        th:text="${candidate.contactInfo.firstName} + ' ' + ${candidate.contactInfo.lastName}"></td>
-                    <td id="lessonsCell" class="text-center" style="vertical-align: middle; font-size: medium; width: 2em"
+                    <td id="nameCell" class="text-center" style="vertical-align: middle; width: 3rem"
+                        th:utext="${candidate.contactInfo.firstName} + '<br/>' + ${candidate.contactInfo.lastName}"></td>
+                    <td id="lessonsCell" class="text-center" style="vertical-align: middle;width: 2em"
                         th:text="${candidate.numberOfLessons}"></td>
-                    <td id="phoneCell" class="text-center" style="vertical-align: middle; font-size: medium; width: 5em"
+                    <td id="phoneCell" class="text-center" style="vertical-align: middle;width: 5em"
                         th:text="${candidate.contactInfo.phone}"></td>
-                    <td id="sumCell" class="text-center" style="vertical-align: middle; font-size: medium; width: 5em"
+                    <td id="sumCell" class="text-center" style="vertical-align: middle; width: 5em"
                         th:text="${candidate.paymentInfo.totalSum} + ' ден.'"></td>
 
                     <!--Rati-->
                     <td id="installmentTable" style="vertical-align: middle; min-width: 45em">
 
-                        <table class="table" style="border: hidden; margin-bottom: 0; background-color: transparent">
+                        <table class="table" style="border: hidden; margin-bottom: 0; background-color: transparent"
+                               id="someTableId">
                             <tr>
                                 <td th:each="installment : ${candidate.paymentInfo.installments}"
-                                    style="border-right: 1px solid; width:9em; padding-left: 1em; vertical-align: middle">
+                                    style="border-right: 1px solid; width:8em; padding-left: 1em; vertical-align: middle">
                                     <h5 th:text="'Рок до: ' + ${#temporals.format(installment.dueDate, 'dd/MMM/yyyy')}"></h5>
                                     <h5 th:if="${installment.datePaid != null}"
                                         th:text="'Платена на: ' + ${#temporals.format(installment.datePaid, 'dd/MMM/yyyy')}"></h5>
@@ -64,18 +66,17 @@
                                         <div class="input-group mb-2" th:if="${installment.isPaid == false}">
                                             <input type="text" class="form-control" id="inlineFormInputGroup"
                                                    name="price">
-                                            <span class="input-group-addon">ден.</span>
+                                            <span class="input-group-addon" style="padding: 3px 3px; font-size: 12px">ден.</span>
                                         </div>
                                         <input hidden="hidden" th:value="${candidate.id}" name="candidateId"/>
                                         <button th:if="${installment.isPaid == false}" type="submit"
-                                                class="btn btn-success btn-sm">Плати
+                                                class="btn btn-success btn-block" id="installmentPayButton"
+                                                style="margin-top: .5rem">Плати
                                         </button>
+                                        <h5 id="largeSumLabel" style="display: none" class="text text-warning">Погрешна
+                                            сума!!</h5>
                                     </form>
-                                    <!--<h5 th:text="${#numbers.formatDecimal(installment.price, 0, 'DEFAULT', 2, 'DEFAULT')} + ' ден.'"></h5>-->
-                                    <!--<form class="form-group" th:action="@{/candidate/{id}/payInstallment(id=${candidate.id})}" method="post"
-                                          th:if="${installment.isPaid == false}">
 
-                                    </form>-->
                                     <h5 th:if="${installment.isPaid}" th:text="'Сума: ' + ${installment.price}"></h5>
                                     <h5 th:if="${installment.isPaid}" class="glyphicon glyphicon-ok text-center"></h5>
                                 </td>
@@ -87,9 +88,11 @@
                     <!--Dodatni trosoci-->
                     <td id="aSCell" style="vertical-align: middle">
 
-                        <table id="aSTable" class="table" style="border: hidden; margin-bottom: 0; background-color: transparent">
+                        <table id="aSTable" class="table"
+                               style="border: hidden; margin-bottom: 0; background-color: transparent">
                             <tr id="aSRow">
-                                <td id="aSForEach" th:each="additionalSpending : ${candidate.paymentInfo.additionalSpendings}"
+                                <td id="aSForEach"
+                                    th:each="additionalSpending : ${candidate.paymentInfo.additionalSpendings}"
                                     style="border-right: 1px solid; width:9em; padding-left: 1em; vertical-align: middle">
                                     <h5 id="aSDescText" th:text="${additionalSpending.description}"></h5>
                                     <h5 id="aSPriceText" th:text="'Сума:' + ${additionalSpending.price + ' ден.'}"></h5>
@@ -108,9 +111,11 @@
                                     <h5 id="aSIsPaidText" th:if="${additionalSpending.isPaid}"
                                         class="glyphicon glyphicon-ok text-center"></h5>
                                 </td>
-                                <td id="aSAddButtonCell" style="vertical-align: bottom; background-color: transparent; width: 1em">
+                                <td id="aSAddButtonCell"
+                                    style="vertical-align: bottom; background-color: transparent; width: 1em">
                                     <a th:href="@{/candidate/{id}/payment/{pId}/addSpending(id=${candidate.id}, pId=${candidate.paymentInfo.id})}">
-                                        <button id="aSAddButton" type="submit" class="btn btn-primary btn-circle" style="float: right;">
+                                        <button id="aSAddButton" type="submit" class="btn btn-primary btn-circle"
+                                                style="float: right;">
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </button>
                                     </a>
@@ -120,34 +125,36 @@
                     </td>
 
                     <!--Dolzi-->
-                    <td id="InDebtAllUsers" class="text-center" style="vertical-align: middle; font-size: medium"
+                    <td id="InDebtAllUsers" class="text-center" style="vertical-align: middle;"
                         th:text="${candidate.inDebt}"></td>
 
                     <!--Update, delete, casovi i pregled buttons-->
                     <td id="updateCell" style="vertical-align: middle; width: 2em">
-                        <form method="post" id="formDeleteButton" th:action="@{/removeCandidate/{id}(id=${candidate.id})}">
+                        <form method="post" id="formDeleteButton"
+                              th:action="@{/removeCandidate/{id}(id=${candidate.id})}">
                             <button id="deleteButton" class="btn btn-danger btn-block"
                                     onclick="return confirm('Дали сте сигурни дека сакате да го избришете кандидатот?')">
-                                <span class="glyphicon glyphicon-trash"></span>
+                                <span class="glyphicon glyphicon-trash"> Избриши</span>
                             </button>
                         </form>
-                        <div class="row" style="margin-left: 0">
-                            <a th:href="@{/updateCandidate/{id}(id=${candidate.id})}">
-                                <button id="updateButton" style="margin-top: 1.5em" class="btn btn-info"><i class="fa fa-user"
-                                                                                          aria-hidden="true"></i>
-                                </button>
-                            </a>
-                            <a th:href="@{/candidate/{id}/addDrivingLesson(id=${candidate.id})}">
-                                <button id="addDrivingLessonButton" style="margin-top: 1.5em" class="btn btn-info"><i class="fa fa-car"
-                                                                                          aria-hidden="true"></i>
-                                </button>
-                            </a>
-                            <a th:href="@{/candidate/{id}/lessonsOverview(id=${candidate.id})}">
-                                <button id="lessonOverviewButton" style="margin-top: 1.5em" class="btn btn-info"><i class="fa fa-list"
-                                                                                          aria-hidden="true"></i>
-                                </button>
-                            </a>
-                        </div>
+                        <a th:href="@{/updateCandidate/{id}(id=${candidate.id})}">
+                            <button id="updateButton" style="margin-top: .5em" class="btn btn-info btn-block"><span
+                                    class="fa fa-user"
+                                    aria-hidden="true"> Измени</span>
+                            </button>
+                        </a>
+                        <a th:href="@{/candidate/{id}/addDrivingLesson(id=${candidate.id})}">
+                            <button id="addDrivingLessonButton" style="margin-top: .5em" class="btn btn-info btn-block"><span
+                                    class="fa fa-car"
+                                    aria-hidden="true"> Нов час</span>
+                            </button>
+                        </a>
+                        <a th:href="@{/candidate/{id}/lessonsOverview(id=${candidate.id})}">
+                            <button id="lessonOverviewButton" style="margin-top: .5em"
+                                    class="btn btn-info btn-block"><span class="fa fa-list"
+                                                                         aria-hidden="true"> Преглед</span>
+                            </button>
+                        </a>
                     </td>
 
                 </tr>
@@ -208,7 +215,7 @@
                                             <span class="input-group-addon">ден.</span>
                                         </div>
                                         <input hidden="hidden" th:value="${candidate.id}" name="candidateId"/>
-                                        <button id = "payButton" th:if="${installment.isPaid == false}" type="submit"
+                                        <button id="payButton" th:if="${installment.isPaid == false}" type="submit"
                                                 class="btn btn-success btn-sm">Плати
                                         </button>
                                     </form>
@@ -294,10 +301,7 @@
                 <a id="linkName" th:href="@{/instructor/{id}/searchByMonth(id=${instructor.id})}">
                     <div id="divName" class="list-group-item">
                         <i class="fa fa-taxi" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;
-                        <h4 id="instructorName">
-                            <span id="iFirstName" th:text="${instructor.contactInfo.firstName}"></span>&nbsp;
-                            <span id="iLastName" th:text="${instructor.contactInfo.lastName}"></span>
-                        </h4>
+                        <h5 id="instructorName" style="display: inline" th:text="${instructor.contactInfo.firstName} + ' ' + ${instructor.contactInfo.lastName}"></h5>
                     </div>
                 </a>
             </div>
@@ -307,3 +311,25 @@
 
 
 </div>
+
+<script>
+    $(document).ready(function () {
+        $('#installmentPayButton').on('click', function () {
+            var $installment = $(this).parent().parent();
+            var $candidate = $installment.closest('table').parent().closest('tr');
+            console.log("candidateID", $candidate.attr('id'));
+            var installmentSum = parseInt($.trim($installment.find('#inlineFormInputGroup').val()));
+            var inDebtSum = parseFloat($.trim($candidate.find('#InDebtAllUsers').html()));
+            console.log("installment:", installmentSum);
+            console.log("in debt:", inDebtSum);
+            if (installmentSum > inDebtSum || !installmentSum) {
+                $(this).prop("disabled", true);
+                $installment.find('#largeSumLabel').css({display: ""});
+            }
+        });
+        $('#inlineFormInputGroup').on('input', function () {
+            $('#installmentPayButton').prop("disabled", false)
+        })
+
+    })
+</script>

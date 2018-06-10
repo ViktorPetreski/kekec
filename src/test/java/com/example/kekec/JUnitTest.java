@@ -4,6 +4,7 @@ import org.junit.*;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.runners.MethodSorters;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -19,6 +20,8 @@ import java.util.List;
 import static junit.framework.TestCase.fail;
 import static org.junit.jupiter.api.Assertions.*;
 
+
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class JUnitTest {
     public static WebDriver driver;
     public static String baseUrl;
@@ -26,51 +29,46 @@ public class JUnitTest {
     private StringBuffer verificationErrors = new StringBuffer();
     public static boolean setUpIsDone = false;
 
-    @Before
-    public void setUp() throws Exception {
-        if(setUpIsDone){
-            return;
-        }
-//         System.setProperty("webdriver.chrome.driver", "C:\\Users\\Viktor\\Documents\\skit\\selenium\\chromedriver.exe");
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\Lodi\\chromedriver_win32\\chromedriver.exe");
+    @BeforeClass
+    public static void setUp() throws Exception {
+         System.setProperty("webdriver.chrome.driver", "C:\\Users\\Viktor\\Documents\\skit\\selenium\\chromedriver.exe");
+        //System.setProperty("webdriver.chrome.driver", "C:\\Users\\Lodi\\chromedriver_win32\\chromedriver.exe");
         ChromeOptions chromeOptions = new ChromeOptions();
-//        chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Beta\\Application\\chrome.exe");
-        chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Dev\\Application\\chrome.exe");
+        chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Beta\\Application\\chrome.exe");
+        //chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Dev\\Application\\chrome.exe");
         driver = new ChromeDriver(chromeOptions);
         baseUrl = "http://localhost:8080/allCandidates";
 
-        driver.get(baseUrl);
-
-        driver.findElement(By.linkText("Додади кандидат")).click();
-        driver.findElement(By.id("ssn")).click();
-        driver.findElement(By.id("ssn")).clear();
-        driver.findElement(By.id("ssn")).sendKeys("1111");
-        driver.findElement(By.id("firstName")).clear();
-        driver.findElement(By.id("firstName")).sendKeys("Viktor");
-        driver.findElement(By.id("lastName")).clear();
-        driver.findElement(By.id("lastName")).sendKeys("Petreski");
-        driver.findElement(By.id("totalSum")).clear();
-        driver.findElement(By.id("totalSum")).sendKeys("12000");
-        driver.findElement(By.id("numberOfInstallments")).clear();
-        driver.findElement(By.id("numberOfInstallments")).sendKeys("3");
-        driver.findElement(By.id("phone")).clear();
-        driver.findElement(By.id("phone")).sendKeys("0121212");
-        driver.findElement(By.xpath("//div[@id='datetimepicker1']/span/span")).click();
-        driver.findElement(By.xpath("//div[@id='datetimepicker1']/div/ul/li/div/div/table/tbody/tr[4]/td[3]")).click();
-       // driver.findElement(By.id("drivingCategory")).click();
-        driver.findElement(By.id("drivingCategory")).clear();
-        driver.findElement(By.id("drivingCategory")).sendKeys("B");
-        driver.findElement(By.id("numberOfLessons")).click();
-        driver.findElement(By.id("numberOfLessons")).clear();
-        driver.findElement(By.id("numberOfLessons")).sendKeys("36");
-        driver.findElement(By.name("id")).click();
-
-        setUpIsDone = true;
+//        driver.get(baseUrl);
+//
+//        driver.findElement(By.linkText("Додади кандидат")).click();
+//        driver.findElement(By.id("ssn")).click();
+//        driver.findElement(By.id("ssn")).clear();
+//        driver.findElement(By.id("ssn")).sendKeys("1111");
+//        driver.findElement(By.id("firstName")).clear();
+//        driver.findElement(By.id("firstName")).sendKeys("Viktor");
+//        driver.findElement(By.id("lastName")).clear();
+//        driver.findElement(By.id("lastName")).sendKeys("Petreski");
+//        driver.findElement(By.id("totalSum")).clear();
+//        driver.findElement(By.id("totalSum")).sendKeys("12000");
+//        driver.findElement(By.id("numberOfInstallments")).clear();
+//        driver.findElement(By.id("numberOfInstallments")).sendKeys("3");
+//        driver.findElement(By.id("phone")).clear();
+//        driver.findElement(By.id("phone")).sendKeys("0121212");
+//        driver.findElement(By.xpath("//div[@id='datetimepicker1']/span/span")).click();
+//        driver.findElement(By.xpath("//div[@id='datetimepicker1']/div/ul/li/div/div/table/tbody/tr[4]/td[3]")).click();
+//       // driver.findElement(By.id("drivingCategory")).click();
+//        driver.findElement(By.id("drivingCategory")).clear();
+//        driver.findElement(By.id("drivingCategory")).sendKeys("B");
+//        driver.findElement(By.id("numberOfLessons")).click();
+//        driver.findElement(By.id("numberOfLessons")).clear();
+//        driver.findElement(By.id("numberOfLessons")).sendKeys("36");
+//        driver.findElement(By.name("id")).click();
     }
 
 
     @Test
-    public void testStatusOfLicence() throws InterruptedException {
+    public void test2StatusOfLicence() throws InterruptedException {
         driver.get(baseUrl);
         //driver.manage().window().maximize();
         WebElement test = driver.findElement(By.xpath("//div[@id='allUsers']/table/tbody/tr[3]")).findElement(By.name("status"));
@@ -82,7 +80,7 @@ public class JUnitTest {
 
 
     @Test
-    public void testPayInstallmentPositive() throws InterruptedException {
+    public void test4PayInstallmentPositive() throws InterruptedException {
         driver.get(baseUrl);
         WebElement candidate = driver.findElement(By.xpath("//div[@id='allUsers']/table/tbody/tr[3]"));
         candidate.findElement(By.id("inlineFormInputGroup")).click();
@@ -99,7 +97,7 @@ public class JUnitTest {
     }
 
     @Test
-    public void testAddInstructor() throws InterruptedException {
+    public void test3AddInstructor() throws InterruptedException {
         driver.get(baseUrl);
 
         driver.findElement(By.id("addInstructor")).click();
@@ -137,7 +135,7 @@ public class JUnitTest {
 //    }
 
     @Test
-    public void testAddCandidate() throws InterruptedException {
+    public void test1AddCandidate() throws InterruptedException {
         driver.get(baseUrl);
 
         driver.findElement(By.linkText("Додади кандидат")).click();
@@ -176,8 +174,8 @@ public class JUnitTest {
         for (int i = 1; i < rowSize+1; i++)
         {
             WebElement tmp = elements.get(i);
-            String name = tmp.findElement(By.id("nameCell")).getText();
-            String phone = tmp.findElement(By.id("phoneCell")).getText();
+            String name = tmp.findElement(By.id("nameCell")).getText().trim();
+            String phone = tmp.findElement(By.id("phoneCell")).getText().trim();
             if (name.equals("Lodi Dodevska") && phone.equals("0121212"))
             {
                 flag = true;
@@ -190,16 +188,16 @@ public class JUnitTest {
     }
 
     @Test
-    public void facebookRedirectTest() throws InterruptedException {
+    public void test5facebookRedirect() throws InterruptedException {
         driver.get(baseUrl);
         driver.findElement(By.id("fbLink")).click();
         Thread.sleep(1000);
-        assertTrue(driver.getCurrentUrl().equals("https://www.facebook.com/avtoskolakekec/"));
+        assertEquals("https://www.facebook.com/avtoskolakekec/", driver.getCurrentUrl());
     }
 
 
-    @After
-    public void tearDown() throws Exception {
+    @Test
+    public void test6removeCandidate() throws InterruptedException {
         driver.get("http://localhost:8080/allCandidates");
         driver
                 .findElement(By.xpath("//div[@id='allUsers']/table/tbody/tr[3]"))
@@ -218,10 +216,17 @@ public class JUnitTest {
         if (!"".equals(verificationErrorString)) {
             fail(verificationErrorString);
         }
+
+    }
+
+
+    @AfterClass
+    public static void tearDown() throws Exception {
         driver.quit();
     }
 
     private String closeAlertAndGetItsText() {
+
         try {
             WebDriverWait wait = new WebDriverWait(driver, 3);
             wait.until(ExpectedConditions.alertIsPresent());

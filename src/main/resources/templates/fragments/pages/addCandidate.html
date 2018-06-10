@@ -10,17 +10,17 @@
         <div class="panel-body">
             <div class="row">
                 <fieldset class="form-group col-sm-2">
-                    <label for="ssn">Матичен број: </label>
-                    <input type="text" class="form-control" name="ssn" id="ssn"/>
+                    <label for="ssn">Мат. број:</label>
+                    <input type="text" class="form-control" name="ssn" id="ssn" required/>
                 </fieldset>
 
                 <fieldset class="form-group col-sm-5">
                     <label for="firstName">Име: </label>
-                    <input type="text" class="form-control" name="firstName" id="firstName"/>
+                    <input type="text" class="form-control" name="firstName" id="firstName" required/>
                 </fieldset>
                 <div class="form-group col-sm-5">
                     <label for="lastName">Презиме: </label>
-                    <input type="text" class="form-control" name="lastName" id="lastName"/>
+                    <input type="text" class="form-control" name="lastName" id="lastName" required/>
                 </div>
 
             </div>
@@ -28,18 +28,18 @@
             <div class="row">
                 <div class="form-group col-sm-4">
                     <label for="totalSum">Вкупна сума: </label>
-                    <input type="text" class="form-control" name="totalSum" id="totalSum"/>
+                    <input type="text" class="form-control" name="totalSum" id="totalSum" required/>
                 </div>
 
                 <div class="form-group col-sm-4">
                     <label for="numberOfInstallments">Број на рати:</label>
                     <input type="number" class="form-control" id="numberOfInstallments" name="numberOfInstallments"
-                           min="1"/>
+                           min="1" required/>
                 </div>
 
                 <div class="form-group col-sm-4">
                     <label for="phone">Телефон: </label>
-                    <input type="text" class="form-control" name="phone" id="phone"/>
+                    <input type="text" class="form-control" name="phone" id="phone" required/>
                 </div>
             </div>
 
@@ -48,7 +48,7 @@
                     <div class="form-group">
                         <label for="date">Датум на запишување: </label>
                         <div class='input-group date' id='datetimepicker1'>
-                            <input type='text' class="form-control" name="date" id="date"/>
+                            <input type='text' class="form-control" name="date" id="date" required/>
                             <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
@@ -59,14 +59,14 @@
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label for="drivingCategory">Категорија: </label>
-                        <input type="text" class="form-control" name="drivingCategory" id="drivingCategory"/>
+                        <input type="text" class="form-control" name="drivingCategory" id="drivingCategory" required/>
                     </div>
                 </div>
 
                 <div class="col-sm-4">
                     <div class="form-group">
                         <label for="numberOfLessons">Број на часови: </label>
-                        <input type="text" class="form-control" name="numberOfLessons" id="numberOfLessons"/>
+                        <input type="text" class="form-control" name="numberOfLessons" id="numberOfLessons" required/>
                     </div>
                 </div>
 
@@ -75,7 +75,7 @@
                     $(document).ready(function () {
                         var options = {
                             locale: 'mk',
-                            format: 'd.MM.YYYY HH:mm'
+                            format: 'DD.MM.YYYY HH:mm'
                         };
                         $('#datetimepicker1').datetimepicker(options);
                     });

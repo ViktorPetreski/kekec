@@ -25,13 +25,13 @@ public class DrivingLessonsTest {
     private StringBuffer verificationErrors = new StringBuffer();
 
 
-    @Before
-    public void setUp() throws Exception {
-//        System.setProperty("webdriver.chrome.driver", "C:\\Users\\Viktor\\Documents\\skit\\selenium\\chromedriver.exe");
-         System.setProperty("webdriver.chrome.driver", "C:\\Users\\Lodi\\chromedriver_win32\\chromedriver.exe");
+    @BeforeClass
+    public static void setUp() throws Exception {
+     System.setProperty("webdriver.chrome.driver", "C:\\Users\\Viktor\\Documents\\skit\\selenium\\chromedriver.exe");
+    //     System.setProperty("webdriver.chrome.driver", "C:\\Users\\Lodi\\chromedriver_win32\\chromedriver.exe");
         ChromeOptions chromeOptions = new ChromeOptions();
-//        chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Beta\\Application\\chrome.exe");
-        chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Dev\\Application\\chrome.exe");
+        chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Beta\\Application\\chrome.exe");
+    //    chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Dev\\Application\\chrome.exe");
         driver = new ChromeDriver(chromeOptions);
         baseUrl = "http://localhost:8080/allCandidates";
 
@@ -105,7 +105,7 @@ public class DrivingLessonsTest {
         WebElement candidate = driver.findElement(By.xpath("//div[@id='allUsers']/table/tbody/tr[3]"));
 
         String numberOfLessons = candidate.findElement(By.id("lessonsCell")).getText();
-        String candidateName = candidate.findElement(By.id("nameCell")).getText();
+        String candidateName = candidate.findElement(By.id("nameCell")).getText().replaceAll("\\r\\n|\\r|\\n", " ");
 
         candidate
                 .findElement(By.id("updateCell"))
@@ -133,8 +133,6 @@ public class DrivingLessonsTest {
 
         int drivenLessons = Integer.valueOf(numberOfLessons);
         assertEquals(total + drivenLessons, 36);
-
-
     }
 
     //za prviot instruktor
@@ -185,6 +183,7 @@ public class DrivingLessonsTest {
     //prv instruktor, maj 2020
     @Test
     public void testSearchByMonth2(){
+        driver.get(baseUrl);
         driver.findElement(By.id("instructorsTab")).click();
         String Script = "javascript:document.getElementById('linkName').click();";
         ((JavascriptExecutor) driver).executeScript(Script);
@@ -212,5 +211,10 @@ public class DrivingLessonsTest {
 
         assertFalse(flag);
 
+    }
+
+    @AfterClass
+    public static void tearDown() throws Exception {
+        driver.quit();
     }
 }

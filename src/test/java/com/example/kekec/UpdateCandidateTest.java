@@ -23,11 +23,11 @@ public class UpdateCandidateTest {
         if(setUpIsDone){
             return;
         }
-//        System.setProperty("webdriver.chrome.driver", "C:\\Users\\Viktor\\Documents\\skit\\selenium\\chromedriver.exe");
-         System.setProperty("webdriver.chrome.driver", "C:\\Users\\Lodi\\chromedriver_win32\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "C:\\Users\\Viktor\\Documents\\skit\\selenium\\chromedriver.exe");
+        //System.setProperty("webdriver.chrome.driver", "C:\\Users\\Lodi\\chromedriver_win32\\chromedriver.exe");
         ChromeOptions chromeOptions = new ChromeOptions();
-//        chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Beta\\Application\\chrome.exe");
-        chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Dev\\Application\\chrome.exe");
+        chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Beta\\Application\\chrome.exe");
+        //chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Dev\\Application\\chrome.exe");
         driver = new ChromeDriver(chromeOptions);
         baseUrl = "http://localhost:8080/allCandidates";
 
@@ -75,7 +75,7 @@ public class UpdateCandidateTest {
         driver.findElement(By.name("id")).click();
 
         WebElement updatedCandidate = driver.findElement(By.xpath("//div[@id='allUsers']/table/tbody/tr[3]"));
-        String newFirstName = updatedCandidate.findElement(By.id("nameCell")).getText().split(" ")[0];
+        String newFirstName = updatedCandidate.findElement(By.id("nameCell")).getText().replaceAll("\\r\\n|\\r|\\n", " ").split(" ")[0];
         assertEquals("NewName", newFirstName);
     }
 
@@ -94,7 +94,7 @@ public class UpdateCandidateTest {
         driver.findElement(By.name("id")).click();
 
         WebElement updatedCandidate = driver.findElement(By.xpath("//div[@id='allUsers']/table/tbody/tr[3]"));
-        String newLastName = updatedCandidate.findElement(By.id("nameCell")).getText().split(" ")[1];
+        String newLastName = updatedCandidate.findElement(By.id("nameCell")).getText().replaceAll("\\r\\n|\\r|\\n", " ").split(" ")[1];
         assertEquals("NewLastName", newLastName);
     }
 

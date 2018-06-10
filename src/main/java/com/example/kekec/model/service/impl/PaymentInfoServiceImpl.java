@@ -12,7 +12,6 @@ import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.Null;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -133,12 +132,10 @@ public class PaymentInfoServiceImpl implements PaymentInfoService {
         totalDebt += paymentInfo.installments.stream().filter(installment -> installment.isPaid).mapToDouble(i -> i.price).sum();
         //totalDebt += paymentInfo.additionalSpendings.stream().filter(additionalSpending -> additionalSpending.isPaid).mapToDouble(as -> as.price).sum();
         totalDebt -= paymentInfo.additionalSpendings.stream().filter(additionalSpending -> !additionalSpending.isPaid).mapToDouble(as -> as.price).sum();
-
-        Double endResult = paymentInfo.totalSum - totalDebt;
-
-        if(endResult < 0) throw new NullPointerException("Cannot have negative debt");
-
-        return endResult;
+        double sum = paymentInfo.totalSum - totalDebt;
+        if(sum > 0)
+            return sum;
+        else throw new NullPointerException();
     }
 
 

@@ -151,3 +151,39 @@ div.slideshow span.image-wrapper
 {
     background-color:#fff;
 }
+
+
+.flash {
+    -moz-animation: flash 1s ease-out;
+    -moz-animation-iteration-count: 3;
+
+    -webkit-animation: flash 1s ease-out;
+    -webkit-animation-iteration-count: 3;
+
+    -ms-animation: flash 1s ease-out;
+    -ms-animation-iteration-count: 3;
+}
+
+@keyframes flash {
+    0% { border-color: transparent; }
+    50% { border-color: red; }
+    100% { border-color: transparent; }
+}
+
+@-webkit-keyframes flash {
+    0% { border-color: transparent; }
+    50% { border-color: red; }
+    100% { border-color: transparent; }
+}
+
+@-moz-keyframes flash {
+    0% { border-color: transparent; }
+    50% { border-color: red; }
+    100% { border-color: transparent; }
+}
+
+@-ms-keyframes flash {
+    0% { border-color: transparent; }
+    50% { border-color: red; }
+    100% { border-color: transparent; }
+}

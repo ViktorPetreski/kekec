@@ -59,7 +59,7 @@ public class UserController {
                                @RequestParam String drivingCategory, @RequestParam Integer numberOfLessons) {
 
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.MM.yyyy HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
         LocalDateTime startingTime = LocalDateTime.parse(date, formatter);
         PaymentInfo paymentInfo = paymentInfoService.createPaymentInfo(totalSum, numberOfInstallments, startingTime);
         ContactInfo contactInfo = contactInfoService.createContactInfo(firstName, lastName, phone);
