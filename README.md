@@ -1,3 +1,5 @@
+###TO-DOs
+
 - [ ] ako preostanati casovi e 0 da ne moze da dodava casovi
 - [ ] test za prazen search
 - [ ] test za pregolema suma za rata
