@@ -115,7 +115,14 @@ public class UserController {
     }
 
     @RequestMapping(value = {"/candidate/{id}/payment/{pId}/addSpending"}, method = RequestMethod.POST)
-    public String addSpending(@PathVariable("pId") Long paymentInfoId, @RequestParam String description, @RequestParam Double price, @PathVariable("id") Long candidateId) {
+    public String addSpending(@PathVariable("pId") Long paymentInfoId, @RequestParam Integer lessonNumber,
+                              @RequestParam String description, @RequestParam Double price, @PathVariable("id") Long candidateId) {
+
+        if (description.trim().isEmpty()) {
+            description = lessonNumber + " часови";
+            Candidate candidate = candidateService.getById(candidateId);
+            candidateService.updateCandidate(candidateId, candidate.paymentInfo, candidate.contactInfo, candidate.ssn, candidate.numberOfLessons + lessonNumber, candidate.drivingCategory);
+        }
         AdditionalSpending additionalSpending = spendingService.createSpending(description, price, false);
         paymentInfoService.addSpending(paymentInfoId, additionalSpending.id);
         // candidateService.checkDebt(candidateId);

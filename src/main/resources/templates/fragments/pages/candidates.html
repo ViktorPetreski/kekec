@@ -28,7 +28,7 @@
                     </th>
                 </tr>
 
-                <tr id="candidateInfoRow" th:each="candidate, iter : ${candidates}">
+                <tr th:id="'candidateInfoRow' + ${iter.index}" th:each="candidate, iter : ${candidates}">
 
                     <!--Polozen-->
                     <td id="statusCell" class="text-center"
@@ -54,26 +54,24 @@
                     <!--Rati-->
                     <td id="installmentTable" style="vertical-align: middle; min-width: 45em">
 
-                        <table class="table" style="border: hidden; margin-bottom: 0; background-color: transparent"
-                               id="someTableId">
+                        <table class="table" style="border: hidden; margin-bottom: 0; background-color: transparent" id="someTableId">
                             <tr>
-                                <td th:each="installment : ${candidate.paymentInfo.installments}"
+                                <td th:each="installment,iter : ${candidate.paymentInfo.installments}"
                                     style="border-right: 1px solid; width:8em; padding-left: 1em; vertical-align: middle">
                                     <h5 th:text="'Рок до: ' + ${#temporals.format(installment.dueDate, 'dd/MMM/yyyy')}"></h5>
                                     <h5 th:if="${installment.datePaid != null}"
                                         th:text="'Платена на: ' + ${#temporals.format(installment.datePaid, 'dd/MMM/yyyy')}"></h5>
                                     <form method="post" th:action="@{/installment/{id}/addPrice(id=${installment.id})}">
                                         <div class="input-group mb-2" th:if="${installment.isPaid == false}">
-                                            <input type="text" class="form-control" id="inlineFormInputGroup"
-                                                   name="price">
+                                            <input type="text" class="form-control" th:id="'installmentPrice' + ${iter.index}" name="price"/>
                                             <span class="input-group-addon" style="padding: 3px 3px; font-size: 12px">ден.</span>
                                         </div>
                                         <input hidden="hidden" th:value="${candidate.id}" name="candidateId"/>
                                         <button th:if="${installment.isPaid == false}" type="submit"
-                                                class="btn btn-success btn-block" id="installmentPayButton"
+                                                class="btn btn-success btn-block" th:id="'installmentPayButton' + ${iter.index}"
                                                 style="margin-top: .5rem">Плати
                                         </button>
-                                        <h5 id="largeSumLabel" style="display: none" class="text text-warning">Погрешна
+                                        <h5 th:id="'largeSumLabel' + ${iter.index}" style="display: none" class="text text-warning">Погрешна
                                             сума!!</h5>
                                     </form>
 
@@ -210,7 +208,7 @@
                                         th:text="'Платена на: ' + ${#temporals.format(installment.datePaid, 'dd/MMM/yyyy')}"></h5>
                                     <form method="post" th:action="@{/installment/{id}/addPrice(id=${installment.id})}">
                                         <div class="input-group mb-2" th:if="${installment.isPaid == false}">
-                                            <input type="text" class="form-control" id="inlineFormInputGroup"
+                                            <input type="text" class="form-control" id="inlineFormInputGroupNotPaid"
                                                    name="price">
                                             <span class="input-group-addon">ден.</span>
                                         </div>
@@ -314,22 +312,33 @@
 
 <script>
     $(document).ready(function () {
-        $('#installmentPayButton').on('click', function () {
+
+        var index = 0;
+
+        $("button[id^='installmentPayButton']").on('click', function () {
+            var number = $(this).attr('id');
+            index = number.substr(number.length - 1);
+
             var $installment = $(this).parent().parent();
             var $candidate = $installment.closest('table').parent().closest('tr');
-            console.log("candidateID", $candidate.attr('id'));
-            var installmentSum = parseInt($.trim($installment.find('#inlineFormInputGroup').val()));
+            //console.log("candidateID", $candidate.attr('id'));
+            var installmentSum = parseInt($.trim($('#installmentPrice' + index).val()));
             var inDebtSum = parseFloat($.trim($candidate.find('#InDebtAllUsers').html()));
-            console.log("installment:", installmentSum);
-            console.log("in debt:", inDebtSum);
+           // console.log("installment:", installmentSum);
+           // console.log("in debt:", inDebtSum);
             if (installmentSum > inDebtSum || !installmentSum) {
                 $(this).prop("disabled", true);
-                $installment.find('#largeSumLabel').css({display: ""});
+                $installment.find('#largeSumLabel' + index).css({display: ""});
             }
-        });
-        $('#inlineFormInputGroup').on('input', function () {
-            $('#installmentPayButton').prop("disabled", false)
-        })
+            //console.log("button: ", $(this).attr('id'));
 
-    })
+        });
+
+
+        $("input[id^='installmentPrice']").on('input', function () {
+            $("button[id^='installmentPayButton']").prop("disabled", false);
+            $("h5[id^='largeSumLabel']").css({display : "none"});
+        });
+
+    });
 </script>
