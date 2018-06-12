@@ -27,45 +27,20 @@ public class DrivingLessonsTest {
 
     @BeforeClass
     public static void setUp() throws Exception {
-     System.setProperty("webdriver.chrome.driver", "C:\\Users\\Viktor\\Documents\\skit\\selenium\\chromedriver.exe");
-    //     System.setProperty("webdriver.chrome.driver", "C:\\Users\\Lodi\\chromedriver_win32\\chromedriver.exe");
+//     System.setProperty("webdriver.chrome.driver", "C:\\Users\\Viktor\\Documents\\skit\\selenium\\chromedriver.exe");
+         System.setProperty("webdriver.chrome.driver", "C:\\Users\\Lodi\\chromedriver_win32\\chromedriver.exe");
         ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Beta\\Application\\chrome.exe");
-    //    chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Dev\\Application\\chrome.exe");
+//        chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Beta\\Application\\chrome.exe");
+        chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Dev\\Application\\chrome.exe");
         driver = new ChromeDriver(chromeOptions);
         baseUrl = "http://localhost:8080/allCandidates";
 
-        driver.get(baseUrl);
-
-        driver.findElement(By.linkText("Додади кандидат")).click();
-        driver.findElement(By.id("ssn")).click();
-        driver.findElement(By.id("ssn")).clear();
-        driver.findElement(By.id("ssn")).sendKeys("1111");
-        driver.findElement(By.id("firstName")).clear();
-        driver.findElement(By.id("firstName")).sendKeys("Viktor");
-        driver.findElement(By.id("lastName")).clear();
-        driver.findElement(By.id("lastName")).sendKeys("Petreski");
-        driver.findElement(By.id("totalSum")).clear();
-        driver.findElement(By.id("totalSum")).sendKeys("12000");
-        driver.findElement(By.id("numberOfInstallments")).clear();
-        driver.findElement(By.id("numberOfInstallments")).sendKeys("3");
-        driver.findElement(By.id("phone")).clear();
-        driver.findElement(By.id("phone")).sendKeys("0121212");
-        driver.findElement(By.xpath("//div[@id='datetimepicker1']/span/span")).click();
-        driver.findElement(By.xpath("//div[@id='datetimepicker1']/div/ul/li/div/div/table/tbody/tr[4]/td[3]")).click();
-        // driver.findElement(By.id("drivingCategory")).click();
-        driver.findElement(By.id("drivingCategory")).clear();
-        driver.findElement(By.id("drivingCategory")).sendKeys("B");
-        driver.findElement(By.id("numberOfLessons")).click();
-        driver.findElement(By.id("numberOfLessons")).clear();
-        driver.findElement(By.id("numberOfLessons")).sendKeys("36");
-        driver.findElement(By.name("id")).click();
     }
 
     @Test
     public void testAddNewDrivingLesson(){
         driver.get(baseUrl);
-        WebElement candidate = driver.findElement(By.xpath("//div[@id='allUsers']/table/tbody/tr[3]"));
+        WebElement candidate = driver.findElement(By.id("candidateInfoRow0"));
 
         String oldLessons = candidate.findElement(By.id("lessonsCell")).getText();
 
@@ -80,29 +55,28 @@ public class DrivingLessonsTest {
         driver.findElement(By.xpath("//div[@id='datetimepicker1']/div/ul/li[2]/table/tbody/tr/td/a/span")).click();
         driver.findElement(By.id("calendarIconButton")).click();
 
-        //odberi instruktor so indeks 1
+        //odberi instruktor so indeks 0
         driver.findElement(By.id("instructorId")).click();
         new Select(driver.findElement(By.id("instructorId"))).selectByIndex(1);
         driver.findElement(By.id("instructorId")).click();
 
-        //odberi tip na cas
+        //odberi tip na cas - 2 casa
         driver.findElement(By.id("lessonType")).click();
         new Select(driver.findElement(By.id("lessonType"))).selectByIndex(1);
         driver.findElement(By.id("lessonType")).click();
-        driver.findElement(By.name("id")).click();
+        driver.findElement(By.name("newDrivingLessonButton")).click();
 
-        candidate = driver.findElement(By.xpath("//div[@id='allUsers']/table/tbody/tr[3]"));
+        candidate = driver.findElement(By.id("candidateInfoRow0"));
         String newLessons = candidate.findElement(By.id("lessonsCell")).getText();
 
         assertEquals(2, Integer.valueOf(oldLessons) - Integer.valueOf(newLessons));
 
     }
 
-
     @Test
     public void testCandidateLessonOverview() throws InterruptedException {
         driver.get(baseUrl);
-        WebElement candidate = driver.findElement(By.xpath("//div[@id='allUsers']/table/tbody/tr[3]"));
+        WebElement candidate = driver.findElement(By.id("candidateInfoRow0"));
 
         String numberOfLessons = candidate.findElement(By.id("lessonsCell")).getText();
         String candidateName = candidate.findElement(By.id("nameCell")).getText().replaceAll("\\r\\n|\\r|\\n", " ");
@@ -135,24 +109,28 @@ public class DrivingLessonsTest {
         assertEquals(total + drivenLessons, 36);
     }
 
-    //za prviot instruktor
+    //za prviot instruktor, NE E DOBRO
     @Test
-    public void testInstructorTotalLessons(){
-
+    public void testInstructorTotalLessons() throws InterruptedException {
+        driver.get(baseUrl);
         driver.findElement(By.id("instructorsTab")).click();
-        String Script = "javascript:document.getElementById('linkName').click();";
+//        driver.findElement(By.id("instructor0")).click();
+        String Script = "javascript:document.getElementById('instructor0').click();";
         ((JavascriptExecutor) driver).executeScript(Script);
+        Thread.sleep(1000);
         int total = Integer.valueOf(driver.findElement(By.id("totalLessonsInCategory")).
                 getText().split(" ")[6]);
 
         assertEquals(1, total);
     }
 
-    //prv instruktor, juni 2018
+    //prv instruktor, juni 2018, NE E DOBRO
     @Test
     public void testSearchByMonth(){
+        driver.get(baseUrl);
         driver.findElement(By.id("instructorsTab")).click();
-        String Script = "javascript:document.getElementById('linkName').click();";
+//        driver.findElement(By.id("instructor0")).click();
+        String Script = "javascript:document.getElementById('instructor0').click();";
         ((JavascriptExecutor) driver).executeScript(Script);
 
         driver.findElement(By.xpath("//div[@id='datetimepicker1']/span")).click();
@@ -180,7 +158,7 @@ public class DrivingLessonsTest {
 
     }
 
-    //prv instruktor, maj 2020
+    //prv instruktor, maj 2020, NE E DOBRO
     @Test
     public void testSearchByMonth2(){
         driver.get(baseUrl);
