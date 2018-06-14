@@ -236,7 +236,7 @@
 
                         <table class="table" style="border: hidden; margin-bottom: 0; background-color: transparent">
                             <tr>
-                                <td th:each="additionalSpending : ${candidate.paymentInfo.additionalSpendings}"
+                            <td th:each="additionalSpending : ${candidate.paymentInfo.additionalSpendings}"
                                     style="border-right: 1px solid; width:9em; padding-left: 1em; vertical-align: middle">
                                     <h5 th:text="${additionalSpending.description}"></h5>
                                     <h5 th:text="'Сума:' + ${additionalSpending.price + ' ден.'}"></h5>
@@ -297,11 +297,11 @@
 
         <div id="instructors" class="tab-pane fade">
             <div th:id="'instructor' + ${iter.index}" th:each="instructor, iter : ${instructors}"
-                    style="font-size: 16px; width: 12%"  class="list-group">
+                    style="font-size: 16px; width: 15%"  class="list-group">
                 <a id="linkName" th:href="@{/instructor/{id}/searchByMonth(id=${instructor.id})}">
                     <div id="divName" class="list-group-item">
                         <i class="fa fa-taxi" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;
-                        <h5 id="instructorName" style="display: inline" th:text="${instructor.contactInfo.firstName} + ' ' + ${instructor.contactInfo.lastName}"></h5>
+                        <h5 th:id="instructorName" style="display: inline" th:text="${instructor.contactInfo.firstName} + ' ' + ${instructor.contactInfo.lastName}"></h5>
                     </div>
                 </a>
             </div>

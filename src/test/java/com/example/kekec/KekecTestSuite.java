@@ -9,7 +9,7 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
         JUnitTest.class,
         UpdateCandidateTest.class,
-        AdditionalSpendingTest.class,
+        AdditionalSpendingExtraLessonTest.class,
         DrivingLessonsTest.class,
         FindCandidateTest.class
 })

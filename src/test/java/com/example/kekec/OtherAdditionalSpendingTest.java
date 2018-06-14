@@ -1,8 +1,6 @@
 package com.example.kekec;
 
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.By;
@@ -10,6 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.Select;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -20,58 +19,28 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class AdditionalSpendingTest {
+
+public class OtherAdditionalSpendingTest {
 
     private static WebDriver driver;
     private static String baseUrl;
-    private static boolean setUpIsDone = false;
 
-
-    @Before
-    public void setUp() {
-        if(setUpIsDone){
-            return;
-        }
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\Viktor\\Documents\\skit\\selenium\\chromedriver.exe");
-//         System.setProperty("webdriver.chrome.driver", "C:\\Users\\Lodi\\chromedriver_win32\\chromedriver.exe");
+    @BeforeClass
+    public static void setUp() {
+//        System.setProperty("webdriver.chrome.driver", "C:\\Users\\Viktor\\Documents\\skit\\selenium\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "C:\\Users\\Lodi\\chromedriver_win32\\chromedriver.exe");
         ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Beta\\Application\\chrome.exe");
-//        chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Dev\\Application\\chrome.exe");
+//        chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Beta\\Application\\chrome.exe");
+        chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Dev\\Application\\chrome.exe");
         driver = new ChromeDriver(chromeOptions);
         baseUrl = "http://localhost:8080/allCandidates";
-
         driver.get(baseUrl);
-
-        driver.findElement(By.linkText("Додади кандидат")).click();
-        driver.findElement(By.id("ssn")).click();
-        driver.findElement(By.id("ssn")).clear();
-        driver.findElement(By.id("ssn")).sendKeys("1111");
-        driver.findElement(By.id("firstName")).clear();
-        driver.findElement(By.id("firstName")).sendKeys("Viktor");
-        driver.findElement(By.id("lastName")).clear();
-        driver.findElement(By.id("lastName")).sendKeys("Petreski");
-        driver.findElement(By.id("totalSum")).clear();
-        driver.findElement(By.id("totalSum")).sendKeys("12000");
-        driver.findElement(By.id("numberOfInstallments")).clear();
-        driver.findElement(By.id("numberOfInstallments")).sendKeys("3");
-        driver.findElement(By.id("phone")).clear();
-        driver.findElement(By.id("phone")).sendKeys("0121212");
-        driver.findElement(By.xpath("//div[@id='datetimepicker1']/span/span")).click();
-        driver.findElement(By.xpath("//div[@id='datetimepicker1']/div/ul/li/div/div/table/tbody/tr[4]/td[3]")).click();
-        // driver.findElement(By.id("drivingCategory")).click();
-        driver.findElement(By.id("drivingCategory")).clear();
-        driver.findElement(By.id("drivingCategory")).sendKeys("B");
-        driver.findElement(By.id("numberOfLessons")).click();
-        driver.findElement(By.id("numberOfLessons")).clear();
-        driver.findElement(By.id("numberOfLessons")).sendKeys("36");
-        driver.findElement(By.name("id")).click();
-        setUpIsDone = true;
     }
 
     @Test
-    public void test1NewAdditionalSpending(){
+    public void test1NewAdditionalSpending() throws InterruptedException {
         driver.get(baseUrl);
-        WebElement candidate = driver.findElement(By.xpath("//div[@id='allUsers']/table/tbody/tr[3]"));
+        WebElement candidate = driver.findElement(By.id("candidateInfoRow0"));
 
         candidate
                 .findElement(By.id("aSCell"))
@@ -81,39 +50,66 @@ public class AdditionalSpendingTest {
                 .findElement(By.id("aSAddButton"))
                 .click();
 
-        //descrtption input
-        driver.findElement(By.id("desc")).click();
-        driver.findElement(By.id("desc")).clear();
-        driver.findElement(By.id("desc")).sendKeys("Test description");
+        Thread.sleep(1000);
 
-        //price input
+        //odberi dopolnitelen cas
+        driver.findElement(By.id("aSType")).click();
+        new Select(driver.findElement(By.id("aSType"))).selectByVisibleText("Останато");
+        driver.findElement(By.id("aSType")).click();
+
+        //dodadi opis
+        driver.findElement(By.id("lessonNumber")).click();
+        driver.findElement(By.id("desc")).clear();
+        driver.findElement(By.id("lessonNumber")).sendKeys("Полигон");
+
+        //dodadi cena
         driver.findElement(By.id("price")).click();
         driver.findElement(By.id("price")).clear();
-        driver.findElement(By.id("price")).sendKeys("1500");
+        driver.findElement(By.id("price")).sendKeys("1200");
+
+        Thread.sleep(3000);
 
         driver.findElement(By.id("newSpendingButton")).click();
 
-        candidate = driver.findElement(By.xpath("//div[@id='allUsers']/table/tbody/tr[3]"));
+        candidate = driver.findElement(By.id("candidateInfoRow0"));
         List<WebElement> elements = candidate
                 .findElement(By.id("aSCell"))
                 .findElement(By.id("aSTable"))
                 .findElement(By.id("aSRow"))
                 .findElements(By.tagName("td"));
 
+        Thread.sleep(1000);
         assertTrue(elements.size() > 0);
-        assertEquals(elements.get(0).findElement(By.id("aSDescText")).getText(), "Test description");
-        assertEquals(elements.get(0).findElement(By.id("aSPriceText")).getText(), "Сума:1500.0 ден.");
+        assertEquals(elements.get(1).findElement(By.id("aSDescText")).getText(), "Полигон");
     }
 
     @Test
-    public void test2PayAdditionalSpending(){
+    public void test1NewAdditionalSpendingPrice() throws InterruptedException {
         driver.get(baseUrl);
-        WebElement candidate = driver.findElement(By.xpath("//div[@id='allUsers']/table/tbody/tr[3]"));
+        WebElement candidate = driver.findElement(By.id("candidateInfoRow0"));
+        List<WebElement> elements = candidate
+                .findElement(By.id("aSCell"))
+                .findElement(By.id("aSTable"))
+                .findElement(By.id("aSRow"))
+                .findElements(By.tagName("td"));
+
+        Thread.sleep(2000);
+
+        assertTrue(elements.size() > 0);
+        assertEquals(elements.get(1).findElement(By.id("aSPriceText")).getText(), "Сума:1200.0 ден.");
+    }
+
+    @Test
+    public void test2PayAdditionalSpending() throws InterruptedException {
+        driver.get(baseUrl);
+        WebElement candidate = driver.findElement(By.id("candidateInfoRow0"));
         List<WebElement> additionalSpendings = candidate
                 .findElement(By.id("aSCell"))
                 .findElement(By.id("aSTable"))
                 .findElement(By.id("aSRow"))
                 .findElements(By.id("aSForEach"));
+
+        Thread.sleep(2000);
 
         WebElement additionalSpending = null;
         for (WebElement spending : additionalSpendings){
@@ -135,21 +131,25 @@ public class AdditionalSpendingTest {
                 .findElement(By.id("aSPayButton"))
                 .click();
 
-        candidate = driver.findElement(By.xpath("//div[@id='allUsers']/table/tbody/tr[3]"));
+        Thread.sleep(2000);
+
+        candidate = driver.findElement(By.id("candidateInfoRow0"));
         double newInDebt = Double.valueOf(candidate.findElement(By.id("InDebtAllUsers")).getText().trim().split(" ")[0].trim());
         assertEquals(oldInDebt - newInDebt, additionalSpendingSum);
 
     }
 
     @Test
-    public void test3DatePaid(){
+    public void test3DatePaid() throws InterruptedException {
         driver.get(baseUrl);
-        WebElement candidate = driver.findElement(By.xpath("//div[@id='allUsers']/table/tbody/tr[3]"));
+        WebElement candidate = driver.findElement(By.id("candidateInfoRow0"));
         List<WebElement> additionalSpendings = candidate
                 .findElement(By.id("aSCell"))
                 .findElement(By.id("aSTable"))
                 .findElement(By.id("aSRow"))
                 .findElements(By.id("aSForEach"));
+
+        Thread.sleep(2000);
 
         WebElement additionalSpending = null;
 
@@ -163,6 +163,7 @@ public class AdditionalSpendingTest {
             }
         }
 
+        Thread.sleep(1000);
         assertNotNull(additionalSpending);
         assertTrue(additionalSpending.findElement(By.id("aSIsPaidText")).isDisplayed());
 
@@ -174,5 +175,9 @@ public class AdditionalSpendingTest {
         assertEquals(now, datePaid);
     }
 
+    @AfterClass
+    public static void tearDown() throws Exception {
+        driver.quit();
+    }
 
 }

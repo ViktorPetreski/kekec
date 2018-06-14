@@ -9,4 +9,7 @@
 - [ ] init i destroy na site tests, a ne na sekoj posebno
 - [x] proverka na datumi
 - [ ] da se smeni test za polozen/nepolozen
-- [ ] da se smeni testInstructorTotalLessons 
+- [x] da se smeni testInstructorTotalLessons 
+- [x] da se smeni prebaruvanje vo test2PayAdditionalSpending
+- [ ] test za validnost na datum
+- [ ] testovi za vtor tab - neplatena rata 
