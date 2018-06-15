@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class JUnitTest {
+public class InstallmentPaymentTest {
     public static WebDriver driver;
     public static String baseUrl;
     private boolean acceptNextAlert = true;
@@ -93,45 +93,150 @@ public class JUnitTest {
 
     }
 
+    //Proverka na poraka za pogresna suma (pogolema od dolgot)
     @Test
-    public void test2StatusOfLicence() throws InterruptedException {
+    public void test2PayMoreThanDebtMessage() throws InterruptedException {
         driver.get(baseUrl);
-        WebElement candidate = driver.findElement(By.id("candidateInfoRow0")).findElement(By.name("status"));
-        candidate.click();
-        Thread.sleep(500);
-        candidate = driver.findElement(By.id("candidateInfoRow0")).findElement(By.name("status"));
-        Assert.assertNotNull(candidate.findElement(By.xpath("//i[@class='fa fa-check']")));
+        WebElement candidate = driver.findElement(By.id("candidateInfoRow0"));
+        candidate.findElement(By.id("installmentPrice0")).click();
+        candidate.findElement(By.id("installmentPrice0")).clear();
+        candidate.findElement(By.id("installmentPrice0")).sendKeys("150000");
+        candidate.findElement(By.id("installmentPayButton0")).click();
+
+        String message = driver.
+                findElement(By.id("candidateInfoRow0")).
+                findElement(By.id("largeSumLabel0")).getText();
+        Thread.sleep(2000);
+        assertEquals("Погрешна сума!!",message);
     }
 
+    //Dali se menuva dolgot pri pogresno plakjanje
     @Test
-    public void test3AddInstructor() throws InterruptedException {
+    public void test2PayMoreThanDebt() throws InterruptedException {
         driver.get(baseUrl);
+        WebElement candidate = driver.findElement(By.id("candidateInfoRow0"));
+        String oldDebt = candidate.findElement(By.id("InDebtAllUsers")).getText();
 
-        driver.findElement(By.id("addInstructor")).click();
+        candidate.findElement(By.id("installmentPrice0")).click();
+        candidate.findElement(By.id("installmentPrice0")).clear();
+        candidate.findElement(By.id("installmentPrice0")).sendKeys("150000");
+        candidate.findElement(By.id("installmentPayButton0")).click();
 
-        driver.findElement(By.id("firstName")).click();
-        driver.findElement(By.id("firstName")).clear();
-        driver.findElement(By.id("firstName")).sendKeys("Marko");
+        Thread.sleep(1000);
+        String newDebt = driver.findElement(By.id("candidateInfoRow0")).findElement(By.id("InDebtAllUsers")).getText();
+        assertEquals(oldDebt,newDebt);
 
-        driver.findElement(By.id("lastName")).click();
-        driver.findElement(By.id("lastName")).clear();
-        driver.findElement(By.id("lastName")).sendKeys("Jordanovski");
+    }
 
-        driver.findElement(By.id("phone")).click();
-        driver.findElement(By.id("phone")).clear();
-        driver.findElement(By.id("phone")).sendKeys("071345678");
+    //Proverka na poraka za pogresna suma (==0)
+    @Test
+    public void test3PayInstallmentZeroMessage() throws InterruptedException {
+        driver.get(baseUrl);
+        WebElement candidate = driver.findElement(By.id("candidateInfoRow0"));
+        candidate.findElement(By.id("installmentPrice0")).click();
+        candidate.findElement(By.id("installmentPrice0")).clear();
+        candidate.findElement(By.id("installmentPrice0")).sendKeys("0");
+        candidate.findElement(By.id("installmentPayButton0")).click();
 
-        driver.findElement(By.id("newInstructorButton")).click();
-        driver.findElement(By.id("instructorsTab")).click();
+        String message = driver.
+                findElement(By.id("candidateInfoRow0")).
+                findElement(By.id("largeSumLabel0")).getText();
         Thread.sleep(2000);
+        assertEquals("Погрешна сума!!",message);
+    }
 
-        WebElement instructor = driver.findElement(By.id("instructor0"));
-        assertEquals("Marko Jordanovski", instructor.findElement(By.id("divName")).findElement(By.id("instructorName")).getText());
+    //Dali se menuva dolgot pri pogresno plakjanje
+    @Test
+    public void test3PayInstallmentZero() throws InterruptedException {
+        driver.get(baseUrl);
+        WebElement candidate = driver.findElement(By.id("candidateInfoRow0"));
+        String oldDebt = candidate.findElement(By.id("InDebtAllUsers")).getText();
+
+        candidate.findElement(By.id("installmentPrice0")).click();
+        candidate.findElement(By.id("installmentPrice0")).clear();
+        candidate.findElement(By.id("installmentPrice0")).sendKeys("0");
+        candidate.findElement(By.id("installmentPayButton0")).click();
+
+        Thread.sleep(1000);
+        String newDebt = driver.findElement(By.id("candidateInfoRow0")).findElement(By.id("InDebtAllUsers")).getText();
+        assertEquals(oldDebt,newDebt);
+
+    }
+
+    //Proverka na poraka za pogresna suma ("money")
+    @Test
+    public void test4PayInstallmentStringMessage() throws InterruptedException {
+        driver.get(baseUrl);
+        WebElement candidate = driver.findElement(By.id("candidateInfoRow0"));
+        candidate.findElement(By.id("installmentPrice0")).click();
+        candidate.findElement(By.id("installmentPrice0")).clear();
+        candidate.findElement(By.id("installmentPrice0")).sendKeys("money");
+        candidate.findElement(By.id("installmentPayButton0")).click();
+
+        String message = driver.
+                findElement(By.id("candidateInfoRow0")).
+                findElement(By.id("largeSumLabel0")).getText();
+        Thread.sleep(2000);
+        assertEquals("Погрешна сума!!",message);
+    }
+
+    //Moze da se izbrise, String nema da vlijae vrz dolg
+    //Dali se menuva dolgot pri pogresno plakjanje
+    @Test
+    public void test4PayInstallmentString() throws InterruptedException {
+        driver.get(baseUrl);
+        WebElement candidate = driver.findElement(By.id("candidateInfoRow0"));
+        String oldDebt = candidate.findElement(By.id("InDebtAllUsers")).getText();
+
+        candidate.findElement(By.id("installmentPrice0")).click();
+        candidate.findElement(By.id("installmentPrice0")).clear();
+        candidate.findElement(By.id("installmentPrice0")).sendKeys("money");
+        candidate.findElement(By.id("installmentPayButton0")).click();
+
+        Thread.sleep(1000);
+        String newDebt = driver.findElement(By.id("candidateInfoRow0")).findElement(By.id("InDebtAllUsers")).getText();
+        assertEquals(oldDebt,newDebt);
+
+    }
+
+    //Proverka na poraka za pogresna suma (==0)
+    @Test
+    public void test5PayInstallmentNegativeMessage() throws InterruptedException {
+        driver.get(baseUrl);
+        WebElement candidate = driver.findElement(By.id("candidateInfoRow0"));
+        candidate.findElement(By.id("installmentPrice0")).click();
+        candidate.findElement(By.id("installmentPrice0")).clear();
+        candidate.findElement(By.id("installmentPrice0")).sendKeys("-5000");
+        candidate.findElement(By.id("installmentPayButton0")).click();
+
+        String message = driver.
+                findElement(By.id("candidateInfoRow0")).
+                findElement(By.id("largeSumLabel0")).getText();
+        Thread.sleep(2000);
+        assertEquals("Погрешна сума!!",message);
+    }
+
+    //Dali se menuva dolgot pri pogresno plakjanje
+    @Test
+    public void test5PayInstallmentNegative() throws InterruptedException {
+        driver.get(baseUrl);
+        WebElement candidate = driver.findElement(By.id("candidateInfoRow0"));
+        String oldDebt = candidate.findElement(By.id("InDebtAllUsers")).getText();
+
+        candidate.findElement(By.id("installmentPrice0")).click();
+        candidate.findElement(By.id("installmentPrice0")).clear();
+        candidate.findElement(By.id("installmentPrice0")).sendKeys("-5000");
+        candidate.findElement(By.id("installmentPayButton0")).click();
+
+        Thread.sleep(1000);
+        String newDebt = driver.findElement(By.id("candidateInfoRow0")).findElement(By.id("InDebtAllUsers")).getText();
+        assertEquals(oldDebt,newDebt);
+
     }
 
     //Plakjanje na prva rata - dali stariot i noviot dolg se razlicni
     @Test
-    public void test4PayInstallmentPositive() throws InterruptedException {
+    public void test6PayInstallmentPositive() throws InterruptedException {
         driver.get(baseUrl);
         WebElement candidate = driver.findElement(By.id("candidateInfoRow0"));
         candidate.findElement(By.id("installmentPrice0")).click();
@@ -150,7 +255,7 @@ public class JUnitTest {
 
     //Plakjanje na prva rata - dali vneseniot iznos e ednakov so plateniot
     @Test
-    public void test4PayInstallmentPositive2() throws InterruptedException {
+    public void test7PayInstallmentPositive2() throws InterruptedException {
         driver.get(baseUrl);
         WebElement candidate = driver.findElement(By.id("candidateInfoRow0"));
         String installment = candidate.findElement(By.id("installment0")).getText();
@@ -158,16 +263,7 @@ public class JUnitTest {
     }
 
     @Test
-    public void test5facebookRedirect() throws InterruptedException {
-        driver.get(baseUrl);
-        driver.findElement(By.id("fbLink")).click();
-        Thread.sleep(1000);
-        assertEquals("https://www.facebook.com/avtoskolakekec/", driver.getCurrentUrl());
-    }
-
-
-    @Test
-    public void test6removeCandidate() throws InterruptedException {
+    public void test8removeCandidate() throws InterruptedException {
         driver.get("http://localhost:8080/allCandidates");
         driver
                 .findElement(By.id("candidateInfoRow0"))
@@ -187,7 +283,6 @@ public class JUnitTest {
         }
 
     }
-
 
     @AfterClass
     public static void tearDown() throws Exception {

@@ -1,6 +1,7 @@
 package com.example.kekec;
 
 import org.junit.*;
+import org.junit.runners.MethodSorters;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -17,6 +18,7 @@ import java.util.List;
 import static junit.framework.TestCase.fail;
 import static org.junit.jupiter.api.Assertions.*;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class DrivingLessonsTest {
 
     public static WebDriver driver;
@@ -38,7 +40,36 @@ public class DrivingLessonsTest {
     }
 
     @Test
-    public void testAddNewDrivingLesson(){
+    public void test1AddInstructor() throws InterruptedException {
+        driver.get(baseUrl);
+
+        driver.findElement(By.id("addInstructor")).click();
+
+        driver.findElement(By.id("firstName")).click();
+        driver.findElement(By.id("firstName")).clear();
+        driver.findElement(By.id("firstName")).sendKeys("Marko");
+
+        driver.findElement(By.id("lastName")).click();
+        driver.findElement(By.id("lastName")).clear();
+        driver.findElement(By.id("lastName")).sendKeys("Jordanovski");
+
+        driver.findElement(By.id("phone")).click();
+        driver.findElement(By.id("phone")).clear();
+        driver.findElement(By.id("phone")).sendKeys("071345678");
+
+        Thread.sleep(3000);
+
+        driver.findElement(By.id("newInstructorButton")).click();
+        driver.findElement(By.id("instructorsTab")).click();
+        Thread.sleep(2000);
+
+        WebElement instructor = driver.findElement(By.id("instructor0"));
+        assertEquals("Marko Jordanovski", instructor.findElement(By.id("divName")).findElement(By.id("instructorName")).getText());
+    }
+
+
+    @Test
+    public void test2AddTwoDrivingLessons() throws InterruptedException {
         driver.get(baseUrl);
         WebElement candidate = driver.findElement(By.id("candidateInfoRow0"));
 
@@ -51,11 +82,11 @@ public class DrivingLessonsTest {
 
         //odberi datum
         driver.findElement(By.id("calendarIconButton")).click();
-        driver.findElement(By.xpath("//div[@id='datetimepicker1']/div/ul/li/div/div/table/tbody/tr[3]/td[5]")).click();
+        driver.findElement(By.xpath("//div[@id='datetimepicker1']/div/ul/li/div/div/table/tbody/tr[4]/td[5]")).click();
         driver.findElement(By.xpath("//div[@id='datetimepicker1']/div/ul/li[2]/table/tbody/tr/td/a/span")).click();
         driver.findElement(By.id("calendarIconButton")).click();
 
-        //odberi instruktor so indeks 0
+        //odberi go prviot instruktor
         driver.findElement(By.id("instructorId")).click();
         new Select(driver.findElement(By.id("instructorId"))).selectByIndex(1);
         driver.findElement(By.id("instructorId")).click();
@@ -64,6 +95,9 @@ public class DrivingLessonsTest {
         driver.findElement(By.id("lessonType")).click();
         new Select(driver.findElement(By.id("lessonType"))).selectByIndex(1);
         driver.findElement(By.id("lessonType")).click();
+
+        Thread.sleep(3000);
+
         driver.findElement(By.name("newDrivingLessonButton")).click();
 
         candidate = driver.findElement(By.id("candidateInfoRow0"));
@@ -74,17 +108,61 @@ public class DrivingLessonsTest {
     }
 
     @Test
-    public void testCandidateLessonOverview() throws InterruptedException {
+    public void test3AddOneDrivingLesson() throws InterruptedException {
+        driver.get(baseUrl);
+        WebElement candidate = driver.findElement(By.id("candidateInfoRow0"));
+
+        String oldLessons = candidate.findElement(By.id("lessonsCell")).getText();
+
+        candidate
+                .findElement(By.id("updateCell"))
+                .findElement(By.id("addDrivingLessonButton"))
+                .click();
+
+        //odberi datum
+        driver.findElement(By.id("calendarIconButton")).click();
+        driver.findElement(By.xpath("//div[@id='datetimepicker1']/div/ul/li/div/div/table/tbody/tr[4]/td[6]")).click();
+        driver.findElement(By.xpath("//div[@id='datetimepicker1']/div/ul/li[2]/table/tbody/tr/td/a/span")).click();
+        driver.findElement(By.id("calendarIconButton")).click();
+
+        //odberi go prviot instruktor
+        driver.findElement(By.id("instructorId")).click();
+        new Select(driver.findElement(By.id("instructorId"))).selectByIndex(1);
+        driver.findElement(By.id("instructorId")).click();
+
+        //odberi tip na cas - 1 cas
+        driver.findElement(By.id("lessonType")).click();
+        new Select(driver.findElement(By.id("lessonType"))).selectByIndex(2);
+        driver.findElement(By.id("lessonType")).click();
+
+        Thread.sleep(3000);
+
+        driver.findElement(By.name("newDrivingLessonButton")).click();
+
+        candidate = driver.findElement(By.id("candidateInfoRow0"));
+        String newLessons = candidate.findElement(By.id("lessonsCell")).getText();
+
+        assertEquals(1, Integer.valueOf(oldLessons) - Integer.valueOf(newLessons));
+
+    }
+
+
+    //Dali brojot na izvozeni i neizvozeni casovi se poklopuva so vkupniot broj na casovi
+    @Test
+    public void test4CandidateLessonOverview() throws InterruptedException {
         driver.get(baseUrl);
         WebElement candidate = driver.findElement(By.id("candidateInfoRow0"));
 
         String numberOfLessons = candidate.findElement(By.id("lessonsCell")).getText();
         String candidateName = candidate.findElement(By.id("nameCell")).getText().replaceAll("\\r\\n|\\r|\\n", " ");
+        Thread.sleep(1000);
 
         candidate
                 .findElement(By.id("updateCell"))
                 .findElement(By.id("lessonOverviewButton"))
                 .click();
+
+        Thread.sleep(2000);
 
         String candidateNameLessonOverview = driver.findElement(By.id("candidateInfoInLessons")).getText().split(":")[1].trim();
         assertEquals(candidateName, candidateNameLessonOverview);
@@ -111,7 +189,7 @@ public class DrivingLessonsTest {
 
     //za prviot instruktor, juni 2018
     @Test
-    public void testInstructorTotalLessonsInCategory() throws InterruptedException {
+    public void test5InstructorTotalLessonsInCategory() throws InterruptedException {
         driver.get(baseUrl);
         driver.findElement(By.id("instructorsTab")).click();
         Thread.sleep(1000);
@@ -119,6 +197,7 @@ public class DrivingLessonsTest {
 
         WebElement lessons = driver.findElement(By.id("tableWithLessons")).findElement(By.id("sortedLessons")).
                 findElement(By.id("totalLessonsInCategory"));
+        Thread.sleep(2000);
 
 //   ne brisi
 //        int total = Integer.valueOf(lessons.getText().split(" ")[6]);
@@ -130,7 +209,7 @@ public class DrivingLessonsTest {
 
     //za prviot instruktor, juni 2018
     @Test
-    public void testInstructorTotalLessons() throws InterruptedException {
+    public void test6InstructorTotalLessons() throws InterruptedException {
         driver.get(baseUrl);
         driver.findElement(By.id("instructorsTab")).click();
         Thread.sleep(1000);
@@ -157,7 +236,7 @@ public class DrivingLessonsTest {
 
     //prv instruktor, juni 2018
     @Test
-    public void testSearchByMonth() throws InterruptedException {
+    public void test7SearchByMonth() throws InterruptedException {
         driver.get(baseUrl);
         driver.findElement(By.id("instructorsTab")).click();
         Thread.sleep(1000);
@@ -193,7 +272,7 @@ public class DrivingLessonsTest {
 
     //prv instruktor, maj 2020
     @Test
-    public void testSearchByMonthInTheFuture() throws InterruptedException {
+    public void test8SearchByMonthInTheFuture() throws InterruptedException {
         driver.get(baseUrl);
         driver.findElement(By.id("instructorsTab")).click();
         Thread.sleep(1000);

@@ -328,7 +328,7 @@
             var inDebtSum = parseFloat($.trim($candidate.find('#InDebtAllUsers').html()));
            // console.log("installment:", installmentSum);
            // console.log("in debt:", inDebtSum);
-            if (installmentSum > inDebtSum || !installmentSum) {
+            if (installmentSum > inDebtSum || !installmentSum || installmentSum < 0) {
                 $(this).prop("disabled", true);
                 $installment.find('#largeSumLabel' + index).css({display: ""});
             }

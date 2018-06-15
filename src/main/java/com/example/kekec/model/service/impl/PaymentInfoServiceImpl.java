@@ -133,7 +133,7 @@ public class PaymentInfoServiceImpl implements PaymentInfoService {
         //totalDebt += paymentInfo.additionalSpendings.stream().filter(additionalSpending -> additionalSpending.isPaid).mapToDouble(as -> as.price).sum();
         totalDebt -= paymentInfo.additionalSpendings.stream().filter(additionalSpending -> !additionalSpending.isPaid).mapToDouble(as -> as.price).sum();
         double sum = paymentInfo.totalSum - totalDebt;
-        if(sum > 0)
+        if(sum >= 0)
             return sum;
         else throw new NullPointerException();
     }

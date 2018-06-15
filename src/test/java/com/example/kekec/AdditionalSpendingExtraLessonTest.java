@@ -37,7 +37,7 @@ public class AdditionalSpendingExtraLessonTest {
     }
 
     @Test
-    public void test1NewAdditionalSpending() throws InterruptedException {
+    public void test1AddExtraLesson() throws InterruptedException {
         driver.get(baseUrl);
         WebElement candidate = driver.findElement(By.id("candidateInfoRow0"));
 
@@ -83,7 +83,7 @@ public class AdditionalSpendingExtraLessonTest {
     }
 
     @Test
-    public void test1NewAdditionalSpendingPrice() throws InterruptedException {
+    public void test2NewExtraLessonPrice() throws InterruptedException {
         driver.get(baseUrl);
         WebElement candidate = driver.findElement(By.id("candidateInfoRow0"));
         List<WebElement> elements = candidate
@@ -99,7 +99,7 @@ public class AdditionalSpendingExtraLessonTest {
     }
 
     @Test
-    public void test2PayAdditionalSpending() throws InterruptedException {
+    public void test3PayAdditionalSpendingExtraLesson() throws InterruptedException {
         driver.get(baseUrl);
         WebElement candidate = driver.findElement(By.id("candidateInfoRow0"));
         List<WebElement> additionalSpendings = candidate
@@ -109,6 +109,9 @@ public class AdditionalSpendingExtraLessonTest {
                 .findElements(By.id("aSForEach"));
 
         Thread.sleep(2000);
+
+        String desc = "";
+        double additionalSpendingSum = -1.0;
 
         WebElement additionalSpending = null;
         for (WebElement spending : additionalSpendings){
@@ -122,24 +125,34 @@ public class AdditionalSpendingExtraLessonTest {
 
         assertNotNull(additionalSpending);
 
-        double additionalSpendingSum = Double.valueOf(additionalSpending.findElement(By.id("aSPriceText")).getText().split(":")[1].trim().split(" ")[0].trim());
-        double oldInDebt = Double.valueOf(candidate.findElement(By.id("InDebtAllUsers")).getText().trim().split(" ")[0].trim());
+        for(WebElement spending : additionalSpendings){
+            desc = spending.findElement(By.id("aSDescText")).getText();
+            additionalSpendingSum = Double.valueOf(additionalSpending.findElement(By.id("aSPriceText")).getText().split(":")[1].trim().split(" ")[0].trim());
+            if (desc.equals("1 часови") && additionalSpendingSum == 1500){
+                additionalSpending = spending;
+                break;
+            }
+        }
 
-        additionalSpending
-                .findElement(By.id("aSPayForm"))
-                .findElement(By.id("aSPayButton"))
-                .click();
+        if (additionalSpendingSum != -1) {
+//        double additionalSpendingSum = Double.valueOf(additionalSpending.findElement(By.id("aSPriceText")).getText().split(":")[1].trim().split(" ")[0].trim());
+            double oldInDebt = Double.valueOf(candidate.findElement(By.id("InDebtAllUsers")).getText().trim().split(" ")[0].trim());
 
-        Thread.sleep(2000);
+            additionalSpending
+                    .findElement(By.id("aSPayForm"))
+                    .findElement(By.id("aSPayButton"))
+                    .click();
 
-        candidate = driver.findElement(By.id("candidateInfoRow0"));
-        double newInDebt = Double.valueOf(candidate.findElement(By.id("InDebtAllUsers")).getText().trim().split(" ")[0].trim());
-        assertEquals(oldInDebt - newInDebt, additionalSpendingSum);
+            Thread.sleep(2000);
 
+            candidate = driver.findElement(By.id("candidateInfoRow0"));
+            double newInDebt = Double.valueOf(candidate.findElement(By.id("InDebtAllUsers")).getText().trim().split(" ")[0].trim());
+            assertEquals(oldInDebt - newInDebt, additionalSpendingSum);
+        }
     }
 
     @Test
-    public void test3DatePaid() throws InterruptedException {
+    public void test4ExtraLessonPaymentStatus() throws InterruptedException {
         driver.get(baseUrl);
         WebElement candidate = driver.findElement(By.id("candidateInfoRow0"));
         List<WebElement> additionalSpendings = candidate
@@ -164,7 +177,57 @@ public class AdditionalSpendingExtraLessonTest {
 
         Thread.sleep(1000);
         assertNotNull(additionalSpending);
+
+        String desc = "";
+        double additionalSpendingSum = -1;
+        for(WebElement spending : additionalSpendings){
+            desc = spending.findElement(By.id("aSDescText")).getText();
+            additionalSpendingSum = Double.valueOf(additionalSpending.findElement(By.id("aSPriceText")).getText().split(":")[1].trim().split(" ")[0].trim());
+            if (desc.equals("1 часови") && additionalSpendingSum == 1500){
+                additionalSpending = spending;
+                break;
+            }
+        }
         assertTrue(additionalSpending.findElement(By.id("aSIsPaidText")).isDisplayed());
+    }
+
+    @Test
+    public void test5ExtraLessonDatePaid() throws InterruptedException {
+        driver.get(baseUrl);
+        WebElement candidate = driver.findElement(By.id("candidateInfoRow0"));
+        List<WebElement> additionalSpendings = candidate
+                .findElement(By.id("aSCell"))
+                .findElement(By.id("aSTable"))
+                .findElement(By.id("aSRow"))
+                .findElements(By.id("aSForEach"));
+
+        Thread.sleep(2000);
+
+        WebElement additionalSpending = null;
+
+        for (WebElement spending : additionalSpendings){
+            try {
+                spending.findElement(By.id("aSIsPaidText"));
+                additionalSpending = spending;
+            }
+            catch (org.openqa.selenium.NoSuchElementException e) {
+                e.printStackTrace();
+            }
+        }
+
+        Thread.sleep(1000);
+        assertNotNull(additionalSpending);
+
+        String desc = "";
+        double additionalSpendingSum = -1;
+        for(WebElement spending : additionalSpendings){
+            desc = spending.findElement(By.id("aSDescText")).getText();
+            additionalSpendingSum = Double.valueOf(additionalSpending.findElement(By.id("aSPriceText")).getText().split(":")[1].trim().split(" ")[0].trim());
+            if (desc.equals("1 часови") && additionalSpendingSum == 1500){
+                additionalSpending = spending;
+                break;
+            }
+        }
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MMM/yyyy");
         String date = additionalSpending.findElement(By.id("aSdatePaidText")).getText().split(":")[1].trim();
