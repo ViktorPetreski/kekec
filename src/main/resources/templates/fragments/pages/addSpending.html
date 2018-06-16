@@ -5,8 +5,8 @@
             <label for="aSType">Одбери дополнителен трошок: </label>
             <select class="form-control" id="aSType" name="aSType" required>
                 <option selected disabled hidden></option>
-                <option th:value="1">Дополнителен час</option>
-                <option th:value="2">Останато</option>
+                <option th:id="extraLesson" th:value="1">Дополнителен час</option>
+                <option th:id="otherSpending" th:value="2">Останато</option>
             </select>
         </div>
         <fieldset id="other" style="display: none" class="form-group">

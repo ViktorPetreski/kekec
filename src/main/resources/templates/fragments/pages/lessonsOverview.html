@@ -10,8 +10,8 @@
             <div id="panelDiv" class="panel panel-default text-center">
                 <div id="panelHeadingDiv" class="panel-heading" th:text="'Час #' + ${iter.index + 1}"></div>
                 <div id="panelBodyDiv" class="panel-body">
-                    <h5 th:text="'Инструктор: ' + ${lesson.instructor.contactInfo.firstName} + ' ' + ${lesson.instructor.contactInfo.lastName}"></h5>
-                    <h5 th:text="'Датум: ' + ${#temporals.format(lesson.dateTaken, 'dd/MMM/yyyy HH:mm')}"></h5>
+                    <h5 id="instructorName" th:text="'Инструктор: ' + ${lesson.instructor.contactInfo.firstName} + ' ' + ${lesson.instructor.contactInfo.lastName}"></h5>
+                    <h5 id="date" th:text="'Датум: ' + ${#temporals.format(lesson.dateTaken, 'dd/MMM/yyyy HH:mm')}"></h5>
                     <h5 id="lessonTypeText" th:text="'Тип: ' + ${lesson.type}"></h5>
                 </div>
             </div>

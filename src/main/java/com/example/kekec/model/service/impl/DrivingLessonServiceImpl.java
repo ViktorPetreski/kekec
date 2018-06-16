@@ -62,7 +62,7 @@ public class DrivingLessonServiceImpl implements DrivingLessonService {
     }
 
     private LocalDateTime stringToDate(String date) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.MM.yyyy HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
         return LocalDateTime.parse(date, formatter);
     }
 
