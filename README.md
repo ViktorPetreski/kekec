@@ -13,9 +13,9 @@
 - [x] da se smeni prebaruvanje vo test2PayAdditionalSpending
 - [x] test za validnost na datum
 - [ ] testovi za vtor tab - neplatena rata!! 
-    *[ ] datumot na ratata pred denesniot
-    *[ ] edna rata neplatena, no dolgot podmiren
-    *[ ] plakjanje na neplatena rata i trganje na kanidat od tabelata
+    * datumot na ratata pred denesniot
+    * edna rata neplatena, no dolgot podmiren
+    * plakjanje na neplatena rata i trganje na kanidat od tabelata
 - [x] dodavanje na kandidat so prazni polinja!!
 - [x] dodadi instruktor -> funkcija za required (select)
 - [ ] \(Optional) polozen da ne moze da se klika ako preostanati casovi > 0
