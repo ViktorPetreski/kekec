@@ -1,7 +1,7 @@
 ### TO-DOs
 
 - [x] ako preostanati casovi e 0 da ne moze da dodava casovi
-- [ ] test za prazen search - nema potreba ? 
+- [ ] test za prazen search 
 - [x] test za pregolema suma za rata
 - [x] test za ne numericki input za rata
 - [x] podobar interfejs za dodatni trosoci kaj so ke moze da selektira dodatni casovi i sami da se dodadat na preostanati casovi ili ostanato kaj so ke pise random description
@@ -13,5 +13,5 @@
 - [x] da se smeni prebaruvanje vo test2PayAdditionalSpending
 - [x] test za validnost na datum
 - [ ] testovi za vtor tab - neplatena rata!! 
-- [ ] dodavanje na kandidat so prazni polinja!!
-- [ ] dodadi instruktor -> funkcija za required ? 
+- [x] dodavanje na kandidat so prazni polinja!!
+- [ ] dodadi instruktor -> funkcija za required (select)

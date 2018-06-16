@@ -3,7 +3,6 @@ package com.example.kekec;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.AfterAll;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -42,7 +41,7 @@ public class FindCandidateTest {
     }
 
     @Test
-    public void findExistingCandidateTest() throws InterruptedException {
+    public void findExistingCandidateByNameTest() throws InterruptedException {
         driver.get(baseUrl);
         String queryString = "Lodi";
         driver.findElement(By.name("query")).click();
@@ -56,13 +55,14 @@ public class FindCandidateTest {
         String phone = candidate.findElement(By.id("phoneCell")).getText();
 
         boolean flag = name.split(" ")[0].equalsIgnoreCase(queryString) ||
-                name.split(" ")[1].equalsIgnoreCase(queryString) || phone.equalsIgnoreCase(queryString);
+                name.split(" ")[1].equalsIgnoreCase(queryString)
+                || name.equalsIgnoreCase(queryString) || phone.equalsIgnoreCase(queryString);
         assertTrue(flag);
 
     }
 
     @Test
-    public void findExistingCandidateTest2() throws InterruptedException {
+    public void findExistingCandidateByNameTest2() throws InterruptedException {
         driver.get(baseUrl);
         String queryString = "Lodi";
         driver.findElement(By.name("query")).click();
@@ -106,7 +106,8 @@ public class FindCandidateTest {
         String phone = candidate.findElement(By.id("phoneCell")).getText();
 
         boolean flag = name.split(" ")[0].equalsIgnoreCase(queryString) ||
-                name.split(" ")[1].equalsIgnoreCase(queryString) || phone.equalsIgnoreCase(queryString);
+                name.split(" ")[1].equalsIgnoreCase(queryString)
+                || name.equalsIgnoreCase(queryString) || phone.equalsIgnoreCase(queryString);
         assertTrue(flag);
 
     }
@@ -131,9 +132,9 @@ public class FindCandidateTest {
             WebElement tmp = elements.get(i);
             String name = tmp.findElement(By.id("nameCell")).getText().replaceAll("\\r\\n|\\r|\\n", " ");
             String phone = tmp.findElement(By.id("phoneCell")).getText().trim();
-            flag = flag && (name.split(" ")[0].equalsIgnoreCase(queryString) ||
-                    name.split(" ")[1].equalsIgnoreCase(queryString) ||
-                    phone.equalsIgnoreCase(queryString));
+            flag = name.split(" ")[0].equalsIgnoreCase(queryString) ||
+                    name.split(" ")[1].equalsIgnoreCase(queryString)
+                    || name.equalsIgnoreCase(queryString) || phone.equalsIgnoreCase(queryString);
         }
 
         assertTrue(flag);
