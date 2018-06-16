@@ -144,7 +144,7 @@
                         <a th:href="@{/candidate/{id}/addDrivingLesson(id=${candidate.id})}">
                             <button id="addDrivingLessonButton" style="margin-top: .5em" class="btn btn-info btn-block"><span
                                     class="fa fa-car"
-                                    aria-hidden="true"> Нов час</span>
+                                    aria-hidden="true" th:disabled="${candidate.numberOfLessons} lt 1"> Нов час</span>
                             </button>
                         </a>
                         <a th:href="@{/candidate/{id}/lessonsOverview(id=${candidate.id})}">
