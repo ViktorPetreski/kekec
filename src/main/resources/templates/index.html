@@ -159,7 +159,7 @@
         var notLocked = true;
         $('#query').on('input', function () {
             if(!$.trim(this.value).length) {
-                $('#emptySearchLabel').css({display: "block"});
+              //  $('#emptySearchLabel').css({display: "block"});
                 $(this).addClass("flash");
                 $('#searchButton').prop("disabled", true);
             }

@@ -11,7 +11,7 @@ import org.junit.runners.Suite;
         UpdateCandidateTest.class,
         AdditionalSpendingExtraLessonTest.class,
         DrivingLessonsTest.class,
-        FindCandidateTest.class
+        FindNonExistingCandidate.class
 })
 
 public class KekecTestSuite {

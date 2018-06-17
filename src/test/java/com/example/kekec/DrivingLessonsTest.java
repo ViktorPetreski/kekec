@@ -39,6 +39,7 @@ public class DrivingLessonsTest {
 
     }
 
+    //Dodavanje na nov instruktor
     @Test
     public void test1AddInstructor() throws InterruptedException {
         driver.get(baseUrl);
@@ -68,6 +69,7 @@ public class DrivingLessonsTest {
     }
 
 
+    //Dodavanje na casovi za vozenje - opcija "2 casa"
     @Test
     public void test2AddTwoDrivingLessons() throws InterruptedException {
         driver.get(baseUrl);
@@ -107,6 +109,7 @@ public class DrivingLessonsTest {
 
     }
 
+    //Dodavanje na casovi za vozenje - opcija "1 cas"
     @Test
     public void test3AddOneDrivingLesson() throws InterruptedException {
         driver.get(baseUrl);
@@ -145,7 +148,6 @@ public class DrivingLessonsTest {
         assertEquals(1, Integer.valueOf(oldLessons) - Integer.valueOf(newLessons));
 
     }
-
 
     //Dali brojot na izvozeni i neizvozeni casovi se poklopuva so vkupniot broj na casovi
     @Test
@@ -187,7 +189,7 @@ public class DrivingLessonsTest {
         assertEquals(total + drivenLessons, 36);
     }
 
-    //za prviot instruktor, juni 2018
+    //Broj na zakazani casovi kaj prviot instruktor, juni 2018
     @Test
     public void test5InstructorTotalLessonsInCategory() throws InterruptedException {
         driver.get(baseUrl);
@@ -207,7 +209,7 @@ public class DrivingLessonsTest {
         assertEquals(total,"Број на часови во оваа категoрија: 2");
     }
 
-    //za prviot instruktor, juni 2018
+    //Vkupen broj na zakazani casovi (sum(1 cas, 2 casa)) kaj prviot instruktor, juni 2018
     @Test
     public void test6InstructorTotalLessons() throws InterruptedException {
         driver.get(baseUrl);
@@ -234,7 +236,7 @@ public class DrivingLessonsTest {
         assertEquals(3,total);
     }
 
-    //prv instruktor, juni 2018
+    //Prebaruvanje po mesec, prv instruktor, juni 2018
     @Test
     public void test7SearchByMonth() throws InterruptedException {
         driver.get(baseUrl);
@@ -270,7 +272,7 @@ public class DrivingLessonsTest {
 
     }
 
-    //prv instruktor, maj 2020
+    //Prebaruvanje po mesec, prv instruktor, maj 2020
     @Test
     public void test8SearchByMonthInTheFuture() throws InterruptedException {
         driver.get(baseUrl);

@@ -37,6 +37,7 @@ public class OtherAdditionalSpendingTest {
         driver.get(baseUrl);
     }
 
+    //Dodavanje na nov dodaten trosok - opcija "ostanato"
     @Test
     public void test1AddOtherAdditionalSpending() throws InterruptedException {
         driver.get(baseUrl);
@@ -52,7 +53,7 @@ public class OtherAdditionalSpendingTest {
 
         Thread.sleep(1000);
 
-        //odberi dopolnitelen cas
+        //odberi "ostanato"
         driver.findElement(By.id("aSType")).click();
         new Select(driver.findElement(By.id("aSType"))).selectByVisibleText("Останато");
         driver.findElement(By.id("aSType")).click();
@@ -83,8 +84,9 @@ public class OtherAdditionalSpendingTest {
         assertEquals(elements.get(1).findElement(By.id("aSDescText")).getText(), "Полигон");
     }
 
+    //Dali zapisanata cena na noviot trosok e ista kako i vnesenata
     @Test
-    public void test1NewAdditionalSpendingPrice() throws InterruptedException {
+    public void test2NewAdditionalSpendingPrice() throws InterruptedException {
         driver.get(baseUrl);
         WebElement candidate = driver.findElement(By.id("candidateInfoRow0"));
         List<WebElement> elements = candidate
@@ -99,6 +101,7 @@ public class OtherAdditionalSpendingTest {
         assertEquals(elements.get(1).findElement(By.id("aSPriceText")).getText(), "Сума:1200.0 ден.");
     }
 
+    //Plakjanje na dodatniot trosok
     @Test
     public void test3PayOtherAdditionalSpending() throws InterruptedException {
         driver.get(baseUrl);
@@ -113,45 +116,34 @@ public class OtherAdditionalSpendingTest {
 
         String desc = "";
         double additionalSpendingSum = -1.0;
-
         WebElement additionalSpending = null;
-        for (WebElement spending : additionalSpendings){
-            try {
-                spending.findElement(By.id("aSIsPaidText"));
-            }
-            catch (org.openqa.selenium.NoSuchElementException e) {
-                additionalSpending = spending;
-            }
-        }
-
-        assertNotNull(additionalSpending);
 
         for(WebElement spending : additionalSpendings){
             desc = spending.findElement(By.id("aSDescText")).getText();
-            additionalSpendingSum = Double.valueOf(additionalSpending.findElement(By.id("aSPriceText")).getText().split(":")[1].trim().split(" ")[0].trim());
+            additionalSpendingSum = Double.valueOf(spending.findElement(By.id("aSPriceText")).getText().split(":")[1].trim().split(" ")[0].trim());
             if (desc.equals("Полигон") && additionalSpendingSum == 1200){
                 additionalSpending = spending;
                 break;
             }
         }
 
-        if (additionalSpendingSum != -1) {
-//        double additionalSpendingSum = Double.valueOf(additionalSpending.findElement(By.id("aSPriceText")).getText().split(":")[1].trim().split(" ")[0].trim());
-            double oldInDebt = Double.valueOf(candidate.findElement(By.id("InDebtAllUsers")).getText().trim().split(" ")[0].trim());
+        assertNotNull(additionalSpending);
 
-            additionalSpending
-                    .findElement(By.id("aSPayForm"))
-                    .findElement(By.id("aSPayButton"))
-                    .click();
+        double oldInDebt = Double.valueOf(candidate.findElement(By.id("InDebtAllUsers")).getText().trim().split(" ")[0].trim());
 
-            Thread.sleep(2000);
+        additionalSpending
+                .findElement(By.id("aSPayForm"))
+                .findElement(By.id("aSPayButton"))
+                .click();
 
-            candidate = driver.findElement(By.id("candidateInfoRow0"));
-            double newInDebt = Double.valueOf(candidate.findElement(By.id("InDebtAllUsers")).getText().trim().split(" ")[0].trim());
-            assertEquals(oldInDebt - newInDebt, additionalSpendingSum);
-        }
+        Thread.sleep(2000);
+
+        candidate = driver.findElement(By.id("candidateInfoRow0"));
+        double newInDebt = Double.valueOf(candidate.findElement(By.id("InDebtAllUsers")).getText().trim().split(" ")[0].trim());
+        assertEquals(oldInDebt - newInDebt, additionalSpendingSum);
     }
 
+    //Proverka na status na trosok posle plakjanje
     @Test
     public void test4PaymentStatus() throws InterruptedException {
         driver.get(baseUrl);
@@ -166,19 +158,6 @@ public class OtherAdditionalSpendingTest {
 
         WebElement additionalSpending = null;
 
-        for (WebElement spending : additionalSpendings){
-            try {
-                spending.findElement(By.id("aSIsPaidText"));
-                additionalSpending = spending;
-            }
-            catch (org.openqa.selenium.NoSuchElementException e) {
-                e.printStackTrace();
-            }
-        }
-
-        Thread.sleep(1000);
-        assertNotNull(additionalSpending);
-
         String desc = "";
         double additionalSpendingSum = -1;
         for(WebElement spending : additionalSpendings){
@@ -189,9 +168,11 @@ public class OtherAdditionalSpendingTest {
                 break;
             }
         }
+        assertNotNull(additionalSpending);
         assertTrue(additionalSpending.findElement(By.id("aSIsPaidText")).isDisplayed());
     }
 
+    //Proverka na datumot na plakjanje
     @Test
     public void test5DatePaid() throws InterruptedException {
         driver.get(baseUrl);
@@ -206,19 +187,6 @@ public class OtherAdditionalSpendingTest {
 
         WebElement additionalSpending = null;
 
-        for (WebElement spending : additionalSpendings){
-            try {
-                spending.findElement(By.id("aSIsPaidText"));
-                additionalSpending = spending;
-            }
-            catch (org.openqa.selenium.NoSuchElementException e) {
-                e.printStackTrace();
-            }
-        }
-
-        Thread.sleep(1000);
-        assertNotNull(additionalSpending);
-
         String desc = "";
         double additionalSpendingSum = -1;
         for(WebElement spending : additionalSpendings){
@@ -230,6 +198,7 @@ public class OtherAdditionalSpendingTest {
             }
         }
 
+        assertNotNull(additionalSpending);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MMM/yyyy");
         String date = additionalSpending.findElement(By.id("aSdatePaidText")).getText().split(":")[1].trim();
         LocalDate datePaid = LocalDate.parse(date, formatter);

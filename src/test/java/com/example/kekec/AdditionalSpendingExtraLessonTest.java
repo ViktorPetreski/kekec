@@ -36,6 +36,7 @@ public class AdditionalSpendingExtraLessonTest {
         driver.get(baseUrl);
     }
 
+    //Dodavanje na nov dodaten trosok - opcija "dopolnitelen cas"
     @Test
     public void test1AddExtraLesson() throws InterruptedException {
         driver.get(baseUrl);
@@ -82,6 +83,7 @@ public class AdditionalSpendingExtraLessonTest {
         assertEquals(elements.get(0).findElement(By.id("aSDescText")).getText(), "1 часови");
     }
 
+    //Dali zapisanata cena na noviot trosok e ista kako i vnesenata
     @Test
     public void test2NewExtraLessonPrice() throws InterruptedException {
         driver.get(baseUrl);
@@ -98,6 +100,7 @@ public class AdditionalSpendingExtraLessonTest {
         assertEquals(elements.get(0).findElement(By.id("aSPriceText")).getText(), "Сума:1500.0 ден.");
     }
 
+    //Plakjanje na dodatniot trosok
     @Test
     public void test3PayAdditionalSpendingExtraLesson() throws InterruptedException {
         driver.get(baseUrl);
@@ -114,43 +117,34 @@ public class AdditionalSpendingExtraLessonTest {
         double additionalSpendingSum = -1.0;
 
         WebElement additionalSpending = null;
-        for (WebElement spending : additionalSpendings){
-            try {
-                spending.findElement(By.id("aSIsPaidText"));
-            }
-            catch (org.openqa.selenium.NoSuchElementException e) {
-                additionalSpending = spending;
-            }
-        }
-
-        assertNotNull(additionalSpending);
 
         for(WebElement spending : additionalSpendings){
             desc = spending.findElement(By.id("aSDescText")).getText();
-            additionalSpendingSum = Double.valueOf(additionalSpending.findElement(By.id("aSPriceText")).getText().split(":")[1].trim().split(" ")[0].trim());
+            additionalSpendingSum = Double.valueOf(spending.findElement(By.id("aSPriceText")).getText().split(":")[1].trim().split(" ")[0].trim());
             if (desc.equals("1 часови") && additionalSpendingSum == 1500){
                 additionalSpending = spending;
                 break;
             }
         }
 
-        if (additionalSpendingSum != -1) {
-//        double additionalSpendingSum = Double.valueOf(additionalSpending.findElement(By.id("aSPriceText")).getText().split(":")[1].trim().split(" ")[0].trim());
-            double oldInDebt = Double.valueOf(candidate.findElement(By.id("InDebtAllUsers")).getText().trim().split(" ")[0].trim());
+        assertNotNull(additionalSpending);
 
-            additionalSpending
-                    .findElement(By.id("aSPayForm"))
-                    .findElement(By.id("aSPayButton"))
-                    .click();
+        double oldInDebt = Double.valueOf(candidate.findElement(By.id("InDebtAllUsers")).getText().trim().split(" ")[0].trim());
 
-            Thread.sleep(2000);
+        additionalSpending
+                .findElement(By.id("aSPayForm"))
+                .findElement(By.id("aSPayButton"))
+                .click();
 
-            candidate = driver.findElement(By.id("candidateInfoRow0"));
-            double newInDebt = Double.valueOf(candidate.findElement(By.id("InDebtAllUsers")).getText().trim().split(" ")[0].trim());
-            assertEquals(oldInDebt - newInDebt, additionalSpendingSum);
-        }
+        Thread.sleep(2000);
+
+        candidate = driver.findElement(By.id("candidateInfoRow0"));
+        double newInDebt = Double.valueOf(candidate.findElement(By.id("InDebtAllUsers")).getText().trim().split(" ")[0].trim());
+        assertEquals(oldInDebt - newInDebt, additionalSpendingSum);
+
     }
 
+    //Proverka na status na trosok posle plakjanje
     @Test
     public void test4ExtraLessonPaymentStatus() throws InterruptedException {
         driver.get(baseUrl);
@@ -165,32 +159,21 @@ public class AdditionalSpendingExtraLessonTest {
 
         WebElement additionalSpending = null;
 
-        for (WebElement spending : additionalSpendings){
-            try {
-                spending.findElement(By.id("aSIsPaidText"));
-                additionalSpending = spending;
-            }
-            catch (org.openqa.selenium.NoSuchElementException e) {
-                e.printStackTrace();
-            }
-        }
-
-        Thread.sleep(1000);
-        assertNotNull(additionalSpending);
-
         String desc = "";
         double additionalSpendingSum = -1;
         for(WebElement spending : additionalSpendings){
             desc = spending.findElement(By.id("aSDescText")).getText();
-            additionalSpendingSum = Double.valueOf(additionalSpending.findElement(By.id("aSPriceText")).getText().split(":")[1].trim().split(" ")[0].trim());
+            additionalSpendingSum = Double.valueOf(spending.findElement(By.id("aSPriceText")).getText().split(":")[1].trim().split(" ")[0].trim());
             if (desc.equals("1 часови") && additionalSpendingSum == 1500){
                 additionalSpending = spending;
                 break;
             }
         }
+        assertNotNull(additionalSpending);
         assertTrue(additionalSpending.findElement(By.id("aSIsPaidText")).isDisplayed());
     }
 
+    //Proverka na datumot na plakjanje
     @Test
     public void test5ExtraLessonDatePaid() throws InterruptedException {
         driver.get(baseUrl);
@@ -205,29 +188,18 @@ public class AdditionalSpendingExtraLessonTest {
 
         WebElement additionalSpending = null;
 
-        for (WebElement spending : additionalSpendings){
-            try {
-                spending.findElement(By.id("aSIsPaidText"));
-                additionalSpending = spending;
-            }
-            catch (org.openqa.selenium.NoSuchElementException e) {
-                e.printStackTrace();
-            }
-        }
-
-        Thread.sleep(1000);
-        assertNotNull(additionalSpending);
-
         String desc = "";
         double additionalSpendingSum = -1;
         for(WebElement spending : additionalSpendings){
             desc = spending.findElement(By.id("aSDescText")).getText();
-            additionalSpendingSum = Double.valueOf(additionalSpending.findElement(By.id("aSPriceText")).getText().split(":")[1].trim().split(" ")[0].trim());
+            additionalSpendingSum = Double.valueOf(spending.findElement(By.id("aSPriceText")).getText().split(":")[1].trim().split(" ")[0].trim());
             if (desc.equals("1 часови") && additionalSpendingSum == 1500){
                 additionalSpending = spending;
                 break;
             }
         }
+
+        assertNotNull(additionalSpending);
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MMM/yyyy");
         String date = additionalSpending.findElement(By.id("aSdatePaidText")).getText().split(":")[1].trim();

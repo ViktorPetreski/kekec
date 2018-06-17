@@ -34,6 +34,7 @@ public class CandidateLessonsOverviewTest {
     }
 
 
+    //Proverka na statusot - dali e polozen ili nepolozen
     @Test
     public void test1StatusOfLicence() throws InterruptedException {
         driver.get(baseUrl);
@@ -41,6 +42,7 @@ public class CandidateLessonsOverviewTest {
         Assert.assertNotNull(candidate.findElement(By.xpath("//i[@class='fa fa-times']")));
     }
 
+    //Proverka na statusot otkako e promenet
     @Test
     public void test2ChangedStatusOfLicence() throws InterruptedException {
         driver.get(baseUrl);
@@ -51,7 +53,7 @@ public class CandidateLessonsOverviewTest {
         Assert.assertNotNull(candidate.findElement(By.xpath("//i[@class='fa fa-check']")));
     }
 
-    //dali se otvara pregled za odbraniot kandidat
+    //Dali se otvara pregled za odbraniot kandidat
     @Test
     public void testCandidateName(){
         driver.get(baseUrl);
@@ -66,7 +68,7 @@ public class CandidateLessonsOverviewTest {
         assertEquals("Кандидат: " + name, candidateName);
     }
 
-    //dali postoi instruktorot za cas #1 vo listata na instruktori
+    //Dali postoi instruktorot za cas #1 vo listata na instruktori
     @Test
     public void testInstructorName() throws InterruptedException {
         driver.get(baseUrl);
@@ -97,6 +99,7 @@ public class CandidateLessonsOverviewTest {
 
     }
 
+    //Dali zapisaniot datum e validen
     @Test
     public void testValidityOfDate(){
         driver.get(baseUrl);
@@ -109,12 +112,12 @@ public class CandidateLessonsOverviewTest {
         String dateTmp = instructor.getText().replace("Датум: ","").trim();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MMM/yyyy HH:mm");
         LocalDateTime date = LocalDateTime.parse(dateTmp, formatter);
-//        System.out.println(date);
 
         assertTrue(date.getYear()==2018 && date.getMonth()== Month.JUNE && date.getDayOfMonth()==22);
 
     }
 
+    //Redirect kon facebook page
     @Test
     public void testfacebookRedirect() throws InterruptedException {
         driver.get(baseUrl);

@@ -1,7 +1,7 @@
 ### TO-DOs
 
 - [x] ako preostanati casovi e 0 da ne moze da dodava casovi
-- [ ] test za prazen search 
+- [x] test za prazen search - nope 
 - [x] test za pregolema suma za rata
 - [x] test za ne numericki input za rata
 - [x] podobar interfejs za dodatni trosoci kaj so ke moze da selektira dodatni casovi i sami da se dodadat na preostanati casovi ili ostanato kaj so ke pise random description
@@ -19,6 +19,9 @@
 - [x] dodavanje na kandidat so prazni polinja!!
 - [x] dodadi instruktor -> funkcija za required (select)
 - [ ] \(Optional) polozen da ne moze da se klika ako preostanati casovi > 0
+- [ ] disable na instruktori :D 
+- [ ] da se sredi redosled vo KekecTestSuite 
+- [ ] plus testovi za casovi za vozenje (polaganje) i dodavanje na kandidat so kategorija != B
 
 
 #### Changed 
