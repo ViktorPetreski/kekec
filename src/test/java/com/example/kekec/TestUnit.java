@@ -26,6 +26,11 @@ public class TestUnit {
     }
 
 
+    /**
+     * Removes candidate at index. Starts with 0
+     * @param  index an index of the chosen candidate
+     */
+
     static String removeCandidate(int index) {
 
         driver.get("http://localhost:8080/allCandidates");
@@ -45,6 +50,11 @@ public class TestUnit {
 
         return alertText;
     }
+
+    /**
+     * Adds candidate with chosen category
+     * @param  category driving category for the new candidate
+     */
 
     static void addCandidateWithDrivingCategory(String category){
         driver.get(baseUrl);
@@ -72,6 +82,11 @@ public class TestUnit {
         driver.findElement(By.name("addCandidateButton")).click();
     }
 
+
+    /**
+     * Adds driving lesson type : 2_часа to the chosen candidate
+     * @param  index an index of the chosen candidate
+     */
 
     static void addDrivingLessons(int index) throws InterruptedException {
         driver.get(baseUrl);

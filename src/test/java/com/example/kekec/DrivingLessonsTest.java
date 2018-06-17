@@ -176,6 +176,7 @@ public class DrivingLessonsTest {
     //Broj na zakazani casovi kaj prviot instruktor, juni 2018
     @Test
     public void test5InstructorTotalLessonsInCategory() throws InterruptedException {
+        //dodavam dva novi kandidati so razlicna kategorija i eden cas na vekje postoeckiot kandidat
         TestUnit.addCandidateWithDrivingCategory("C");
         TestUnit.addCandidateWithDrivingCategory("A1");
         TestUnit.addDrivingLessons(1);
@@ -198,8 +199,11 @@ public class DrivingLessonsTest {
 //
         int sum = 0;
         int sum1 = 0;
+        //se vo forov e ustvari istoto od razlicen aspekt zemeno :)
         for(WebElement lesson : numberOfLessons) {
             String tmp = lesson.findElement(By.id("totalLessonsInCategory")).getText();
+            //gi zema site divovi so id so pocnuva na lesson
+            //poso imase i index na sekoj lesson dodadeno
             int tmp1 = lesson.findElements(By.cssSelector("div[id^=lesson]")).size();
             sum1 += tmp1;
             int total = Integer.valueOf(tmp.substring(tmp.indexOf(":") + 1).trim());
@@ -208,6 +212,7 @@ public class DrivingLessonsTest {
 
         assertEquals(sum1, sum);
 
+        //brisam visok
         TestUnit.removeCandidate(2);
         TestUnit.removeCandidate(1);
     }
