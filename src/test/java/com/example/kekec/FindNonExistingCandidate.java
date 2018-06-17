@@ -22,51 +22,46 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class FindNonExistingCandidate {
 
-        public WebDriver driver;
-        public String baseUrl;
-        private String queryString;
-        private boolean output;
+    public WebDriver driver;
+    public String baseUrl;
+    private String queryString;
+    private boolean output;
 
-        @Before
-        public void setUp() throws Exception {
-//     System.setProperty("webdriver.chrome.driver", "C:\\Users\\Viktor\\Documents\\skit\\selenium\\chromedriver.exe");
-            System.setProperty("webdriver.chrome.driver", "C:\\Users\\Lodi\\chromedriver_win32\\chromedriver.exe");
-            ChromeOptions chromeOptions = new ChromeOptions();
-//    chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Beta\\Application\\chrome.exe");
-            chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Dev\\Application\\chrome.exe");
-            driver = new ChromeDriver(chromeOptions);
-            baseUrl = "http://localhost:8080/allCandidates";
-            driver.get(baseUrl);
-        }
-
-        //Prebaruvanje na kandidat spored ime sto go nema vo bazata
-        @Test
-        public void findNonExistingCandidateTest() throws InterruptedException {
-            driver.get(baseUrl);
-            driver.findElement(By.name("query")).click();
-            driver.findElement(By.name("query")).clear();
-            driver.findElement(By.name("query")).sendKeys("ana");
-            driver.findElement(By.id("searchButton")).click();
-            Thread.sleep(4000);
-            assertThrows(NoSuchElementException.class, () -> driver.findElement(By.id("candidateInfoRow0")));
-            driver.quit();
-        }
-
-        //Prebaruvanje na kandidat spored telefon sto go nema vo bazata
-        @Test
-        public void findNonExistingCandidateByPhoneTest() throws InterruptedException {
-            driver.get(baseUrl);
-            driver.findElement(By.name("query")).click();
-            driver.findElement(By.name("query")).clear();
-            driver.findElement(By.name("query")).sendKeys("076123123");
-            driver.findElement(By.id("searchButton")).click();
-            Thread.sleep(4000);
-            assertThrows(NoSuchElementException.class, () -> driver.findElement(By.id("candidateInfoRow0")));
-            driver.quit();
-        }
-
-
+    @Before
+    public void setUp() throws Exception {
+        TestUnit.init();
+        driver = TestUnit.driver;
+        baseUrl = TestUnit.baseUrl;
     }
+
+    //Prebaruvanje na kandidat spored ime sto go nema vo bazata
+    @Test
+    public void findNonExistingCandidateTest() throws InterruptedException {
+        driver.get(baseUrl);
+        driver.findElement(By.name("query")).click();
+        driver.findElement(By.name("query")).clear();
+        driver.findElement(By.name("query")).sendKeys("ana");
+        driver.findElement(By.id("searchButton")).click();
+        Thread.sleep(4000);
+        assertThrows(NoSuchElementException.class, () -> driver.findElement(By.id("candidateInfoRow0")));
+        driver.quit();
+    }
+
+    //Prebaruvanje na kandidat spored telefon sto go nema vo bazata
+    @Test
+    public void findNonExistingCandidateByPhoneTest() throws InterruptedException {
+        driver.get(baseUrl);
+        driver.findElement(By.name("query")).click();
+        driver.findElement(By.name("query")).clear();
+        driver.findElement(By.name("query")).sendKeys("076123123");
+        driver.findElement(By.id("searchButton")).click();
+        Thread.sleep(4000);
+        assertThrows(NoSuchElementException.class, () -> driver.findElement(By.id("candidateInfoRow0")));
+        driver.quit();
+    }
+
+
+}
 
 
 

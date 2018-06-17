@@ -28,11 +28,9 @@ public class UsersInDebtTest {
 
     @BeforeClass
     public static void setUp() {
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\Viktor\\Documents\\fax\\skit\\selenium\\chromedriver.exe");
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Beta\\Application\\chrome.exe");
-        driver = new ChromeDriver(chromeOptions);
-        baseUrl = "http://localhost:8080/allCandidates";
+        TestUnit.init();
+        driver = TestUnit.driver;
+        baseUrl = TestUnit.baseUrl;
     }
 
 

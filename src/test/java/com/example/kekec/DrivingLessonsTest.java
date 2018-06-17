@@ -29,14 +29,9 @@ public class DrivingLessonsTest {
 
     @BeforeClass
     public static void setUp() throws Exception {
-//     System.setProperty("webdriver.chrome.driver", "C:\\Users\\Viktor\\Documents\\skit\\selenium\\chromedriver.exe");
-         System.setProperty("webdriver.chrome.driver", "C:\\Users\\Lodi\\chromedriver_win32\\chromedriver.exe");
-        ChromeOptions chromeOptions = new ChromeOptions();
-//        chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Beta\\Application\\chrome.exe");
-        chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Dev\\Application\\chrome.exe");
-        driver = new ChromeDriver(chromeOptions);
-        baseUrl = "http://localhost:8080/allCandidates";
-
+        TestUnit.init();
+        driver = TestUnit.driver;
+        baseUrl = TestUnit.baseUrl;
     }
 
     //Dodavanje na nov instruktor
@@ -306,8 +301,4 @@ public class DrivingLessonsTest {
 
     }
 
-    @AfterClass
-    public static void tearDown() throws Exception {
-        driver.quit();
-    }
 }

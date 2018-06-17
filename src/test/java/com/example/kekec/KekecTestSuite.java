@@ -7,11 +7,19 @@ import org.junit.runners.Suite;
 
 
 @Suite.SuiteClasses({
-        InstallmentPaymentTest.class,
-        UpdateCandidateTest.class,
+        AddCandidateTest.class,
         AdditionalSpendingExtraLessonTest.class,
+        BadInputTest.class,
+        CandidateLessonsOverviewTest.class,
         DrivingLessonsTest.class,
-        FindNonExistingCandidate.class
+        FindCandidateParameterizedTest.class,
+        FindNonExistingCandidate.class,
+        InstallmentPaymentTest.class,
+        NegativeInstallmentPaymentTest.class,
+        OtherAdditionalSpendingTest.class,
+        UsersInDebtTest.class,
+        UpdateCandidateTest.class,
+        RemoveCandidateTest.class
 })
 
 public class KekecTestSuite {

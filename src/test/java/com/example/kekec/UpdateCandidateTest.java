@@ -32,13 +32,10 @@ public class UpdateCandidateTest {
         if(setUpIsDone){
             return;
         }
-//        System.setProperty("webdriver.chrome.driver", "C:\\Users\\Viktor\\Documents\\skit\\selenium\\chromedriver.exe");
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\Lodi\\chromedriver_win32\\chromedriver.exe");
-        ChromeOptions chromeOptions = new ChromeOptions();
-//        chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Beta\\Application\\chrome.exe");
-        chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Dev\\Application\\chrome.exe");
-        driver = new ChromeDriver(chromeOptions);
-        baseUrl = "http://localhost:8080/allCandidates";
+
+        TestUnit.init();
+        driver = TestUnit.driver;
+        baseUrl = TestUnit.baseUrl;
 
         driver.get(baseUrl);
 
@@ -210,7 +207,7 @@ public class UpdateCandidateTest {
                 .click();
 
         acceptNextAlert = true;
-        assertTrue(closeAlertAndGetItsText().matches("^Дали сте сигурни дека сакате да го избришете кандидатот[\\s\\S]$"));
+        assertTrue(TestUnit.closeAlertAndGetItsText().matches("^Дали сте сигурни дека сакате да го избришете кандидатот[\\s\\S]$"));
 
         Thread.sleep(2000);
 
@@ -222,12 +219,7 @@ public class UpdateCandidateTest {
     }
 
 
-    @AfterClass
-    public static void tearDown() throws Exception {
-        driver.quit();
-    }
-
-    private String closeAlertAndGetItsText() {
+/*    private String closeAlertAndGetItsText() {
 
         try {
             WebDriverWait wait = new WebDriverWait(driver, 3);
@@ -243,6 +235,6 @@ public class UpdateCandidateTest {
         } finally {
             acceptNextAlert = true;
         }
-    }
+    }*/
 
 }

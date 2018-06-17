@@ -26,14 +26,9 @@ public class AdditionalSpendingExtraLessonTest {
 
     @BeforeClass
     public static void setUp() {
-//        System.setProperty("webdriver.chrome.driver", "C:\\Users\\Viktor\\Documents\\skit\\selenium\\chromedriver.exe");
-         System.setProperty("webdriver.chrome.driver", "C:\\Users\\Lodi\\chromedriver_win32\\chromedriver.exe");
-        ChromeOptions chromeOptions = new ChromeOptions();
-//        chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Beta\\Application\\chrome.exe");
-        chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Dev\\Application\\chrome.exe");
-        driver = new ChromeDriver(chromeOptions);
-        baseUrl = "http://localhost:8080/allCandidates";
-        driver.get(baseUrl);
+        TestUnit.init();
+        driver = TestUnit.driver;
+        baseUrl = TestUnit.baseUrl;
     }
 
     //Dodavanje na nov dodaten trosok - opcija "dopolnitelen cas"
@@ -207,11 +202,6 @@ public class AdditionalSpendingExtraLessonTest {
         LocalDate now = LocalDate.now();
 
         assertEquals(now, datePaid);
-    }
-
-    @AfterClass
-    public static void tearDown() throws Exception {
-        driver.quit();
     }
 
 }

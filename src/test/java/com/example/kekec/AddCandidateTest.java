@@ -17,7 +17,7 @@ import java.util.List;
 import static junit.framework.TestCase.fail;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class AddAndRemoveCandidateTest {
+public class AddCandidateTest {
     public static WebDriver driver;
     public static String baseUrl;
     private boolean acceptNextAlert = true;
@@ -25,13 +25,9 @@ public class AddAndRemoveCandidateTest {
 
     @BeforeClass
     public static void setUp() throws Exception {
-//         System.setProperty("webdriver.chrome.driver", "C:\\Users\\Viktor\\Documents\\skit\\selenium\\chromedriver.exe");
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\Lodi\\chromedriver_win32\\chromedriver.exe");
-        ChromeOptions chromeOptions = new ChromeOptions();
-//        chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Beta\\Application\\chrome.exe");
-        chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Dev\\Application\\chrome.exe");
-        driver = new ChromeDriver(chromeOptions);
-        baseUrl = "http://localhost:8080/allCandidates";
+        TestUnit.init();
+        driver = TestUnit.driver;
+        baseUrl = TestUnit.baseUrl;
     }
 
     @Test
@@ -85,50 +81,5 @@ public class AddAndRemoveCandidateTest {
 
         assertTrue(flag);
 
-    }
-
-    @Test
-    public void test8removeCandidate() throws InterruptedException {
-        driver.get("http://localhost:8080/allCandidates");
-        driver
-                .findElement(By.id("candidateInfoRow0"))
-                .findElement(By.id("updateCell"))
-                .findElement(By.id("formDeleteButton"))
-                .findElement(By.id("deleteButton"))
-                .click();
-
-        acceptNextAlert = true;
-        assertTrue(closeAlertAndGetItsText().matches("^Дали сте сигурни дека сакате да го избришете кандидатот[\\s\\S]$"));
-
-        Thread.sleep(2000);
-
-        String verificationErrorString = verificationErrors.toString();
-        if (!"".equals(verificationErrorString)) {
-            fail(verificationErrorString);
-        }
-
-    }
-
-    @AfterClass
-    public static void tearDown() throws Exception {
-        driver.quit();
-    }
-
-    private String closeAlertAndGetItsText() {
-
-        try {
-            WebDriverWait wait = new WebDriverWait(driver, 3);
-            wait.until(ExpectedConditions.alertIsPresent());
-            Alert alert = driver.switchTo().alert();
-            String alertText = alert.getText();
-            if (acceptNextAlert) {
-                alert.accept();
-            } else {
-                alert.dismiss();
-            }
-            return alertText;
-        } finally {
-            acceptNextAlert = true;
-        }
     }
 }

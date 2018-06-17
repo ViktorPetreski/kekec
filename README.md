@@ -6,13 +6,14 @@
 - [x] test za ne numericki input za rata
 - [x] podobar interfejs za dodatni trosoci kaj so ke moze da selektira dodatni casovi i sami da se dodadat na preostanati casovi ili ostanato kaj so ke pise random description
 - [x] da se smeni neplateni rati tabelata so updateiranata
-- [ ] init i destroy na site tests, a ne na sekoj posebno
+- [x] init i destroy na site tests, a ne na sekoj posebno
+    * staiv init na site, add na pocetok, remove na kraj, destroy izbrisav od segde osven kaj remove
 - [x] proverka na datumi
 - [x] da se smeni test za polozen/nepolozen
 - [ ] da se smeni testInstructorTotalLessons 
 - [x] da se smeni prebaruvanje vo test2PayAdditionalSpending
 - [x] test za validnost na datum
-- [ ] testovi za vtor tab - neplatena rata!! 
+- [x] testovi za vtor tab - neplatena rata!! 
     * datumot na ratata pred denesniot  :heavy_check_mark:
     * edna rata neplatena, no dolgot podmiren :heavy_check_mark:
     * plakjanje na neplatena rata i trganje na kanidat od tabelata :heavy_check_mark:
@@ -21,6 +22,7 @@
 - [ ] \(Optional) polozen da ne moze da se klika ako preostanati casovi > 0
 - [ ] disable na instruktori :D 
 - [ ] da se sredi redosled vo KekecTestSuite 
+    * gi staiv po redosled ali treba da se smenat iminja ako mislime po toa da se izvrsuvaat
 - [ ] plus testovi za casovi za vozenje (polaganje) i dodavanje na kandidat so kategorija != B
 
 
