@@ -35,7 +35,7 @@
     * **largeSumLabel** + ```id``` &rarr; **inDebtLargeSumLabel** + ```id```
     * **InDebtAllUsers** &rarr; **InDebtInDebtUsers** :grin: 
     * **allUsersTable** &rarr; **inDebtUsersTable**
-- <h3 style = "color:red">**Ne e testiran redosledot!**</h3>
-    * <h5 style = "color:lightgreen">Ja testirav poslednata klasa so ja napisav so init i si rabotese pa pretpostavuvam site ke rabotat</h5>
+- <span style="color:red">**Ne e testiran redosledot!**</span>
+    * <span style="color:lightgreen">Ja testirav poslednata klasa so ja napisav so init i si rabotese pa pretpostavuvam site ke rabotat</span>
     
 :blue_heart:
