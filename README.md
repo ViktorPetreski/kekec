@@ -25,8 +25,6 @@
     * gi staiv po redosled ali treba da se smenat iminja ako mislime po toa da se izvrsuvaat
 - [ ] plus testovi za casovi za vozenje (polaganje) i dodavanje na kandidat so kategorija != B
 
-<h3 style = "color:red">Ne e testiran redosledot!</h3>
-
 #### Changed 
 > se e napisano so tocna golemina na bukvi
 - novata tabela na ```id``` samo staviv na kraj *InDebt* na site osven 
