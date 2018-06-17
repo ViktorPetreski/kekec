@@ -63,7 +63,7 @@
                             <tr>
                                 <td th:each="installment,iter : ${candidate.paymentInfo.installments}"
                                     style="border-right: 1px solid; width:8em; padding-left: 1em; vertical-align: middle">
-                                    <h5 th:text="'Рок до: ' + ${#temporals.format(installment.dueDate, 'dd/MMM/yyyy')}"></h5>
+                                    <h5 th:id="'installmentDate' + ${iter.index}" th:text="'Рок до: ' + ${#temporals.format(installment.dueDate, 'dd/MMM/yyyy')}"></h5>
                                     <h5 th:if="${installment.datePaid != null}"
                                         th:text="'Платена на: ' + ${#temporals.format(installment.datePaid, 'dd/MMM/yyyy')}"></h5>
                                     <form method="post" th:action="@{/installment/{id}/addPrice(id=${installment.id})}">
@@ -167,8 +167,6 @@
         </div>
 
         <div id="userNotPaid" class="tab-pane fade">
-
-
             <table id="inDebtUsersTable" class="table table-bordered table-striped">
                 <tr id="labelRowInDebt">
                     <th class="text-center" style="vertical-align: middle">Положен</th>
@@ -213,7 +211,7 @@
                             <tr>
                                 <td th:each="installment,iter : ${candidate.paymentInfo.installments}"
                                     style="border-right: 1px solid; width:8em; padding-left: 1em; vertical-align: middle">
-                                    <h5 th:text="'Рок до: ' + ${#temporals.format(installment.dueDate, 'dd/MMM/yyyy')}"></h5>
+                                    <h5 th:id="'installmentDateInDebt' + ${iter.index}" th:text="'Рок до: ' + ${#temporals.format(installment.dueDate, 'dd/MMM/yyyy')}"></h5>
                                     <h5 th:if="${installment.datePaid != null}"
                                         th:text="'Платена на: ' + ${#temporals.format(installment.datePaid, 'dd/MMM/yyyy')}"></h5>
                                     <form method="post" th:action="@{/installment/{id}/addPrice(id=${installment.id})}">
