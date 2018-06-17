@@ -3,16 +3,7 @@ package com.example.kekec;
 import org.junit.*;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.validation.constraints.AssertTrue;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static junit.framework.TestCase.fail;
@@ -23,8 +14,6 @@ public class DrivingLessonsTest {
 
     public static WebDriver driver;
     public static String baseUrl;
-    private boolean acceptNextAlert = true;
-    private StringBuffer verificationErrors = new StringBuffer();
 
 
     @BeforeClass
@@ -187,21 +176,40 @@ public class DrivingLessonsTest {
     //Broj na zakazani casovi kaj prviot instruktor, juni 2018
     @Test
     public void test5InstructorTotalLessonsInCategory() throws InterruptedException {
+        TestUnit.addCandidateWithDrivingCategory("C");
+        TestUnit.addCandidateWithDrivingCategory("A1");
+        TestUnit.addDrivingLessons(1);
+        TestUnit.addDrivingLessons(2);
+        TestUnit.addDrivingLessons(0);
+
         driver.get(baseUrl);
         driver.findElement(By.id("instructorsTab")).click();
         Thread.sleep(1000);
         driver.findElement(By.id("instructor0")).click();
 
-        WebElement lessons = driver.findElement(By.id("tableWithLessons")).findElement(By.id("sortedLessons")).
-                findElement(By.id("totalLessonsInCategory"));
+        List<WebElement> numberOfLessons = driver.findElement(By.id("tableWithLessons")).findElements(By.id("sortedLessons"));
+
+        //List<WebElement> lessons = driver.findElement(By.id("tableWithLessons")).findElements(By.id("sortedLessons"));
         Thread.sleep(2000);
 
 //   ne brisi
 //        int total = Integer.valueOf(lessons.getText().split(" ")[6]);
 //        assertEquals(2, total);
 //
-        String total = lessons.getText();
-        assertEquals(total,"Број на часови во оваа категoрија: 2");
+        int sum = 0;
+        int sum1 = 0;
+        for(WebElement lesson : numberOfLessons) {
+            String tmp = lesson.findElement(By.id("totalLessonsInCategory")).getText();
+            int tmp1 = lesson.findElements(By.cssSelector("div[id^=lesson]")).size();
+            sum1 += tmp1;
+            int total = Integer.valueOf(tmp.substring(tmp.indexOf(":") + 1).trim());
+            sum += total;
+        }
+
+        assertEquals(sum1, sum);
+
+        TestUnit.removeCandidate(2);
+        TestUnit.removeCandidate(1);
     }
 
     //Vkupen broj na zakazani casovi (sum(1 cas, 2 casa)) kaj prviot instruktor, juni 2018

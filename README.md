@@ -23,7 +23,7 @@
 - [ ] disable na instruktori :D 
 - [ ] da se sredi redosled vo KekecTestSuite 
     * gi staiv po redosled ali treba da se smenat iminja ako mislime po toa da se izvrsuvaat
-- [ ] plus testovi za casovi za vozenje (polaganje) i dodavanje na kandidat so kategorija != B
+- [x] plus testovi za casovi za vozenje (polaganje) i dodavanje na kandidat so kategorija != B
 
 
 #### Changed 
@@ -34,5 +34,11 @@
     * **largeSumLabel** + ```id``` &rarr; **inDebtLargeSumLabel** + ```id```
     * **InDebtAllUsers** &rarr; **InDebtInDebtUsers** :grin: 
     * **allUsersTable** &rarr; **inDebtUsersTable**
+- **Ne e testiran redosledot!**
+    * init si raboti kao so treba sea samo use po redosled
+- Dodadov add i remove za candidate vo novata TestUnit klasa
+- Dodadov add za cas vo TestUnit
+- test6 od DrivingLessons e misalm visok
+    
     
 :blue_heart:

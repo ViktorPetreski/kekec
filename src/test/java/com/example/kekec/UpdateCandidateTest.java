@@ -1,17 +1,11 @@
 package com.example.kekec;
 
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.AfterAll;
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
@@ -198,16 +192,9 @@ public class UpdateCandidateTest {
     @AfterAll
     @Test
     public void testRemoveUpdatedCandidate() throws InterruptedException {
-        driver.get("http://localhost:8080/allCandidates");
-        driver
-                .findElement(By.id("candidateInfoRow1"))
-                .findElement(By.id("updateCell"))
-                .findElement(By.id("formDeleteButton"))
-                .findElement(By.id("deleteButton"))
-                .click();
 
-        acceptNextAlert = true;
-        assertTrue(TestUnit.closeAlertAndGetItsText().matches("^Дали сте сигурни дека сакате да го избришете кандидатот[\\s\\S]$"));
+        //da go izbrise vtoriot t.e. toj so ke go update izatoa e index = 1
+        assertTrue(TestUnit.removeCandidate(1).matches("^Дали сте сигурни дека сакате да го избришете кандидатот[\\s\\S]$"));
 
         Thread.sleep(2000);
 
@@ -219,7 +206,7 @@ public class UpdateCandidateTest {
     }
 
 
-/*    private String closeAlertAndGetItsText() {
+/*    private String removeCandidate() {
 
         try {
             WebDriverWait wait = new WebDriverWait(driver, 3);
