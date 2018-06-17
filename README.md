@@ -25,6 +25,7 @@
     * gi staiv po redosled ali treba da se smenat iminja ako mislime po toa da se izvrsuvaat
 - [ ] plus testovi za casovi za vozenje (polaganje) i dodavanje na kandidat so kategorija != B
 
+<h3 style = "color:red">Ne e testiran redosledot!</h3>
 
 #### Changed 
 > se e napisano so tocna golemina na bukvi
@@ -34,5 +35,7 @@
     * **largeSumLabel** + ```id``` &rarr; **inDebtLargeSumLabel** + ```id```
     * **InDebtAllUsers** &rarr; **InDebtInDebtUsers** :grin: 
     * **allUsersTable** &rarr; **inDebtUsersTable**
+- <h3 style = "color:red">**Ne e testiran redosledot!**</h3>
+    * <h5 style = "color:lightgreen">Ja testirav poslednata klasa so ja napisav so init i si rabotese pa pretpostavuvam site ke rabotat</h5>
     
 :blue_heart:
