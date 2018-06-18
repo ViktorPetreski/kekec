@@ -117,7 +117,10 @@ public class UsersInDebtTest {
         candidate.findElement(By.id("inDebtInstallmentPrice0")).sendKeys("12000");
         candidate.findElement(By.id("inDebtInstallmentPayButton0")).click();
         Thread.sleep(500);
-        String debt = driver.findElement(By.id("candidateInfoRow0")).findElement(By.id("InDebtAllUsers")).getText();
+//        String debt = driver.findElement(By.id("candidateInfoRowInDebt0")).findElement(By.id("InDebtAllUsers")).getText();
+        driver.get(baseUrl);
+        String debt = driver.findElement(By.id("candidateInfoRow1")).findElement(By.id("InDebtAllUsers")).getText();
+
         assertEquals("0.0", debt);
     }
 
@@ -131,7 +134,7 @@ public class UsersInDebtTest {
     @Test
     public void test5InstallmentNotPaidButNotInDebt() throws InterruptedException {
         driver.get(baseUrl);
-        WebElement candidate = driver.findElement(By.id("candidateInfoRow0"));
+        WebElement candidate = driver.findElement(By.id("candidateInfoRow1"));
 
         WebElement installmentTable = candidate.findElement(By.id("installmentTable"))
                 .findElement(By.id("someTableId"));

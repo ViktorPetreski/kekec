@@ -157,7 +157,7 @@ public class OtherAdditionalSpendingTest {
         double additionalSpendingSum = -1;
         for(WebElement spending : additionalSpendings){
             desc = spending.findElement(By.id("aSDescText")).getText();
-            additionalSpendingSum = Double.valueOf(additionalSpending.findElement(By.id("aSPriceText")).getText().split(":")[1].trim().split(" ")[0].trim());
+            additionalSpendingSum = Double.valueOf(spending.findElement(By.id("aSPriceText")).getText().split(":")[1].trim().split(" ")[0].trim());
             if (desc.equals("Полигон") && additionalSpendingSum == 1200){
                 additionalSpending = spending;
                 break;
@@ -186,7 +186,7 @@ public class OtherAdditionalSpendingTest {
         double additionalSpendingSum = -1;
         for(WebElement spending : additionalSpendings){
             desc = spending.findElement(By.id("aSDescText")).getText();
-            additionalSpendingSum = Double.valueOf(additionalSpending.findElement(By.id("aSPriceText")).getText().split(":")[1].trim().split(" ")[0].trim());
+            additionalSpendingSum = Double.valueOf(spending.findElement(By.id("aSPriceText")).getText().split(":")[1].trim().split(" ")[0].trim());
             if (desc.equals("Полигон") && additionalSpendingSum == 1200){
                 additionalSpending = spending;
                 break;

@@ -48,9 +48,7 @@ public class FindCandidateParameterizedTest {
                 {"Lodi", true},   //first name
                 {"Dodevska", true}, //last name
                 {"Lodi Dodevska", true}, // full name
-                {"0121212", true}, //phone
-                {"Ana", false}, //non-existing first name
-                {"076098098", false}//non-existing phone
+                {"0121212", true} //phone
         });
     }
 
@@ -76,7 +74,7 @@ public class FindCandidateParameterizedTest {
         driver.quit();
     }
 
-    //Prebaruvanje na kandidati, so proverka samo na site rezultati
+    //Prebaruvanje na kandidati, so proverka na site rezultati
     @Test
     public void testQuery2() throws InterruptedException {
         driver.get(baseUrl);

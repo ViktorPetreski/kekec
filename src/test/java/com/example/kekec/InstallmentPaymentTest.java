@@ -38,7 +38,7 @@ public class InstallmentPaymentTest {
 
     //Plakjanje na prva rata - dali stariot i noviot dolg se razlicni
     @Test
-    public void testPayInstallmentPositive() throws InterruptedException {
+    public void test1PayInstallmentPositive() throws InterruptedException {
         driver.get(baseUrl);
         WebElement candidate = driver.findElement(By.id("candidateInfoRow0"));
         candidate.findElement(By.id("installmentPrice0")).click();
@@ -57,10 +57,12 @@ public class InstallmentPaymentTest {
 
     //Plakjanje na prva rata - dali vneseniot iznos e ednakov so plateniot
     @Test
-    public void testCheckInstallmentSum() throws InterruptedException {
+    public void test2CheckInstallmentSum() throws InterruptedException {
         driver.get(baseUrl);
+        Thread.sleep(1000);
         WebElement candidate = driver.findElement(By.id("candidateInfoRow0"));
-        String installment = candidate.findElement(By.id("installment0")).getText();
+
+        String installment = candidate.findElement(By.id("installment0")).findElement(By.id("installmentPaidPrice0")).getText();
         assertEquals("Сума: 1200.0", installment);
     }
 

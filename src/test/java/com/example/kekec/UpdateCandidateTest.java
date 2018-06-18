@@ -1,8 +1,10 @@
 package com.example.kekec;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -20,8 +22,8 @@ public class UpdateCandidateTest {
     private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeClass
+    public static void setUp() throws Exception {
 
         if(setUpIsDone){
             return;
@@ -55,9 +57,10 @@ public class UpdateCandidateTest {
         driver.findElement(By.id("numberOfLessons")).clear();
         driver.findElement(By.id("numberOfLessons")).sendKeys("36");
         driver.findElement(By.name("addCandidateButton")).click();
-        Thread.sleep(1000);
+        Thread.sleep(2000);
 
         setUpIsDone = true;
+        driver.get(baseUrl);
     }
 
     @Test
@@ -79,6 +82,7 @@ public class UpdateCandidateTest {
         String newFirstName = updatedCandidate.findElement(By.id("nameCell")).getText().replaceAll("\\r\\n|\\r|\\n", " ").split(" ")[0];
         Thread.sleep(1000);
         assertEquals("NewName", newFirstName);
+        Thread.sleep(2000);
     }
 
     @Test
@@ -102,6 +106,7 @@ public class UpdateCandidateTest {
         String newLastName = updatedCandidate.findElement(By.id("nameCell")).getText().replaceAll("\\r\\n|\\r|\\n", " ").split(" ")[1];
         Thread.sleep(1000);
         assertEquals("NewLastName", newLastName);
+        Thread.sleep(2000);
     }
 
     @Test
@@ -124,6 +129,7 @@ public class UpdateCandidateTest {
         String newPhone = updatedCandidate.findElement(By.id("phoneCell")).getText();
         Thread.sleep(1000);
         assertEquals("075987333", newPhone);
+        Thread.sleep(2000);
     }
 
     @Test
@@ -145,6 +151,7 @@ public class UpdateCandidateTest {
         List<WebElement> numOfInstallments = updatedCandidate.findElements(By.xpath(".//*[@id='installmentTable']/table/tbody/tr/td"));
         Thread.sleep(1000);
         assertEquals(5,numOfInstallments.size());
+        Thread.sleep(2000);
     }
 
     @Test
@@ -166,6 +173,7 @@ public class UpdateCandidateTest {
         String newSum = updatedCandidate.findElement(By.id("sumCell")).getText();
         Thread.sleep(1000);
         assertEquals("30000.0 ден.", newSum);
+        Thread.sleep(2000);
     }
 
     @Test
@@ -187,13 +195,14 @@ public class UpdateCandidateTest {
         String newNumOfLessons = updatedCandidate.findElement(By.id("lessonsCell")).getText();
         Thread.sleep(1000);
         assertEquals("25", newNumOfLessons);
+        Thread.sleep(2000);
     }
 
     @AfterAll
     @Test
     public void testRemoveUpdatedCandidate() throws InterruptedException {
 
-        //da go izbrise vtoriot t.e. toj so ke go update izatoa e index = 1
+        //da go izbrise vtoriot t.e. toj so ke go update i zatoa e index = 1
         assertTrue(TestUnit.removeCandidate(1).matches("^Дали сте сигурни дека сакате да го избришете кандидатот[\\s\\S]$"));
 
         Thread.sleep(2000);
@@ -203,25 +212,8 @@ public class UpdateCandidateTest {
             fail(verificationErrorString);
         }
 
+        driver.quit();
+
     }
-
-
-/*    private String removeCandidate() {
-
-        try {
-            WebDriverWait wait = new WebDriverWait(driver, 3);
-            wait.until(ExpectedConditions.alertIsPresent());
-            Alert alert = driver.switchTo().alert();
-            String alertText = alert.getText();
-            if (acceptNextAlert) {
-                alert.accept();
-            } else {
-                alert.dismiss();
-            }
-            return alertText;
-        } finally {
-            acceptNextAlert = true;
-        }
-    }*/
 
 }

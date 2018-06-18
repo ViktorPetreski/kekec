@@ -5,8 +5,6 @@ import org.junit.runners.MethodSorters;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.Select;
 import java.util.List;
-
-import static junit.framework.TestCase.fail;
 import static org.junit.jupiter.api.Assertions.*;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -168,7 +166,7 @@ public class DrivingLessonsTest {
             }
             total += k;
         }
-
+        Thread.sleep(3000);
         int drivenLessons = Integer.valueOf(numberOfLessons);
         assertEquals(total + drivenLessons, 36);
     }
@@ -217,36 +215,10 @@ public class DrivingLessonsTest {
         TestUnit.removeCandidate(1);
     }
 
-    //Vkupen broj na zakazani casovi (sum(1 cas, 2 casa)) kaj prviot instruktor, juni 2018
-    @Test
-    public void test6InstructorTotalLessons() throws InterruptedException {
-        driver.get(baseUrl);
-        driver.findElement(By.id("instructorsTab")).click();
-        Thread.sleep(1000);
-        driver.findElement(By.id("instructor0")).click();
-
-        List<WebElement> lessons = driver.findElements(By.id("lessonType"));
-        Thread.sleep(1500);
-
-        int total = 0;
-        for(WebElement lesson : lessons){
-            String number = lesson.findElement(By.id("lessonType")).getText().trim().split(" ")[1];
-            int k = 0;
-            if(number.equalsIgnoreCase("Два_часа")){
-                k = 2;
-            }
-            else if (number.equalsIgnoreCase("Еден_час")){
-                k = 1;
-            }
-            total += k;
-        }
-
-        assertEquals(3,total);
-    }
 
     //Prebaruvanje po mesec, prv instruktor, juni 2018
     @Test
-    public void test7SearchByMonth() throws InterruptedException {
+    public void test6SearchByMonth() throws InterruptedException {
         driver.get(baseUrl);
         driver.findElement(By.id("instructorsTab")).click();
         Thread.sleep(1000);
@@ -282,7 +254,7 @@ public class DrivingLessonsTest {
 
     //Prebaruvanje po mesec, prv instruktor, maj 2020
     @Test
-    public void test8SearchByMonthInTheFuture() throws InterruptedException {
+    public void test7SearchByMonthInTheFuture() throws InterruptedException {
         driver.get(baseUrl);
         driver.findElement(By.id("instructorsTab")).click();
         Thread.sleep(1000);

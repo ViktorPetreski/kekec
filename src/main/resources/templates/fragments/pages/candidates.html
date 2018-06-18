@@ -61,7 +61,8 @@
 
                         <table class="table" style="border: hidden; margin-bottom: 0; background-color: transparent" id="someTableId">
                             <tr>
-                                <td th:each="installment,iter : ${candidate.paymentInfo.installments}"
+                                <td th:id="'installment' + ${iter.index}"
+                                        th:each="installment,iter : ${candidate.paymentInfo.installments}"
                                     style="border-right: 1px solid; width:8em; padding-left: 1em; vertical-align: middle">
                                     <h5 th:id="'installmentDate' + ${iter.index}" th:text="'Рок до: ' + ${#temporals.format(installment.dueDate, 'dd/MMM/yyyy')}"></h5>
                                     <h5 th:if="${installment.datePaid != null}"
@@ -80,7 +81,7 @@
                                             сума!!</h5>
                                     </form>
 
-                                    <h5 th:id="'installment' + ${iter.index}" th:if="${installment.isPaid}" th:text="'Сума: ' + ${installment.price}"></h5>
+                                    <h5 th:id="'installmentPaidPrice' + ${iter.index}" th:if="${installment.isPaid}" th:text="'Сума: ' + ${installment.price}"></h5>
                                     <h5 th:if="${installment.isPaid}" class="glyphicon glyphicon-ok text-center"></h5>
                                 </td>
                             </tr>

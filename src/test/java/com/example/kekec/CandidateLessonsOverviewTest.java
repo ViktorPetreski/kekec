@@ -2,7 +2,9 @@ package com.example.kekec;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -17,6 +19,8 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CandidateLessonsOverviewTest {
 
     public static WebDriver driver;

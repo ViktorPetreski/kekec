@@ -54,7 +54,7 @@ public class AddCandidateTest {
             }
         }
 
-        TestUnit.addDrivingLessons(0);
+//        TestUnit.addDrivingLessons(0);
         //addDrivingLessons(1);
         //addDrivingLessons(2);
 
