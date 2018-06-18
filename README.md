@@ -1,3 +1,14 @@
+#### Redosled:
+
+- AddCandidate, BadInput, NegativeInstallmentPayment, InstallmentPayment (prvo negative, posle positive);
+- AdditionalSpendingExtraLesson, OtherAdditionalSpending (prvo extra lesson, posle other)
+- DrivingLessons; CandidateLessonsOverview;
+- FindCandidate & FindNonExisting, Update; (ne e bitno)
+- UsersInDebt na kraj!!
+- RemoveCandidate
+
+
+
 ### TO-DOs
 
 - [x] ako preostanati casovi e 0 da ne moze da dodava casovi
