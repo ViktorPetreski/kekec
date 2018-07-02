@@ -18,7 +18,7 @@
 - RemoveCandidate
 
 
-####Testovi so Mockito:
+#### Testovi so Mockito:
 
 - ContactInfoMockitoTest (za contact info service)
 - SpendingMockitoTest (za spending service)
