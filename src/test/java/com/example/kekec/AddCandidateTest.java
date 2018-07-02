@@ -24,6 +24,7 @@ public class AddCandidateTest {
         baseUrl = TestUnit.baseUrl;
     }
 
+    //Dodavanje na nov kandidat
     @Test
     public void test1AddCandidate() throws InterruptedException {
         driver.get(baseUrl);

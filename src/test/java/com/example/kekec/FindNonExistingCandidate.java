@@ -34,6 +34,7 @@ public class FindNonExistingCandidate {
         baseUrl = TestUnit.baseUrl;
     }
 
+    //Moze da se prebaruva samo spored ime, prezime i telefon
     //Prebaruvanje na kandidat spored ime sto go nema vo bazata
     @Test
     public void findNonExistingCandidateTest() throws InterruptedException {

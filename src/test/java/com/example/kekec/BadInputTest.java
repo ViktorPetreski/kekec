@@ -42,8 +42,6 @@ public class BadInputTest {
         driver.findElement(By.id("firstName")).sendKeys("Viktor");
         driver.findElement(By.id("lastName")).clear();
         driver.findElement(By.id("lastName")).sendKeys("Petreski");
-//        driver.findElement(By.id("totalSum")).clear();
-//        driver.findElement(By.id("totalSum")).sendKeys("15000");
         driver.findElement(By.id("numberOfInstallments")).clear();
         driver.findElement(By.id("numberOfInstallments")).sendKeys("3");
         driver.findElement(By.id("phone")).clear();

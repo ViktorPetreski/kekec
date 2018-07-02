@@ -25,7 +25,7 @@ public class RemoveCandidateTest {
         baseUrl = TestUnit.baseUrl;
     }
 
-
+    //Brisenje na kandidat
     @Test
     public void test8removeCandidate() throws InterruptedException {
         driver.get("http://localhost:8080/allCandidates");
@@ -70,26 +70,6 @@ public class RemoveCandidateTest {
             acceptNextAlert = true;
         }
     }
-
-//    @Test
-//    public void test8removeCandidate() throws InterruptedException {
-//        driver.get("http://localhost:8080/allCandidates");
-//        driver
-//                .findElement(By.id("candidateInfoRow0"))
-//                .findElement(By.id("updateCell"))
-//                .findElement(By.id("formDeleteButton"))
-//                .findElement(By.id("deleteButton"))
-//                .click();
-//        Thread.sleep(2000);
-//        assertTrue(TestUnit.removeCandidate(0).matches("^Дали сте сигурни дека сакате да го избришете кандидатот[\\s\\S]$"));
-//
-//        Thread.sleep(2000);
-//    }
-//
-//   @AfterClass
-//    public static void tearDown(){
-//        driver.quit();
-//   }
 
 
 

@@ -42,6 +42,7 @@ public class FindCandidateParameterizedTest {
         this.output = output;
     }
 
+    //Moze da se prebaruva samo spored ime, prezime i telefon
     @Parameterized.Parameters
     public static Collection<Object[]> queries() {
         return Arrays.asList(new Object[][]{

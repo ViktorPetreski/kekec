@@ -13,16 +13,5 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class KekecApplicationTests {
 
-	@Test
-	public void contextLoads() {
-        Result result = JUnitCore.runClasses(KekecTestSuite.class);
-
-        for (Failure failure : result.getFailures()) {
-            System.out.println(failure.toString());
-        }
-
-        System.out.println(result.wasSuccessful());
-	}
-
 
 }

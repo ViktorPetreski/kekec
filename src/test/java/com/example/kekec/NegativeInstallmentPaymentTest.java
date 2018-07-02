@@ -34,6 +34,7 @@ public class NegativeInstallmentPaymentTest {
         this.installment = installment;
     }
 
+    //Vrednosti koi ne se dozvoleni vo poleto za plakjanje rata
     @Parameterized.Parameters
     public static Collection<Object[]> testCases() {
         return Arrays.asList(new Object[][]{

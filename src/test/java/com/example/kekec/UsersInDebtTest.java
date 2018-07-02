@@ -33,7 +33,7 @@ public class UsersInDebtTest {
         baseUrl = TestUnit.baseUrl;
     }
 
-
+    //dodavanje na kandidat so neplatena rata
     @Test
     public void test1AddCandidateInDebt() throws InterruptedException {
         driver.get("http://localhost:8080/addCandidate");
@@ -74,6 +74,7 @@ public class UsersInDebtTest {
 
     }
 
+    //proverka dali navistina e pominat rokot za plakjanje na rata
     @Test
     public void test2InstallmentDate() throws InterruptedException {
         driver.get(baseUrl);
@@ -124,6 +125,7 @@ public class UsersInDebtTest {
         assertEquals("0.0", debt);
     }
 
+    //ako nema kandidati so neplateni rati
     @Test
     public void test4EmptyInDebtTable(){
         driver.get(baseUrl);

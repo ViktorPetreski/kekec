@@ -1,55 +1,26 @@
-#### Redosled:
+-> Pred izvrsuvanje na testovite, vo TestUnit, vo init(), mora da se smeni patekata za Chrome driver-ot. <br />
+-> Sekoj test e objasnet so kratok komentar. <br />
+-> Zatoa sto se dodavaat i se brisat kandidati/rati/dopolnitelni trosoci, podolu ima navedeno redosled na izvrsuvanje na testovite.
 
-- AddCandidate, BadInput, NegativeInstallmentPayment, InstallmentPayment (prvo negative, posle positive);
-- AdditionalSpendingExtraLesson, OtherAdditionalSpending (prvo extra lesson, posle other)
-- DrivingLessons; CandidateLessonsOverview;
-- FindCandidate & FindNonExisting, Update; (ne e bitno)
-- UsersInDebt na kraj!!
+#### Redosled na izvrsuvanje na Selenium & JUnit testovi:
+
+- AddCandidate
+- BadInput
+- NegativeInstallmentPayment
+- InstallmentPayment 
+- AdditionalSpendingExtraLesson
+- OtherAdditionalSpending
+- DrivingLessons
+- CandidateLessonsOverview
+- FindCandidateParameterizedTest, FindNonExistingCandidate
+- UpdateCandidate
+- UsersInDebt
 - RemoveCandidate
 
 
+####Testovi so Mockito:
 
-### TO-DOs
+- ContactInfoMockitoTest (za contact info service)
+- SpendingMockitoTest (za spending service)
+ 
 
-- [x] ako preostanati casovi e 0 da ne moze da dodava casovi
-- [x] test za prazen search - nope 
-- [x] test za pregolema suma za rata
-- [x] test za ne numericki input za rata
-- [x] podobar interfejs za dodatni trosoci kaj so ke moze da selektira dodatni casovi i sami da se dodadat na preostanati casovi ili ostanato kaj so ke pise random description
-- [x] da se smeni neplateni rati tabelata so updateiranata
-- [x] init i destroy na site tests, a ne na sekoj posebno
-    * staiv init na site, add na pocetok, remove na kraj, destroy izbrisav od segde osven kaj remove
-- [x] proverka na datumi
-- [x] da se smeni test za polozen/nepolozen
-- [ ] da se smeni testInstructorTotalLessons 
-- [x] da se smeni prebaruvanje vo test2PayAdditionalSpending
-- [x] test za validnost na datum
-- [x] testovi za vtor tab - neplatena rata!! 
-    * datumot na ratata pred denesniot  :heavy_check_mark:
-    * edna rata neplatena, no dolgot podmiren :heavy_check_mark:
-    * plakjanje na neplatena rata i trganje na kanidat od tabelata :heavy_check_mark:
-- [x] dodavanje na kandidat so prazni polinja!!
-- [x] dodadi instruktor -> funkcija za required (select)
-- [ ] \(Optional) polozen da ne moze da se klika ako preostanati casovi > 0
-- [ ] disable na instruktori :D 
-- [ ] da se sredi redosled vo KekecTestSuite 
-    * gi staiv po redosled ali treba da se smenat iminja ako mislime po toa da se izvrsuvaat
-- [x] plus testovi za casovi za vozenje (polaganje) i dodavanje na kandidat so kategorija != B
-
-
-#### Changed 
-> se e napisano so tocna golemina na bukvi
-- novata tabela na ```id``` samo staviv na kraj *InDebt* na site osven 
-    * **installmentPayButton** + ```id``` &rarr; **inDebtInstallmentPayButton** + ```id```
-    * **installmentPrice** + ```id``` &rarr; **inDebtInstallmentPrice** + ```id```
-    * **largeSumLabel** + ```id``` &rarr; **inDebtLargeSumLabel** + ```id```
-    * **InDebtAllUsers** &rarr; **InDebtInDebtUsers** :grin: 
-    * **allUsersTable** &rarr; **inDebtUsersTable**
-- **Ne e testiran redosledot!**
-    * init si raboti kao so treba sea samo use po redosled
-- Dodadov add i remove za candidate vo novata TestUnit klasa
-- Dodadov add za cas vo TestUnit
-- test6 od DrivingLessons e misalm visok
-    
-    
-:blue_heart:
