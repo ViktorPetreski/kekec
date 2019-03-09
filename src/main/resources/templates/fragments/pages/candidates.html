@@ -21,31 +21,25 @@
 
             <table id="allUsersTable" class="table table-bordered table-striped">
                 <tr id="labelRow">
-                    <th class="text-center" style="vertical-align: middle">Положен</th>
+                    <th class="text-center" style="vertical-align: middle">Матичен бр.</th>
                     <th class="text-center" style="vertical-align: middle">Име и презиме</th>
-                    <th class="text-center" style="vertical-align: middle">Преостанати часови</th>
+                    <th class="text-center" style="vertical-align: middle">Oстанати часови</th>
                     <th class="text-center" style="vertical-align: middle">Телефон</th>
                     <th class="text-center" style="vertical-align: middle">Вкупна сума</th>
                     <th class="text-center" style="vertical-align: middle">Рати</th>
                     <th class="text-center" style="vertical-align: middle">Додатни трошоци</th>
                     <th class="text-center" style="vertical-align: middle">Должи</th>
-                    <th class="text-center" style="vertical-align: middle">Менаџирање со кандидати
-                    </th>
+                    <th class="text-center" style="vertical-align: middle">Положен</th>
+                    <th class="text-center" style="vertical-align: middle">Менаџирање со кандидати</th>
                 </tr>
 
                 <tr th:id="'candidateInfoRow' + ${iter.index}" th:each="candidate, iter : ${candidates}">
 
+
+                    <td id="idCell" class="text-center" style="vertical-align: middle;width: 2em"
+                        th:text="${candidate.ssn}"></td>
+
                     <!--Polozen-->
-                    <td id="statusCell" class="text-center"
-                        style="vertical-align: middle; font-size: 30px; width: 3rem">
-                        <a name="status" th:disabled="${candidate.numberOfLessons} > 0" th:href="@{/candidate/{id}/gotLicence(id=${candidate.id})}">
-                            <i th:if="${candidate.isPassed}" class="fa fa-check" style="color: #5cb85c"></i>
-                            <i th:if="${!candidate.isPassed}" class="fa fa-times" style="color: red"></i>
-                        </a>
-                        <!--<a name="status" th:href="@{/candidate/{id}/gotLicence(id=${candidate.id})}">-->
-                        <!---->
-                        <!--</a>-->
-                    </td>
 
                     <td id="nameCell" class="text-center" style="vertical-align: middle; width: 3rem"
                         th:utext="${candidate.contactInfo.firstName} + '<br/>' + ${candidate.contactInfo.lastName}"></td>
@@ -59,29 +53,35 @@
                     <!--Rati-->
                     <td id="installmentTable" style="vertical-align: middle; min-width: 45em">
 
-                        <table class="table" style="border: hidden; margin-bottom: 0; background-color: transparent" id="someTableId">
+                        <table class="table" style="border: hidden; margin-bottom: 0; background-color: transparent"
+                               id="someTableId">
                             <tr>
                                 <td th:id="'installment' + ${iter.index}"
-                                        th:each="installment,iter : ${candidate.paymentInfo.installments}"
+                                    th:each="installment,iter : ${candidate.paymentInfo.installments}"
                                     style="border-right: 1px solid; width:8em; padding-left: 1em; vertical-align: middle">
-                                    <h5 th:id="'installmentDate' + ${iter.index}" th:text="'Рок до: ' + ${#temporals.format(installment.dueDate, 'dd/MMM/yyyy')}"></h5>
+                                    <h5 th:id="'installmentDate' + ${iter.index}"
+                                        th:text="'Рок до: ' + ${#temporals.format(installment.dueDate, 'dd/MMM/yyyy')}"></h5>
                                     <h5 th:if="${installment.datePaid != null}"
                                         th:text="'Платена на: ' + ${#temporals.format(installment.datePaid, 'dd/MMM/yyyy')}"></h5>
                                     <form method="post" th:action="@{/installment/{id}/addPrice(id=${installment.id})}">
                                         <div class="input-group mb-2" th:if="${installment.isPaid == false}">
-                                            <input type="text" class="form-control" th:id="'installmentPrice' + ${iter.index}" name="price"/>
+                                            <input type="text" class="form-control"
+                                                   th:id="'installmentPrice' + ${iter.index}" name="price"/>
                                             <span class="input-group-addon" style="padding: 3px 3px; font-size: 12px">ден.</span>
                                         </div>
                                         <input hidden="hidden" th:value="${candidate.id}" name="candidateId"/>
                                         <button th:if="${installment.isPaid == false}" type="submit"
-                                                class="btn btn-success btn-block" th:id="'installmentPayButton' + ${iter.index}"
+                                                class="btn btn-success btn-block"
+                                                th:id="'installmentPayButton' + ${iter.index}"
                                                 style="margin-top: .5rem">Плати
                                         </button>
-                                        <h5 th:id="'largeSumLabel' + ${iter.index}" style="display: none" class="text text-warning">Погрешна
+                                        <h5 th:id="'largeSumLabel' + ${iter.index}" style="display: none"
+                                            class="text text-warning">Погрешна
                                             сума!!</h5>
                                     </form>
 
-                                    <h5 th:id="'installmentPaidPrice' + ${iter.index}" th:if="${installment.isPaid}" th:text="'Сума: ' + ${installment.price}"></h5>
+                                    <h5 th:id="'installmentPaidPrice' + ${iter.index}" th:if="${installment.isPaid}"
+                                        th:text="'Сума: ' + ${installment.price}"></h5>
                                     <h5 th:if="${installment.isPaid}" class="glyphicon glyphicon-ok text-center"></h5>
                                 </td>
                             </tr>
@@ -132,6 +132,19 @@
                     <td id="InDebtAllUsers" class="text-center" style="vertical-align: middle;"
                         th:text="${candidate.inDebt}"></td>
 
+
+                    <td id="statusCell" class="text-center"
+                        style="vertical-align: middle; font-size: 30px; width: 3rem">
+                        <a name="status" th:disabled="${candidate.numberOfLessons} > 0"
+                           th:href="@{/candidate/{id}/gotLicence(id=${candidate.id})}">
+                            <i th:if="${candidate.isPassed}" class="fa fa-check" style="color: #5cb85c"></i>
+                            <i th:if="${!candidate.isPassed}" class="fa fa-times" style="color: red"></i>
+                        </a>
+                        <!--<a name="status" th:href="@{/candidate/{id}/gotLicence(id=${candidate.id})}">-->
+                        <!---->
+                        <!--</a>-->
+                    </td>
+
                     <!--Update, delete, casovi i pregled buttons-->
                     <td id="updateCell" style="vertical-align: middle; width: 2em">
                         <form method="post" id="formDeleteButton"
@@ -170,31 +183,24 @@
         <div id="userNotPaid" class="tab-pane fade">
             <table id="inDebtUsersTable" class="table table-bordered table-striped">
                 <tr id="labelRowInDebt">
-                    <th class="text-center" style="vertical-align: middle">Положен</th>
+                    <th class="text-center" style="vertical-align: middle">Матичен бр.</th>
                     <th class="text-center" style="vertical-align: middle">Име и презиме</th>
-                    <th class="text-center" style="vertical-align: middle">Преостанати часови</th>
+                    <th class="text-center" style="vertical-align: middle">Oстанати часови</th>
                     <th class="text-center" style="vertical-align: middle">Телефон</th>
                     <th class="text-center" style="vertical-align: middle">Вкупна сума</th>
                     <th class="text-center" style="vertical-align: middle">Рати</th>
                     <th class="text-center" style="vertical-align: middle">Додатни трошоци</th>
                     <th class="text-center" style="vertical-align: middle">Должи</th>
-                    <th class="text-center" style="vertical-align: middle">Менаџирање со кандидати
-                    </th>
+                    <th class="text-center" style="vertical-align: middle">Положен</th>
+                    <th class="text-center" style="vertical-align: middle">Менаџирање со кандидати</th>
                 </tr>
 
                 <tr th:id="'candidateInfoRowInDebt' + ${iter.index}" th:each="candidate, iter :${lateCandidates}">
 
-                    <!--Polozen-->
-                    <td id="statusCellInDebt" class="text-center"
-                        style="vertical-align: middle; font-size: 30px; width: 3rem">
-                        <a name="status" th:href="@{/candidate/{id}/gotLicence(id=${candidate.id})}">
-                            <i th:if="${candidate.isPassed}" class="fa fa-check" style="color: #5cb85c"></i>
-                            <i th:if="${!candidate.isPassed}" class="fa fa-times" style="color: red"></i>
-                        </a>
-                        <!--<a name="status" th:href="@{/candidate/{id}/gotLicence(id=${candidate.id})}">-->
-                        <!---->
-                        <!--</a>-->
-                    </td>
+
+                    <td id="inDebtIdCell" class="text-center" style="vertical-align: middle;width: 2em"
+                        th:text="${candidate.ssn}"></td>
+
 
                     <td id="nameCellInDebt" class="text-center" style="vertical-align: middle; width: 3rem"
                         th:utext="${candidate.contactInfo.firstName} + '<br/>' + ${candidate.contactInfo.lastName}"></td>
@@ -208,28 +214,34 @@
                     <!--Rati-->
                     <td id="installmentTableInDebt" style="vertical-align: middle; min-width: 45em">
 
-                        <table class="table" style="border: hidden; margin-bottom: 0; background-color: transparent" id="someTableInDebt">
+                        <table class="table" style="border: hidden; margin-bottom: 0; background-color: transparent"
+                               id="someTableInDebt">
                             <tr>
                                 <td th:each="installment,iter : ${candidate.paymentInfo.installments}"
                                     style="border-right: 1px solid; width:8em; padding-left: 1em; vertical-align: middle">
-                                    <h5 th:id="'installmentDateInDebt' + ${iter.index}" th:text="'Рок до: ' + ${#temporals.format(installment.dueDate, 'dd/MMM/yyyy')}"></h5>
+                                    <h5 th:id="'installmentDateInDebt' + ${iter.index}"
+                                        th:text="'Рок до: ' + ${#temporals.format(installment.dueDate, 'dd/MMM/yyyy')}"></h5>
                                     <h5 th:if="${installment.datePaid != null}"
                                         th:text="'Платена на: ' + ${#temporals.format(installment.datePaid, 'dd/MMM/yyyy')}"></h5>
                                     <form method="post" th:action="@{/installment/{id}/addPrice(id=${installment.id})}">
                                         <div class="input-group mb-2" th:if="${installment.isPaid == false}">
-                                            <input type="text" class="form-control" th:id="'inDebtInstallmentPrice' + ${iter.index}" name="price"/>
+                                            <input type="text" class="form-control"
+                                                   th:id="'inDebtInstallmentPrice' + ${iter.index}" name="price"/>
                                             <span class="input-group-addon" style="padding: 3px 3px; font-size: 12px">ден.</span>
                                         </div>
                                         <input hidden="hidden" th:value="${candidate.id}" name="candidateId"/>
                                         <button th:if="${installment.isPaid == false}" type="submit"
-                                                class="btn btn-success btn-block" th:id="'inDebtInstallmentPayButton' + ${iter.index}"
+                                                class="btn btn-success btn-block"
+                                                th:id="'inDebtInstallmentPayButton' + ${iter.index}"
                                                 style="margin-top: .5rem" disabled="disabled">Плати
                                         </button>
-                                        <h5 th:id="'inDebtLargeSumLabel' + ${iter.index}" style="display: none" class="text text-warning">Погрешна
+                                        <h5 th:id="'inDebtLargeSumLabel' + ${iter.index}" style="display: none"
+                                            class="text text-warning">Погрешна
                                             сума!!</h5>
                                     </form>
 
-                                    <h5 th:id="'installmentInDebt' + ${iter.index}" th:if="${installment.isPaid}" th:text="'Сума: ' + ${installment.price}"></h5>
+                                    <h5 th:id="'installmentInDebt' + ${iter.index}" th:if="${installment.isPaid}"
+                                        th:text="'Сума: ' + ${installment.price}"></h5>
                                     <h5 th:if="${installment.isPaid}" class="glyphicon glyphicon-ok text-center"></h5>
                                 </td>
                             </tr>
@@ -247,7 +259,8 @@
                                     th:each="additionalSpending : ${candidate.paymentInfo.additionalSpendings}"
                                     style="border-right: 1px solid; width:9em; padding-left: 1em; vertical-align: middle">
                                     <h5 id="aSDescTextInDebt" th:text="${additionalSpending.description}"></h5>
-                                    <h5 id="aSPriceTextInDebt" th:text="'Сума:' + ${additionalSpending.price + ' ден.'}"></h5>
+                                    <h5 id="aSPriceTextInDebt"
+                                        th:text="'Сума:' + ${additionalSpending.price + ' ден.'}"></h5>
                                     <form id="aSPayFormInDebt" class="form-group"
                                           th:action="@{/candidate/{id}/paySpending(id=${candidate.id})}" method="post"
                                           th:if="${additionalSpending.isPaid == false}">
@@ -280,6 +293,18 @@
                     <td id="InDebtInDebtUsers" class="text-center" style="vertical-align: middle;"
                         th:text="${candidate.inDebt}"></td>
 
+
+                    <td id="statusCellInDebt" class="text-center"
+                        style="vertical-align: middle; font-size: 30px; width: 3rem">
+                        <a name="status" th:href="@{/candidate/{id}/gotLicence(id=${candidate.id})}">
+                            <i th:if="${candidate.isPassed}" class="fa fa-check" style="color: #5cb85c"></i>
+                            <i th:if="${!candidate.isPassed}" class="fa fa-times" style="color: red"></i>
+                        </a>
+                        <!--<a name="status" th:href="@{/candidate/{id}/gotLicence(id=${candidate.id})}">-->
+                        <!---->
+                        <!--</a>-->
+                    </td>
+
                     <!--Update, delete, casovi i pregled buttons-->
                     <td id="updateCellInDebt" style="vertical-align: middle; width: 2em">
                         <form method="post" id="formDeleteButton"
@@ -290,7 +315,8 @@
                             </button>
                         </form>
                         <a th:href="@{/updateCandidate/{id}(id=${candidate.id})}">
-                            <button id="updateButtonInDebt" style="margin-top: .5em" class="btn btn-info btn-block"><span
+                            <button id="updateButtonInDebt" style="margin-top: .5em"
+                                    class="btn btn-info btn-block"><span
                                     class="fa fa-user"
                                     aria-hidden="true"> Измени</span>
                             </button>
@@ -316,11 +342,12 @@
 
         <div id="instructors" class="tab-pane fade">
             <div th:id="'instructor' + ${iter.index}" th:each="instructor, iter : ${instructors}"
-                    style="font-size: 16px; width: 15%"  class="list-group">
+                 style="font-size: 16px; width: 15%" class="list-group">
                 <a id="linkName" th:href="@{/instructor/{id}/searchByMonth(id=${instructor.id})}">
                     <div id="divName" class="list-group-item">
                         <i class="fa fa-taxi" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;
-                        <h5 th:id="instructorName" style="display: inline" th:text="${instructor.contactInfo.firstName} + ' ' + ${instructor.contactInfo.lastName}"></h5>
+                        <h5 th:id="instructorName" style="display: inline"
+                            th:text="${instructor.contactInfo.firstName} + ' ' + ${instructor.contactInfo.lastName}"></h5>
                     </div>
                 </a>
             </div>
@@ -332,20 +359,29 @@
 </div>
 
 <script>
+
+    function isNormalInteger(str) {
+        return /^\+?(0|[1-9]\d*)$/.test(str);
+    }
+
+
     $(document).ready(function () {
         var index = 0;
         $("button[id^='installmentPayButton']").on('click', function () {
             var number = $(this).attr('id');
             index = number.substr(number.length - 1);
-
+            var numberValidator = true;
             var $installment = $(this).parent().parent();
             var $candidate = $installment.closest('table').parent().closest('tr');
-            //console.log("candidateID", $candidate.attr('id'));
-            var installmentSum = parseInt($.trim($('#installmentPrice' + index).val()));
+            var installmentPrice = $('#installmentPrice' + index).val();
+
+            var installmentSum = parseInt($.trim(installmentPrice));
+
             var inDebtSum = parseFloat($.trim($candidate.find('#InDebtAllUsers').html()));
-           // console.log("installment:", installmentSum);
-           // console.log("in debt:", inDebtSum);
-            if (installmentSum > inDebtSum || !installmentSum || installmentSum < 0) {
+            // console.log("installment:", installmentSum);
+            // console.log("in debt:", inDebtSum);
+            console.log(isNormalInteger(installmentPrice));
+            if ((installmentSum > inDebtSum || !installmentSum || installmentSum < 0)) {
                 $(this).prop("disabled", true);
                 $installment.find('#largeSumLabel' + index).css({display: ""});
             }
@@ -353,10 +389,17 @@
 
         });
 
-        $("input[id^='installmentPrice']").on('input', function () {
-            $("button[id^='installmentPayButton']").prop("disabled", false);
-            $("h5[id^='largeSumLabel']").css({display : "none"});
+
+        $("input[id^='installmentPrice']").change(function () {
+            var installmentPrice = $(this).val();
+            var number = $(this).attr('id');
+            index = number.substr(number.length - 1);
+            $('#installmentPayButton' + index).prop("disabled", !isNormalInteger(installmentPrice));
+            var $h5 = $("#largeSumLabel" + index).text('Внеси само цифри!!');
+            isNormalInteger(installmentPrice) ? $h5.css({display: "none"}) : $h5.css({display: ""});
+
         });
+
 
 
         //za kandidati sto docnat tabelata
@@ -375,9 +418,22 @@
         });
 
         $("input[id^='inDebtInstallmentPrice']").on('input', function () {
-            $("button[id^='inDebtInstallmentPayButton']").prop("disabled", false);
-            $("h5[id^='inDebtLargeSumLabel']").css({display : "none"});
+
+            var installmentPrice = $(this).val();
+            var number = $(this).attr('id');
+            index = number.substr(number.length - 1);
+            $('#inDebtInstallmentPayButton' + index).prop("disabled", !isNormalInteger(installmentPrice));
+            var $h5 = $("#inDebtLargeSumLabel" + index).text('Внеси само цифри!!');
+            isNormalInteger(installmentPrice) ? $h5.css({display: "none"}) : $h5.css({display: ""});
+
         });
+
+        // $("button[id^='installmentPayButton']").on('click', function () {
+        //     var value = $('#yourphone').val();
+        //     var regex = new RegExp(/^\+?[0-9(),.-]+$/);
+        //     if(value.match(regex)) {return true;}
+        //     return false;
+        // });
 
     });
 </script>
