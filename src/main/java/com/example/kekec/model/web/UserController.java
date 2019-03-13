@@ -2,23 +2,17 @@ package com.example.kekec.model.web;
 
 import com.example.kekec.model.jpa.*;
 import com.example.kekec.model.service.*;
-import javafx.geometry.Pos;
-import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.time.LocalDateTime;
-import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Controller
 public class UserController {
@@ -31,11 +25,12 @@ public class UserController {
     private QueryService queryService;
     private InstructorService instructorService;
     private DrivingLessonService drivingLessonService;
+    private UserService userService;
 
     @Autowired
     public UserController(SpendingService spendingService, CandidateService candidateService, ContactInfoService contactInfoService,
                           InstallmentService installmentService, PaymentInfoService paymentInfoService, QueryService queryService,
-                          InstructorService instructorService, DrivingLessonService drivingLessonService) {
+                          InstructorService instructorService, DrivingLessonService drivingLessonService, UserService userService) {
         this.spendingService = spendingService;
         this.candidateService = candidateService;
         this.contactInfoService = contactInfoService;
@@ -44,16 +39,17 @@ public class UserController {
         this.queryService = queryService;
         this.instructorService = instructorService;
         this.drivingLessonService = drivingLessonService;
+        this.userService = userService;
     }
 
-    @RequestMapping(value = {"/addCandidate"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/user/addCandidate"}, method = RequestMethod.GET)
     public String showAddCandidate(Model model) {
         model.addAttribute("pageFragment", "addCandidate");
         return "index";
     }
 
 
-    @RequestMapping(value = {"/addCandidate"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/user/addCandidate"}, method = RequestMethod.POST)
     public String addCandidate(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String phone,
                                @RequestParam Double totalSum, @RequestParam String date, @RequestParam Integer numberOfInstallments, @RequestParam String ssn,
                                @RequestParam String drivingCategory, @RequestParam Integer numberOfLessons) {
@@ -65,11 +61,11 @@ public class UserController {
         ContactInfo contactInfo = contactInfoService.createContactInfo(firstName, lastName, phone);
         Candidate candidate = candidateService.createCandidate(contactInfo, paymentInfo, ssn, drivingCategory, numberOfLessons);
 
-        return "redirect:/allCandidates";
+        return "redirect:/user/allCandidates";
 
     }
 
-    @RequestMapping(value = {"/allCandidates"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/user/allCandidates"}, method = RequestMethod.GET)
     public String showAllCandidates(Model model) {
 
         List<Candidate> candidates = candidateService.getAll();
@@ -87,26 +83,14 @@ public class UserController {
         return "index";
     }
 
-    @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
-    public String login(Model model, HttpSession session, HttpServletRequest servletRequest,
-                        @RequestParam(required = false) String error) {
-        if (session.getAttribute("user") != null) {
-            return "redirect:/";
-        }
-        model.addAttribute("error", error);
-        model.addAttribute("pageFragment", "login");
-        User user = (User) session.getAttribute("user");
-        return "index";
-    }
-
-    @RequestMapping(value = {"/candidate/{id}/paySpending"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/user/candidate/{id}/paySpending"}, method = RequestMethod.POST)
     public String paySpending(@RequestParam Long additionalSpendingId, @PathVariable Long id) {
         spendingService.paySpending(additionalSpendingId);
         candidateService.paySpending(id, additionalSpendingId);
-        return "redirect:/allCandidates";
+        return "redirect:/user/allCandidates";
     }
 
-    @RequestMapping(value = {"/candidate/{id}/payment/{pId}/addSpending"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/user/candidate/{id}/payment/{pId}/addSpending"}, method = RequestMethod.GET)
     public String showAddSpending(Model model, @PathVariable("id") Long candidateId, @PathVariable("pId") Long paymentInfoId) {
         model.addAttribute("candidateId", candidateId);
         model.addAttribute("paymentInfoId", paymentInfoId);
@@ -114,7 +98,7 @@ public class UserController {
         return "index";
     }
 
-    @RequestMapping(value = {"/candidate/{id}/payment/{pId}/addSpending"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/user/candidate/{id}/payment/{pId}/addSpending"}, method = RequestMethod.POST)
     public String addSpending(@PathVariable("pId") Long paymentInfoId, @RequestParam Integer lessonNumber,
                               @RequestParam String description, @RequestParam Double price, @PathVariable("id") Long candidateId) {
 
@@ -126,10 +110,10 @@ public class UserController {
         AdditionalSpending additionalSpending = spendingService.createSpending(description, price, false);
         paymentInfoService.addSpending(paymentInfoId, additionalSpending.id);
         // candidateService.checkDebt(candidateId);
-        return "redirect:/allCandidates";
+        return "redirect:/user/allCandidates";
     }
 
-    @RequestMapping(value = {"/search"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/user/search"}, method = RequestMethod.GET)
     public String search(
             @RequestParam String query,
             Model model
@@ -143,13 +127,13 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = {"/removeCandidate/{id}"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/user/removeCandidate/{id}"}, method = RequestMethod.POST)
     public String changeCandidate(Model model, @PathVariable Long id) {
         candidateService.removeCandidate(id);
-        return "redirect:/allCandidates";
+        return "redirect:/user/allCandidates";
     }
 
-    @RequestMapping(value = {"/updateCandidate/{id}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/user/updateCandidate/{id}"}, method = RequestMethod.GET)
     public String showUpdateCandidate(Model model, @PathVariable Long id) {
         Candidate candidate = candidateService.getById(id);
         model.addAttribute("candidate", candidate);
@@ -159,7 +143,7 @@ public class UserController {
         return "index";
     }
 
-    @RequestMapping(value = {"/updateCandidate/{id}"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/user/updateCandidate/{id}"}, method = RequestMethod.POST)
     public String updateCandidate(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String phone,
                                   @RequestParam Double totalSum, @RequestParam Integer numberOfLessons, @RequestParam Integer numberOfInstallments,
                                   @PathVariable Long id, @RequestParam String drivingCategory, @RequestParam String ssn) {
@@ -169,10 +153,10 @@ public class UserController {
         ContactInfo contactInfo = contactInfoService.updateContactInfo(candidate.contactInfo.id, firstName, lastName, phone);
         candidateService.updateCandidate(candidate.id, paymentInfo, contactInfo, ssn, numberOfLessons, drivingCategory);
 
-        return "redirect:/allCandidates";
+        return "redirect:/user/allCandidates";
     }
 
-    @RequestMapping(value = {"/installment/{id}/addPrice"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/user/installment/{id}/addPrice"}, method = RequestMethod.POST)
     public String addPriceToInstallment(@PathVariable Long id, @RequestParam Double price, @RequestParam Long candidateId) {
 
         Installment installment = installmentService.getById(id);
@@ -181,10 +165,10 @@ public class UserController {
 
         //candidateService.checkDebt(candidateId);
 
-        return "redirect:/allCandidates";
+        return "redirect:/user/allCandidates";
     }
 
-    @RequestMapping(value = {"/candidate/{id}/addDrivingLesson"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/user/candidate/{id}/addDrivingLesson"}, method = RequestMethod.GET)
     public String showPaySpending(Model model, @PathVariable("id") Long candidateId) {
         Candidate candidate = candidateService.getById(candidateId);
         model.addAttribute("contactInfo", candidate.contactInfo);
@@ -195,26 +179,26 @@ public class UserController {
         return "index";
     }
 
-    @RequestMapping(value = {"/candidate/{id}/addDrivingLesson"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/user/candidate/{id}/addDrivingLesson"}, method = RequestMethod.POST)
     public String paySpending(@PathVariable("id") Long candidateId, @RequestParam String date, @RequestParam Long instructorId, @RequestParam Integer lessonType) {
         drivingLessonService.addDrivingLesson(candidateId, instructorId, date, lessonType);
-        return "redirect:/allCandidates";
+        return "redirect:/user/allCandidates";
     }
 
 
-    @RequestMapping(value = {"/addInstructor"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/user/addInstructor"}, method = RequestMethod.GET)
     public String showAddInstructor(Model model) {
         model.addAttribute("pageFragment", "addInstructor");
         return "index";
     }
 
-    @RequestMapping(value = {"/addInstructor"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/user/addInstructor"}, method = RequestMethod.POST)
     public String addInstructor(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String phone) {
         instructorService.createInstructor(firstName, lastName, phone);
-        return "redirect:/allCandidates";
+        return "redirect:/user/allCandidates";
     }
 
-    @RequestMapping(value = {"/candidate/{id}/lessonsOverview"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/user/candidate/{id}/lessonsOverview"}, method = RequestMethod.GET)
     public String showCandidateLessonsOverview(Model model, @PathVariable("id") Long candidateId) {
         List<DrivingLesson> drivingLessons = queryService.getDrivingLessonsForCandidate(candidateId);
         Candidate candidate = candidateService.getById(candidateId);
@@ -224,7 +208,7 @@ public class UserController {
         return "index";
     }
 
-    @RequestMapping(value = {"/instructor/{id}/searchByMonth"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/user/instructor/{id}/searchByMonth"}, method = RequestMethod.GET)
     public String showInstructorLessonsOverview(Model model, @PathVariable("id") Long instructorId) {
         String date = "";
 
@@ -238,7 +222,7 @@ public class UserController {
         return "index";
     }
 
-    @RequestMapping(value = {"/instructor/{id}/searchByMonth"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/user/instructor/{id}/searchByMonth"}, method = RequestMethod.POST)
     public String showInstructorLessonsOverviewByMonth(Model model, @PathVariable("id") Long instructorId, @RequestParam String date) {
 
         Map<String, List<DrivingLesson>> drivingLessons = queryService.getDrivingLessonsForInstructorForMonth(instructorId, date);
@@ -253,10 +237,48 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = {"/candidate/{id}/gotLicence"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/user/candidate/{id}/gotLicence"}, method = RequestMethod.GET)
     public String gotLicence(@PathVariable("id") Long candidateId) {
         candidateService.markAsLegalDriver(candidateId);
-        return "redirect:/allCandidates";
+        return "redirect:/user/allCandidates";
+    }
+
+
+    @RequestMapping(value={"/", "/login"}, method = RequestMethod.GET)
+    public String login(Model model, HttpSession session){
+        model.addAttribute("pageFragment", "login");
+        return "index";
+    }
+
+
+
+    @RequestMapping(value="/admin/registration", method = RequestMethod.GET)
+    public String registration(Model model){
+        User user = new User();
+        model.addAttribute("user", user);
+        model.addAttribute("pageFragment", "registration");
+        return "index";
+    }
+
+    @RequestMapping(value = "/admin/registration", method = RequestMethod.POST)
+    public String createNewUser(Model model, @Valid User user, BindingResult bindingResult) {
+        User userExists = userService.findUserByEmail(user.getEmail());
+        if (userExists != null) {
+            bindingResult
+                    .rejectValue("email", "error.user",
+                            "Веќе постои корисник со тоа корисничко име");
+        }
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("pageFragment", "registration");
+        } else {
+            userService.saveUser(user);
+            model.addAttribute("successMessage", "Корисникот е регистриран");
+            model.addAttribute("user", new User());
+            model.addAttribute("pageFragment", "registration");
+
+        }
+        return "index";
+
     }
 
 

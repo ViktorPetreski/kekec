@@ -17,10 +17,10 @@ public class TestUnit {
 
     public static void init() {
 //        System.setProperty("webdriver.chrome.driver", "C:\\Users\\Viktor\\Documents\\fax\\skit\\selenium\\chromedriver.exe");
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\Lodi\\chromedriver_win32\\chromedriver.exe");
+//        System.setProperty("webdriver.chrome.driver", "C:\\Users\\Lodi\\chromedriver_win32\\chromedriver.exe");
         ChromeOptions chromeOptions = new ChromeOptions();
 //        chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Beta\\Application\\chrome.exe");
-        chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Dev\\Application\\chrome.exe");
+//        chromeOptions.setBinary("C:\\Program Files (x86)\\Google\\Chrome Dev\\Application\\chrome.exe");
         driver = new ChromeDriver(chromeOptions);
         baseUrl = "http://localhost:8080/allCandidates";
     }

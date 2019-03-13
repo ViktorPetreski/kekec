@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<div lang="en" xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:th="http://www.thymeleaf.org" style="width: 40%" class="container">
+
+    <div class="row">
+        <form autocomplete="off" action="#" th:action="@{/admin/registration}"
+              th:object="${user}" method="post" class="form-horizontal panel panel-info"
+              role="form">
+            <div class="panel-heading"><h2 class="panel-title">Форма за регистрација</h2></div>
+            <div class="panel-body" style="width: 85%; margin: auto">
+                <fieldset class="form-group">
+                    <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+                           class="validation-message"></label>
+                    <input type="text" th:field="*{name}" placeholder="Име"
+                           class="form-control"/>
+                </fieldset>
+
+                <fieldset class="form-group">
+                    <label th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"
+                           class="validation-message"></label>
+                    <input type="text" th:field="*{lastName}"
+                           placeholder="Презиме" class="form-control"/>
+                </fieldset>
+                <fieldset class="form-group">
+                    <input type="text" th:field="*{email}" placeholder="Корисничко име"
+                           class="form-control"/> <label
+                        th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+                        class="validation-message"></label>
+                </fieldset>
+                <fieldset class="form-group">
+                    <input type="password" th:field="*{password}"
+                           placeholder="Лозинка" class="form-control"/> <label
+                        th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+                        class="validation-message"></label>
+                </fieldset>
+
+                <button type="submit" class="btn btn-primary center-block">Регистрирај корисник</button>
+
+                <span th:utext="${successMessage}"></span>
+
+            </div>
+        </form>
+    </div>
+</div>

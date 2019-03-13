@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
 
@@ -28,7 +28,6 @@
     <link href="/css/sb-admin-2.css" rel="stylesheet"></link>
     <link href="/css/main.css" rel="stylesheet"></link>
 
-    <link rel="icon" type="image/jpg" href="favicon.png"/>
     <!-- Custom Fonts -->
     <link href="/css/font-awesome.css" rel="stylesheet" type="text/css"></link>
 
@@ -96,21 +95,45 @@
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li><a href="/allCandidates">Сите кандидати<span class="sr-only">(current)</span></a></li>
-                    <li><a href="/addCandidate">Додади кандидат</a></li>
-                    <li id="addInstructor"><a href="/addInstructor">Додади инструктор</a></li>
+                <ul sec:authorize="isAuthenticated()" class="nav navbar-nav">
+                    <li><a href="/user/allCandidates">Сите кандидати<span class="sr-only">(current)</span></a></li>
+                    <li><a href="/user/addCandidate">Додади кандидат</a></li>
+                    <li id="addInstructor"><a href="/user/addInstructor">Додади инструктор</a></li>
+
+
                 </ul>
-                <form class="navbar-form navbar-right" method="get" th:action="@{/search}">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search" name="query" id="query"
-                               th:value="${query}" required>
-                        <h5 id="emptySearchLabel" class="text text-danger" style="display: none">Празно поле за
-                            пребарување!!</h5>
-                    </div>
-                    <button id="searchButton" type="submit" class="btn btn-default" disabled="disabled">Барај
-                    </button>
+
+
+                <form class="navbar-form navbar-right" method="get" th:action="@{/user/search}">
+                    <span sec:authorize="isAuthenticated()">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Барај" name="query" id="query"
+                                   th:value="${query}" required>
+                            <h5 id="emptySearchLabel" class="text text-danger" style="display: none">Празно поле за
+                                пребарување!!</h5>
+                        </div>
+                        <button id="searchButton" type="submit" class="btn btn-default" disabled="disabled">Барај
+                        </button>
+                    </span>
+
+                    <ul class="nav pull-right">
+                        <li sec:authorize="isAuthenticated()" class="pull-right dropdown">
+                            <a class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+                                <span sec:authentication="name"></span>
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                <li sec:authorize="hasAuthority('ADMIN')" role="presentation">
+                                    <a role="menuitem" tabindex="-1" href="/admin/registration">Регистрирај нов
+                                        корисник</a>
+                                </li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="/logout">Одлогирај се</a>
+                                </li>
+                            </ul>
+                        <li sec:authorize="isAnonymous()" class="pull-right"><a href="/login">Логирај се</a></li>
+                    </ul>
                 </form>
+
 
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
@@ -139,7 +162,6 @@
     <!--</li>-->
     <!--</ul>-->
 
-
     <div th:replace="fragments/top"></div>
     <!-- /.navbar-top-links -->
     <!--<div th:replace="fragments/sidebar"></div>-->
@@ -154,16 +176,15 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/locale/mk.js" type="text/javascript"></script>
 
 <script>
-    $( document ).ready(function() {
+    $(document).ready(function () {
         console.log("script called");
         var notLocked = true;
         $('#query').on('input', function () {
-            if(!$.trim(this.value).length) {
-              //  $('#emptySearchLabel').css({display: "block"});
+            if (!$.trim(this.value).length) {
+                //  $('#emptySearchLabel').css({display: "block"});
                 $(this).addClass("flash");
                 $('#searchButton').prop("disabled", true);
-            }
-            else {
+            } else {
                 $(this).removeClass("flash");
                 $('#emptySearchLabel').css({display: "none"});
                 $('#searchButton').prop("disabled", false);

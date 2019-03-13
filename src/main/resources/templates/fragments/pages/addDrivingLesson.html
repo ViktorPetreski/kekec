@@ -2,7 +2,7 @@
 
 <div class="container" style="width: 40%; margin-top: 5em">
 
-    <form class="panel panel-default" th:action="@{/candidate/{id}/addDrivingLesson(id=${candidate.id})}"
+    <form class="panel panel-default" th:action="@{/user/candidate/{id}/addDrivingLesson(id=${candidate.id})}"
           method="POST"
           xmlns:th="http://www.thymeleaf.org" th:object="${drivingLesson}">
 
